@@ -2,20 +2,15 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 export default function ButtonNormal(props) {
-  
-  const type = 'button' + props.type;
 
   const onPress = () => {
     console.log('ButtonNormal onPress.');
   }
-  
-  
-
 
   return (
     <View>
       <TouchableOpacity 
-        style={styles[type]}
+        style={[styles.button, styles[props.type], styles[props.size]]}
         onPress={onPress}
       >
         <Text style={styles.buttonText}>{ props.name }</Text>
@@ -25,26 +20,34 @@ export default function ButtonNormal(props) {
 }
 
 const styles = StyleSheet.create({
-  buttonAccent: {
+  button: {
     alignItems: "center",
+    justifyContent: "center",
+    margin: 10,
+  },
+  Accent: {
     backgroundColor: "#37BB64",
-    padding: 10,
-    borderRadius: 22,
-    margin: 10,
   },
-  buttonSolid: {
-    alignItems: "center",
+  Solid: {
     backgroundColor: "#404040",
-    padding: 10,
-    borderRadius: 22,
-    margin: 10,
   },
-  buttonTransparent: {
-    alignItems: "center",
+  Transparent: {
     backgroundColor: "rgba(255,255,255,0.15)",
-    padding: 10,
+  },
+  wide: {
+    width: 120,
+    height: 44,
     borderRadius: 22,
-    margin: 10,
+  },
+  slim: {
+    width: 90,
+    height: 44,
+    borderRadius: 22,
+  },
+  small: {
+    width: 90,
+    height: 40,
+    borderRadius: 20,
   },
   buttonText: {
     fontWeight: "bold",
@@ -52,6 +55,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 14,
     textAlign: 'center',
-    color: '#fff'
+    color: '#fff',
   }
 });
