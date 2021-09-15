@@ -25,13 +25,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 10,
   },
-  Accent: {
+  accent: {
     backgroundColor: "#37BB64",
   },
-  Solid: {
+  solid: {
     backgroundColor: "#404040",
   },
-  Transparent: {
+  transparent: {
     backgroundColor: "rgba(255,255,255,0.15)",
   },
   wide: {
