@@ -2,14 +2,14 @@ import React from 'react';
 import { StyleSheet, Image, View, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 
-export default function ButtonSquare(props) {
+export default function ButtonRect(props) {
 
   const [like, setLike] = useState(false);
 
   const onPress = (prevCheck) => {
     setLike(!prevCheck);
     
-    console.log('ButtonSquare pressed. Liked=' + like);
+    console.log('ButtonRect pressed. Liked=' + like);
   }
   
 
@@ -40,23 +40,15 @@ const styles = StyleSheet.create({
   transparent: {
     backgroundColor: "rgba(255,255,255,0.15)",
   },
-  warning: {
-    backgroundColor: "#F32248",
-  },
-  big: {
-    width: 50,
-    height: 50,
-    borderRadius: 23,
-  },
-  medium: {
-    width: 44,
+  wide: {
+    width: 120,
     height: 44,
     borderRadius: 20,
   },
   small: {
-    width: 40,
+    width: 60,
     height: 40,
-    borderRadius: 20,
+    borderRadius: 18,
   },
   image: {
     width: 20,

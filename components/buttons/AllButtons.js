@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 import ButtonNormal from "./ButtonNormal";
 import ButtonSquare from "./ButtonSquare";
+import ButtonRect from "./ButtonRect";
 
 export default function AllButtons() {
   return ( 
@@ -49,6 +50,21 @@ export default function AllButtons() {
           <ButtonSquare type='solid' size='small' image='like-icon' />
           <ButtonSquare type='warning' size='small' image='like-icon' />
           <ButtonSquare type='transparent' size='small' image='like-icon' />
+        </View>
+      </View>
+      <Text style={styles.title}>Rectangle Buttons</Text>
+      <View style={styles.table}>
+        <View style={styles.column}>
+        <Text style={styles.title}>Wide</Text>
+            <ButtonRect type='accent' size='wide' image='like-icon'/>
+            <ButtonRect type='solid' size='wide' image='like-icon' />
+            <ButtonRect type='transparent' size='wide' image='like-icon' />
+        </View>
+        <View style={styles.column}>
+          <Text style={styles.title}>Small</Text>
+          <ButtonRect type='accent' size='small' image='like-icon'/>
+          <ButtonRect type='solid' size='small' image='like-icon' />
+          <ButtonRect type='transparent' size='small' image='like-icon' />
         </View>
       </View>
     </View>
