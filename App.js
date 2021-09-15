@@ -1,24 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, Image, ScrollView, View } from 'react-native';
-import AllButtons from './components/buttons/AllButtons';
-import Header from './components/navigation/Header';
-import NavigationBar from './components/navigation/NavigationBar';
+import { StyleSheet } from 'react-native';
+import { useFonts} from 'expo-font';
+import AppLoading from 'expo-app-loading';
+import Home from './screens/Home';
 
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Header />
-      <ScrollView>
-        <View style={styles.container}>
-          <AllButtons />
-          <StatusBar style="auto" />
-        </View>
-      </ScrollView>
-      <NavigationBar />
-    </View>
-  );
+  let [fontsLoaded] = useFonts({
+      'clarity-city-bold': require('./assets/fonts/ClarityCity-Bold.otf'),
+      'clarity-city-medium': require('./assets/fonts/ClarityCity-Medium.otf'),
+      'clarity-city-semibold': require('./assets/fonts/ClarityCity-SemiBold.otf')
+    })
+
+  if(fontsLoaded) {
+    return (
+      <Home />
+    );
+  } else {
+    return (
+    <AppLoading />
+    );
+  }
 }
 
 const styles = StyleSheet.create({

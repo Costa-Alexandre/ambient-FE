@@ -3,7 +3,7 @@ import { useFonts} from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { Text, View, StyleSheet } from 'react-native';
 
-export default function App() {
+export default function Fonts() {
   let [fontsLoaded] = useFonts({
     'clarity-city-bold': require('./assets/fonts/ClarityCity-Bold.otf'),
     'clarity-city-medium': require('./assets/fonts/ClarityCity-Medium.otf'),
