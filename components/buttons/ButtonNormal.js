@@ -6,7 +6,7 @@ import { globalStyles } from '../../styles/global';
 export default function ButtonNormal(props) {
 
   const onPress = () => {
-    console.log('ButtonNormal onPress.', props);
+    console.log('ButtonNormal onPress.');
   }
 
   return (

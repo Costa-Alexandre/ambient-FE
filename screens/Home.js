@@ -2,14 +2,15 @@ import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import ButtonNormal from '../components/buttons/ButtonNormal';
 import ButtonSquare from '../components/buttons/ButtonSquare';
+import { typo } from '../styles/typo';
 
 export default function Home() {
   return (
     <View style={styles.root}>
-      <Text style={styles.text}>Components</Text>
+      <Text style={[styles.text, typo.title]}>Components</Text>
       <View style={styles.container}>
         <View style={styles.column}>
-          <ButtonNormal type='transparent' size='wideNormal' name='Navigation' />
+          <ButtonNormal type='transparent' size='wideNormal' name='Navigation'/>
           <ButtonNormal type='accent' size='wideNormal' name='Buttons'/>
           <ButtonNormal type='solid' size='wideNormal' name='Fonts'/>
           <ButtonNormal type='transparent' size='wideNormal' name='Inputs'/>
@@ -42,9 +43,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   text: {
-    fontSize: 20,
     color: '#fff',
-    fontWeight: 'bold',
     marginBottom: 20,
   },
 });

@@ -24,6 +24,7 @@ export const typo = StyleSheet.create({
     fontFamily: 'clarity-city-bold',
     fontSize: 14,
     lineHeight: 16,
+    color: '#ffffff',
   },
   subtitle: {
     fontFamily: 'clarity-city-semibold',
