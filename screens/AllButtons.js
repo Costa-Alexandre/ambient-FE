@@ -1,12 +1,12 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import ButtonNormal from "../components/buttons/ButtonNormal";
 import ButtonSquare from "../components/buttons/ButtonSquare";
 import ButtonRect from "../components/buttons/ButtonRect";
 
 export default function AllButtons() {
   return ( 
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>Normal Buttons</Text>
         <View style={styles.table}>
           <View style={styles.column}>
@@ -67,7 +67,7 @@ export default function AllButtons() {
           <ButtonRect type='transparent' size='smallRect' image='like-icon' />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
