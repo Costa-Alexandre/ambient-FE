@@ -1,57 +1,30 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { typo } from '../../styles/typo';
+import { globalStyles } from '../../styles/global';
 
 export default function ButtonNormal(props) {
-  
-  const type = 'button' + props.type;
 
   const onPress = () => {
     console.log('ButtonNormal onPress.');
   }
-  
-  
-
 
   return (
     <View>
       <TouchableOpacity 
-        style={styles[type]}
+        style={[styles.button, globalStyles[props.type], globalStyles[props.size]]}
         onPress={onPress}
       >
-        <Text style={styles.buttonText}>{ props.name }</Text>
+        <Text style={typo.button}>{ props.name }</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  buttonAccent: {
+  button: {
     alignItems: "center",
-    backgroundColor: "#37BB64",
-    padding: 10,
-    borderRadius: 22,
+    justifyContent: "center",
     margin: 10,
   },
-  buttonSolid: {
-    alignItems: "center",
-    backgroundColor: "#404040",
-    padding: 10,
-    borderRadius: 22,
-    margin: 10,
-  },
-  buttonTransparent: {
-    alignItems: "center",
-    backgroundColor: "rgba(255,255,255,0.15)",
-    padding: 10,
-    borderRadius: 22,
-    margin: 10,
-  },
-  buttonText: {
-    fontWeight: "bold",
-    fontStyle: "normal",
-    fontSize: 14,
-    lineHeight: 14,
-    textAlign: 'center',
-    color: '#fff'
-  }
 });
