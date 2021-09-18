@@ -1,31 +1,31 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import ButtonNormal from "../components/buttons/ButtonNormal";
 import ButtonSquare from "../components/buttons/ButtonSquare";
 import ButtonRect from "../components/buttons/ButtonRect";
 
 export default function AllButtons() {
   return ( 
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>Normal Buttons</Text>
         <View style={styles.table}>
           <View style={styles.column}>
             <Text style={styles.title}>Wide</Text>
-            <ButtonNormal type='accent' name='Accent' size='wideNormal'/>
-            <ButtonNormal type='solid' name='Solid' size='wideNormal' />
-            <ButtonNormal type='transparent' name='Transparent' size='wideNormal' />
+            <ButtonNormal type='accent' title='Accent' size='wideNormal'/>
+            <ButtonNormal type='solid' title='Solid' size='wideNormal' />
+            <ButtonNormal type='transparent' title='Transparent' size='wideNormal' />
           </View>
           <View style={styles.column}>
             <Text style={styles.title}>Slim</Text>
-            <ButtonNormal type='accent' name='Accent' size='slimNormal'/>
-            <ButtonNormal type='solid' name='Solid' size='slimNormal' />
-            <ButtonNormal type='transparent' name='Transparent' size='slimNormal' />
+            <ButtonNormal type='accent' title='Accent' size='slimNormal'/>
+            <ButtonNormal type='solid' title='Solid' size='slimNormal' />
+            <ButtonNormal type='transparent' title='Transparent' size='slimNormal' />
           </View>
           <View style={styles.column}>
             <Text style={styles.title}>Small</Text>
-            <ButtonNormal type='accent' name='Accent' size='smallNormal'/>
-            <ButtonNormal type='solid' name='Solid' size='smallNormal' />
-            <ButtonNormal type='transparent' name='Transparent' size='smallNormal' />
+            <ButtonNormal type='accent' title='Accent' size='smallNormal'/>
+            <ButtonNormal type='solid' title='Solid' size='smallNormal' />
+            <ButtonNormal type='transparent' title='Transparent' size='smallNormal' />
           </View>
       </View>
       <Text style={styles.title}>Square Buttons</Text>
@@ -67,7 +67,7 @@ export default function AllButtons() {
           <ButtonRect type='transparent' size='smallRect' image='like-icon' />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
