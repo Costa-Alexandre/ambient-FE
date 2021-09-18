@@ -5,9 +5,9 @@ import { Text, View, StyleSheet } from 'react-native';
 
 export default function Fonts() {
   let [fontsLoaded] = useFonts({
-    'clarity-city-bold': require('./assets/fonts/ClarityCity-Bold.otf'),
-    'clarity-city-medium': require('./assets/fonts/ClarityCity-Medium.otf'),
-    'clarity-city-semibold': require('./assets/fonts/ClarityCity-SemiBold.otf')
+    'clarity-city-bold': require('../assets/fonts/ClarityCity-Bold.otf'),
+    'clarity-city-medium': require('../assets/fonts/ClarityCity-Medium.otf'),
+    'clarity-city-semibold': require('../assets/fonts/ClarityCity-SemiBold.otf')
   })
 
   if(fontsLoaded) {
