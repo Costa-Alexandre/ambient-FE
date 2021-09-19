@@ -5,10 +5,6 @@ import { globalStyles } from '../../styles/global';
 
 export default function ButtonNormal({title, type, handleClick, size}) {
 
-  // const onPress = () => {
-  //   console.log(props);
-  // }
-
   return (
     <View>
       <TouchableOpacity 
