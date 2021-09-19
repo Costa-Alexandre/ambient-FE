@@ -32,39 +32,39 @@ export default function AllButtons() {
       <View style={styles.table}>
         <View style={styles.column}>
         <Text style={styles.title}>Big</Text>
-            <ButtonSquare type='accent' size='bigSquare' image='like-icon'/>
-            <ButtonSquare type='solid' size='bigSquare' image='like-icon' />
-            <ButtonSquare type='warning' size='bigSquare' image='like-icon' />
-            <ButtonSquare type='transparent' size='bigSquare' image='like-icon' />
+            <ButtonSquare type='accent' size='bigSquare' name='LikedTrue' />
+            <ButtonSquare type='solid' size='bigSquare' name='LikedTrue'  />
+            <ButtonSquare type='warning' size='bigSquare' name='LikedTrue'  />
+            <ButtonSquare type='transparent' size='bigSquare' name='LikedTrue'  />
         </View>
         <View style={styles.column}>
           <Text style={styles.title}>Medium</Text>
-          <ButtonSquare type='accent' size='mediumSquare' image='like-icon'/>
-          <ButtonSquare type='solid' size='mediumSquare' image='like-icon' />
-          <ButtonSquare type='warning' size='mediumSquare' image='like-icon' />
-          <ButtonSquare type='transparent' size='mediumSquare' image='like-icon' />
+          <ButtonSquare type='accent' size='mediumSquare' name='LikedTrue' />
+          <ButtonSquare type='solid' size='mediumSquare' name='LikedTrue'  />
+          <ButtonSquare type='warning' size='mediumSquare' name='LikedTrue'  />
+          <ButtonSquare type='transparent' size='mediumSquare' name='LikedTrue'  />
         </View>
         <View style={styles.column}>
           <Text style={styles.title}>Small</Text>
-          <ButtonSquare type='accent' size='smallSquare' image='like-icon'/>
-          <ButtonSquare type='solid' size='smallSquare' image='like-icon' />
-          <ButtonSquare type='warning' size='smallSquare' image='like-icon' />
-          <ButtonSquare type='transparent' size='smallSquare' image='like-icon' />
+          <ButtonSquare type='accent' size='smallSquare' name='LikedTrue' />
+          <ButtonSquare type='solid' size='smallSquare' name='LikedTrue'  />
+          <ButtonSquare type='warning' size='smallSquare' name='LikedTrue'  />
+          <ButtonSquare type='transparent' size='smallSquare' name='LikedTrue'  />
         </View>
       </View>
       <Text style={styles.title}>Rectangle Buttons</Text>
       <View style={styles.table}>
         <View style={styles.column}>
         <Text style={styles.title}>Wide</Text>
-            <ButtonRect type='accent' size='wideRect' image='like-icon'/>
-            <ButtonRect type='solid' size='wideRect' image='like-icon' />
-            <ButtonRect type='transparent' size='wideRect' image='like-icon' />
+            <ButtonRect type='accent' size='wideRect' name='LikedTrue' />
+            <ButtonRect type='solid' size='wideRect' name='LikedTrue'  />
+            <ButtonRect type='transparent' size='wideRect' name='LikedTrue'  />
         </View>
         <View style={styles.column}>
           <Text style={styles.title}>Small</Text>
-          <ButtonRect type='accent' size='smallRect' image='like-icon'/>
-          <ButtonRect type='solid' size='smallRect' image='like-icon' />
-          <ButtonRect type='transparent' size='smallRect' image='like-icon' />
+          <ButtonRect type='accent' size='smallRect' name='LikedTrue' />
+          <ButtonRect type='solid' size='smallRect' name='LikedTrue'  />
+          <ButtonRect type='transparent' size='smallRect' name='LikedTrue'  />
         </View>
       </View>
     </ScrollView>

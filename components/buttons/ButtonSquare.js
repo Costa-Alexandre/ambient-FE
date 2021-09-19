@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Image, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { globalStyles } from '../../styles/global';
+import CustomIcon from '../icons/CustomIcons';
 
 export default function ButtonSquare(props) {
 
@@ -20,7 +21,7 @@ export default function ButtonSquare(props) {
         style={[styles.button, globalStyles[props.type], globalStyles[props.size]]}
         onPress={() => onPress(like)}
       >
-        <Image source={require('../../assets/icons/liked-false-icon.png')} style={styles.image} />
+        <CustomIcon name={props.name} size={32} color='#fff' />
       </TouchableOpacity>
     </View>
   );
