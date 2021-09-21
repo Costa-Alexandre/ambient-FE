@@ -3,19 +3,15 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { typo } from '../../styles/typo';
 import { globalStyles } from '../../styles/global';
 
-export default function ButtonNormal(props) {
-
-  const onPress = () => {
-    console.log('ButtonNormal onPress.');
-  }
+export default function ButtonNormal({title, type, handleClick, size}) {
 
   return (
     <View>
       <TouchableOpacity 
-        style={[styles.button, globalStyles[props.type], globalStyles[props.size]]}
-        onPress={onPress}
+        style={[styles.button, globalStyles[type], globalStyles[size]]}
+        onPress={() => handleClick(title)}
       >
-        <Text style={typo.button}>{ props.name }</Text>
+        <Text style={typo.button}>{ title }</Text>
       </TouchableOpacity>
     </View>
   );

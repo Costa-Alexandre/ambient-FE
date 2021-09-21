@@ -1,16 +1,12 @@
 import React from 'react';
-import { useFonts} from 'expo-font';
-import AppLoading from 'expo-app-loading';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, FlatList } from 'react-native';
+import CustomIcon from '../components/icons/CustomIcons';
 
 export default function Fonts() {
-  let [fontsLoaded] = useFonts({
-    'clarity-city-bold': require('./assets/fonts/ClarityCity-Bold.otf'),
-    'clarity-city-medium': require('./assets/fonts/ClarityCity-Medium.otf'),
-    'clarity-city-semibold': require('./assets/fonts/ClarityCity-SemiBold.otf')
-  })
 
-  if(fontsLoaded) {
+  const { selection } = require('../assets/icons.json');
+
+
     return (
       <View style={styles.page}>
         <Text style={[styles.text, styles.title]}>MOBILE</Text>
@@ -23,13 +19,21 @@ export default function Fonts() {
         <Text style={[styles.text, styles.subtitleSecondary]}>subtitleSecondary</Text>
         <Text style={[styles.text, styles.bodySecondary]}>bodySecondary</Text>
         <Text style={[styles.text, styles.subtext]}>subtext</Text>
+        <Text style={[styles.text, styles.title]}>Icons</Text>
+        <View style={styles.iconContainer}>
+          <FlatList
+            keyExtractor={(item) => item.order} 
+            data={selection}
+            numColumns={20}
+            renderItem={({item}) => (
+              <View>
+                <CustomIcon name={item.name} size={20} color='#fff' />
+              </View>
+            )}
+          />
+        </View>
       </View>
     );
-  } else {
-    return (
-    <AppLoading />
-    );
-  }
 }
 
 const styles = StyleSheet.create({
@@ -40,6 +44,10 @@ const styles = StyleSheet.create({
   },
   text: {
     marginBottom: 10,
+  },
+  iconContainer: {
+    height: 50,
+    backgroundColor: '#000',
   },
   title: {
     fontFamily: 'clarity-city-bold',
