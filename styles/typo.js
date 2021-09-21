@@ -19,17 +19,20 @@ export const typo = StyleSheet.create({
     fontFamily: 'clarity-city-bold',
     fontSize: 16,
     lineHeight: 16,
+    height: 14
   },
   button: {
     fontFamily: 'clarity-city-bold',
     fontSize: 14,
     lineHeight: 16,
+    height: 14,
     color: '#ffffff',
   },
   subtitle: {
     fontFamily: 'clarity-city-semibold',
     fontSize: 14,
-    lineHeight: 16,
+    lineHeight: 14,
+    height: 12
   },
   body: {
     fontFamily: 'clarity-city-medium',
@@ -45,6 +48,7 @@ export const typo = StyleSheet.create({
     fontFamily: 'clarity-city-semibold',
     fontSize: 13,
     lineHeight: 13,
+    height: 11
   },
   bodySecondary: {
     fontFamily: 'clarity-city-medium',
@@ -55,5 +59,6 @@ export const typo = StyleSheet.create({
     fontFamily: 'clarity-city-semibold',
     fontSize: 12,
     lineHeight: 12,
+    height: 11
   },
 });
