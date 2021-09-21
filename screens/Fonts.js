@@ -24,10 +24,10 @@ export default function Fonts() {
           <FlatList
             keyExtractor={(item) => item.order} 
             data={selection}
-            numColumns={20}
+            numColumns={12}
             renderItem={({item}) => (
               <View>
-                <CustomIcon name={item.name} size={20} color='#fff' />
+                <CustomIcon name={item.name} size={24} color='#37bb64' />
               </View>
             )}
           />
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   iconContainer: {
-    height: 50,
+    height: 132,
     backgroundColor: '#000',
   },
   title: {

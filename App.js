@@ -7,13 +7,6 @@ import AllButtons from './screens/AllButtons';
 import Fonts from './screens/Fonts';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createIconSetFromIcoMoon } from '@expo/vector-icons'
-
-  const Icon = createIconSetFromIcoMoon(
-    require('./assets/fonts/selection.json'),
-    'IcoMoon',
-    'icomoon.ttf'
-  );
 
 // Load custom fonts from the assets folder
 export default function App() {
@@ -28,10 +21,6 @@ const Stack = createNativeStackNavigator();
 
   if (fontsLoaded) {
     return (
-      // <View style={styles.container}>
-      //   <Icon name="Spotify-icon" size={50} color="#37BB64" />
-      // </View>
-
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerStyle: { backgroundColor: '#000' }, headerTitleStyle: { color: '#fff'} }}

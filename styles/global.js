@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import DesignTokens from "../screens/DesignTokens";
 
 export const globalStyles = StyleSheet.create({
   // touchable
@@ -59,3 +60,5 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 18,
   },
 });
+
+DesignTokens(globalStyles);

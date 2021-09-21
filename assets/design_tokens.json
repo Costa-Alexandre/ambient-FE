@@ -1,0 +1,208 @@
+{
+  "font": {
+    "app": {
+      "title": {
+        "type": "custom-fontStyle",
+        "value": {
+          "fontSize": 22,
+          "textDecoration": "none",
+          "fontFamily": "Clarity City",
+          "fontWeight": 700,
+          "fontStyle": "normal",
+          "fontStretch": "normal",
+          "letterSpacing": 0,
+          "lineHeight": 26.4,
+          "paragraphIndent": 0,
+          "paragraphSpacing": 0,
+          "textCase": "none"
+        }
+      },
+      "section": {
+        "type": "custom-fontStyle",
+        "value": {
+          "fontSize": 16,
+          "textDecoration": "none",
+          "fontFamily": "Clarity City",
+          "fontWeight": 700,
+          "fontStyle": "normal",
+          "fontStretch": "normal",
+          "letterSpacing": 0,
+          "lineHeight": 16,
+          "paragraphIndent": 0,
+          "paragraphSpacing": 0,
+          "textCase": "none"
+        }
+      },
+      "button": {
+        "type": "custom-fontStyle",
+        "value": {
+          "fontSize": 14,
+          "textDecoration": "none",
+          "fontFamily": "Clarity City",
+          "fontWeight": 700,
+          "fontStyle": "normal",
+          "fontStretch": "normal",
+          "letterSpacing": 0,
+          "lineHeight": 14,
+          "paragraphIndent": 0,
+          "paragraphSpacing": 0,
+          "textCase": "none"
+        }
+      },
+      "subtitle": {
+        "type": "custom-fontStyle",
+        "value": {
+          "fontSize": 14,
+          "textDecoration": "none",
+          "fontFamily": "Clarity City",
+          "fontWeight": 600,
+          "fontStyle": "normal",
+          "fontStretch": "normal",
+          "letterSpacing": 0,
+          "lineHeight": 14,
+          "paragraphIndent": 0,
+          "paragraphSpacing": 0,
+          "textCase": "none"
+        }
+      },
+      "test": {
+        "value": {
+          "backgroundColor": "red",
+          "flex": 1
+        }
+      },
+      "body": {
+        "type": "custom-fontStyle",
+        "value": {
+          "fontSize": 14,
+          "textDecoration": "none",
+          "fontFamily": "Clarity City",
+          "fontWeight": 500,
+          "fontStyle": "normal",
+          "fontStretch": "normal",
+          "letterSpacing": 0,
+          "lineHeight": 16.8,
+          "paragraphIndent": 0,
+          "paragraphSpacing": 0,
+          "textCase": "none"
+        }
+      },
+      "title secondary": {
+        "type": "custom-fontStyle",
+        "value": {
+          "fontSize": 13,
+          "textDecoration": "none",
+          "fontFamily": "Clarity City",
+          "fontWeight": 700,
+          "fontStyle": "normal",
+          "fontStretch": "normal",
+          "letterSpacing": 0,
+          "lineHeight": 13,
+          "paragraphIndent": 0,
+          "paragraphSpacing": 0,
+          "textCase": "none"
+        }
+      },
+      "subtitle secondary": {
+        "type": "custom-fontStyle",
+        "value": {
+          "fontSize": 13,
+          "textDecoration": "none",
+          "fontFamily": "Clarity City",
+          "fontWeight": 600,
+          "fontStyle": "normal",
+          "fontStretch": "normal",
+          "letterSpacing": 0,
+          "lineHeight": 13,
+          "paragraphIndent": 0,
+          "paragraphSpacing": 0,
+          "textCase": "none"
+        }
+      },
+      "body secondary": {
+        "type": "custom-fontStyle",
+        "value": {
+          "fontSize": 13,
+          "textDecoration": "none",
+          "fontFamily": "Clarity City",
+          "fontWeight": 500,
+          "fontStyle": "normal",
+          "fontStretch": "normal",
+          "letterSpacing": 0,
+          "lineHeight": 15.6,
+          "paragraphIndent": 0,
+          "paragraphSpacing": 0,
+          "textCase": "none"
+        }
+      },
+      "subtext": {
+        "type": "custom-fontStyle",
+        "value": {
+          "fontSize": 12,
+          "textDecoration": "none",
+          "fontFamily": "Clarity City",
+          "fontWeight": 600,
+          "fontStyle": "normal",
+          "fontStretch": "normal",
+          "letterSpacing": 0,
+          "lineHeight": 12,
+          "paragraphIndent": 0,
+          "paragraphSpacing": 0,
+          "textCase": "none"
+        }
+      }
+    }
+  },
+  "color": {
+    "background": {
+      "description": null,
+      "type": "color",
+      "value": "#000000ff"
+    },
+    "card": {
+      "description": null,
+      "type": "color",
+      "value": "#1b1b1fff"
+    },
+    "button": {
+      "description": null,
+      "type": "color",
+      "value": "#ffffff26"
+    },
+    "button_solid": {
+      "description": null,
+      "type": "color",
+      "value": "#404040ff"
+    },
+    "text": {
+      "description": null,
+      "type": "color",
+      "value": "#ffffffff"
+    },
+    "text_secondary": {
+      "description": null,
+      "type": "color",
+      "value": "#ffffff80"
+    },
+    "accent": {
+      "description": null,
+      "type": "color",
+      "value": "#37bb64ff"
+    },
+    "input": {
+      "description": null,
+      "type": "color",
+      "value": "#00000040"
+    },
+    "overlay": {
+      "description": null,
+      "type": "color",
+      "value": "#000000bf"
+    },
+    "warning": {
+      "description": null,
+      "type": "color",
+      "value": "#f32248ff"
+    }
+  }
+}
