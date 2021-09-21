@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { globalStyles } from '../../styles/global';
+import CustomIcon from '../icons/CustomIcons';
 
 import Svg, { Path, Mask, Image as SVGImage, Rect } from "react-native-svg"
 
@@ -50,6 +51,9 @@ export default function UserBig({uri=null, callback=null, isLive=false}) {
       onPress={onPress}
     >
       <ProfileShapeRectBig uri={uri} hasCutout={isLive}/>
+      {isLive && <View style={styles.liveIndicator}>
+        <CustomIcon name={"Live"} size={20} color='#37bb64' />
+      </View>}
     </TouchableOpacity>
   );
 }
@@ -58,5 +62,10 @@ const styles = StyleSheet.create({
   container: {
     width: 74,
     height: 74
+  },
+  liveIndicator: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0
   }
 });
