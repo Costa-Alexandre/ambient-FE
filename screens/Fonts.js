@@ -19,19 +19,6 @@ export default function Fonts() {
         <Text style={[styles.text, styles.subtitleSecondary]}>subtitleSecondary</Text>
         <Text style={[styles.text, styles.bodySecondary]}>bodySecondary</Text>
         <Text style={[styles.text, styles.subtext]}>subtext</Text>
-        <Text style={[styles.text, styles.title]}>Icons</Text>
-        <View style={styles.iconContainer}>
-          <FlatList 
-            data={icons}
-            numColumns={12}
-            renderItem={({item}) => (
-              <View>
-                <CustomIcon name={item.name} size={24} color='#000' />
-                <Text>{item.name}</Text>
-              </View>
-            )}
-          />
-        </View>
       </View>
     );
 }
@@ -40,13 +27,11 @@ const styles = StyleSheet.create({
   page: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    marginHorizontal: 64,
   },
   text: {
     marginBottom: 10,
-  },
-  iconContainer: {
-    height: 132,
   },
   title: {
     fontFamily: 'clarity-city-bold',
