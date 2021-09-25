@@ -4,7 +4,7 @@ import CustomIcon from '../components/icons/CustomIcons';
 
 export default function Fonts() {
 
-  const { selection } = require('../assets/icons.json');
+  const icons = require('../assets/icons.json');
 
 
     return (
@@ -21,13 +21,12 @@ export default function Fonts() {
         <Text style={[styles.text, styles.subtext]}>subtext</Text>
         <Text style={[styles.text, styles.title]}>Icons</Text>
         <View style={styles.iconContainer}>
-          <FlatList
-            keyExtractor={(item) => item.order} 
-            data={selection}
+          <FlatList 
+            data={icons}
             numColumns={12}
             renderItem={({item}) => (
               <View>
-                <CustomIcon name={item.name} size={24} color='#37bb64' />
+                <CustomIcon name={item.name} size={24} color='#000' />
               </View>
             )}
           />
@@ -47,7 +46,6 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     height: 132,
-    backgroundColor: '#000',
   },
   title: {
     fontFamily: 'clarity-city-bold',

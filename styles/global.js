@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import DesignTokens from "../screens/DesignTokens";
+import DesignTokens from "../scripts/DesignTokens";
 
 export const globalStyles = StyleSheet.create({
   // touchable
