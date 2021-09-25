@@ -1,6 +1,4 @@
-
 export default function DesignTokens(obj) {
-  // empty object
 
   const data = require("../assets/design_tokens.json");
 

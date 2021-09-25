@@ -27,6 +27,7 @@ export default function Fonts() {
             renderItem={({item}) => (
               <View>
                 <CustomIcon name={item.name} size={24} color='#000' />
+                <Text>{item.name}</Text>
               </View>
             )}
           />

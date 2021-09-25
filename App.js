@@ -4,6 +4,7 @@ import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import Home from './screens/Home';
 import AllButtons from './screens/AllButtons';
+import Icons from './screens/Icons';
 import Fonts from './screens/Fonts';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -36,6 +37,10 @@ const Stack = createNativeStackNavigator();
           <Stack.Screen
           name="Fonts"
           component={Fonts}
+          />
+          <Stack.Screen
+          name="Icons"
+          component={Icons}
           />
       </Stack.Navigator>
     </NavigationContainer>
