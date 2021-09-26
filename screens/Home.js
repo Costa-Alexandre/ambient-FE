@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, FlatList, Button } from 'react-native';
 import ButtonNormal from '../components/buttons/ButtonNormal';
+import { typo } from '../styles/typo';
 
 export default function Home( { navigation } ) {
 
@@ -38,6 +39,7 @@ const menu = [
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
