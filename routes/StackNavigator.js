@@ -12,7 +12,6 @@ export default function Navigator() {
   const Stack = createNativeStackNavigator();
     
   return (
-    <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerStyle: { backgroundColor: '#000' }, headerTitleStyle: { color: '#fff'} }}
         >
@@ -33,7 +32,6 @@ export default function Navigator() {
           component={Icons}
           />
       </Stack.Navigator>
-    </NavigationContainer>
     )
 }
 

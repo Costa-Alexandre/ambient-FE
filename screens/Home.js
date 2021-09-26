@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, FlatList, Button } from 'react-native';
+import { StyleSheet, View, FlatList, Button } from 'react-native';
 import ButtonNormal from '../components/buttons/ButtonNormal';
 
 export default function Home( { navigation } ) {
