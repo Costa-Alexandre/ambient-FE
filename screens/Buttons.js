@@ -4,7 +4,7 @@ import ButtonNormal from "../components/buttons/ButtonNormal";
 import ButtonSquare from "../components/buttons/ButtonSquare";
 import ButtonRect from "../components/buttons/ButtonRect";
 
-export default function AllButtons() {
+export default function Buttons() {
   return ( 
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Normal Buttons</Text>
@@ -32,39 +32,39 @@ export default function AllButtons() {
       <View style={styles.table}>
         <View style={styles.column}>
         <Text style={styles.title}>Big</Text>
-            <ButtonSquare type='accent' size='bigSquare' image='like-icon'/>
-            <ButtonSquare type='solid' size='bigSquare' image='like-icon' />
-            <ButtonSquare type='warning' size='bigSquare' image='like-icon' />
-            <ButtonSquare type='transparent' size='bigSquare' image='like-icon' />
+            <ButtonSquare type='accent' size='bigSquare' name='like' />
+            <ButtonSquare type='solid' size='bigSquare' name='like'  />
+            <ButtonSquare type='warning' size='bigSquare' name='like'  />
+            <ButtonSquare type='transparent' size='bigSquare' name='like'  />
         </View>
         <View style={styles.column}>
           <Text style={styles.title}>Medium</Text>
-          <ButtonSquare type='accent' size='mediumSquare' image='like-icon'/>
-          <ButtonSquare type='solid' size='mediumSquare' image='like-icon' />
-          <ButtonSquare type='warning' size='mediumSquare' image='like-icon' />
-          <ButtonSquare type='transparent' size='mediumSquare' image='like-icon' />
+          <ButtonSquare type='accent' size='mediumSquare' name='like' />
+          <ButtonSquare type='solid' size='mediumSquare' name='like'  />
+          <ButtonSquare type='warning' size='mediumSquare' name='like'  />
+          <ButtonSquare type='transparent' size='mediumSquare' name='like'  />
         </View>
         <View style={styles.column}>
           <Text style={styles.title}>Small</Text>
-          <ButtonSquare type='accent' size='smallSquare' image='like-icon'/>
-          <ButtonSquare type='solid' size='smallSquare' image='like-icon' />
-          <ButtonSquare type='warning' size='smallSquare' image='like-icon' />
-          <ButtonSquare type='transparent' size='smallSquare' image='like-icon' />
+          <ButtonSquare type='accent' size='smallSquare' name='like' />
+          <ButtonSquare type='solid' size='smallSquare' name='like'  />
+          <ButtonSquare type='warning' size='smallSquare' name='like'  />
+          <ButtonSquare type='transparent' size='smallSquare' name='like'  />
         </View>
       </View>
       <Text style={styles.title}>Rectangle Buttons</Text>
       <View style={styles.table}>
         <View style={styles.column}>
         <Text style={styles.title}>Wide</Text>
-            <ButtonRect type='accent' size='wideRect' image='like-icon'/>
-            <ButtonRect type='solid' size='wideRect' image='like-icon' />
-            <ButtonRect type='transparent' size='wideRect' image='like-icon' />
+            <ButtonRect type='accent' size='wideRect' name='like' />
+            <ButtonRect type='solid' size='wideRect' name='like'  />
+            <ButtonRect type='transparent' size='wideRect' name='like'  />
         </View>
         <View style={styles.column}>
           <Text style={styles.title}>Small</Text>
-          <ButtonRect type='accent' size='smallRect' image='like-icon'/>
-          <ButtonRect type='solid' size='smallRect' image='like-icon' />
-          <ButtonRect type='transparent' size='smallRect' image='like-icon' />
+          <ButtonRect type='accent' size='smallRect' name='like' />
+          <ButtonRect type='solid' size='smallRect' name='like'  />
+          <ButtonRect type='transparent' size='smallRect' name='like'  />
         </View>
       </View>
     </ScrollView>

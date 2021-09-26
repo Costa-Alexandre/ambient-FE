@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, FlatList, Button } from 'react-native';
+import { StyleSheet, View, FlatList, Button } from 'react-native';
 import ButtonNormal from '../components/buttons/ButtonNormal';
 import { typo } from '../styles/typo';
 
@@ -18,7 +18,8 @@ const menu = [
   {title: 'User', key: '5'},
   {title: 'Shows', key: '6'},
   {title: 'Music', key: '7'},
-  {title: 'Chat', key: '8'}
+  {title: 'Chat', key: '8'},
+  {title: 'Icons', key: '9'},
 ]
 
 

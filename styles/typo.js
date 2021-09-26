@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const typo = StyleSheet.create({
+  
   // typography
   page: {
     flex: 1,
