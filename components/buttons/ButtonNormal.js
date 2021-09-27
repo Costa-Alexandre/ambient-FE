@@ -1,17 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { typo } from '../../styles/typo';
-import { globalStyles } from '../../styles/global';
 
 export default function ButtonNormal({title, type, handleClick, size}) {
 
   return (
     <View>
       <TouchableOpacity 
-        style={[styles.button, globalStyles[type], globalStyles[size]]}
+        style={styles.button}
         onPress={() => handleClick(title)}
       >
-        <Text style={typo.button}>{ title }</Text>
+        <Text>{ title }</Text>
       </TouchableOpacity>
     </View>
   );
@@ -22,5 +20,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     margin: 10,
+    backgroundColor: "#ffffff",
   },
 });

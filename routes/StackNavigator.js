@@ -6,6 +6,7 @@ import Home from '../screens/Home';
 import Buttons from '../screens/Buttons';
 import Icons from '../screens/Icons';
 import Fonts from '../screens/Fonts';
+import AllUsers from '../screens/AllUsers';
 
 export default function Navigator() {
 
@@ -26,6 +27,10 @@ export default function Navigator() {
           <Stack.Screen
           name="Fonts"
           component={Fonts}
+          />
+          <Stack.Screen
+          name="User"
+          component={AllUsers}
           />
           <Stack.Screen
           name="Icons"

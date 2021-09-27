@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
-import { globalStyles } from '../../styles/global';
+// import { globalStyles } from '../../styles/global';
 import CustomIcon from '../icons/CustomIcons';
-import { typo } from '../../styles/typo';
+// import { typo } from '../../styles/typo';
 
 import Svg, { Path, Mask, Image as SVGImage, Rect } from "react-native-svg"
 
@@ -26,7 +26,7 @@ function ProfileShapeRectStage({uri, hasCutout}) {
       </Mask>
       <Rect x="0" y="0"
         width="100%" height="100%"
-        fill={globalStyles['solid'].backgroundColor}
+        // fill={globalStyles['solid'].backgroundColor}
         mask={`url(#clip)`} />
       <SVGImage href={{uri:uri}}
         width="100%" height="100%"
@@ -55,11 +55,13 @@ export default function UserStage({uri=null, callback=null, username="...", isMu
         <View style={styles.image}>
           <ProfileShapeRectStage uri={uri} hasCutout={isMuted}/>
           {isMuted && <View style={styles.muteIcon}>
-            <CustomIcon name={"Mute-Small"} size={18} color='#fff' />
+            <CustomIcon name={"mute"} size={18} color='#fff' />
           </View>}
         </View>
       </View>
-      <Text style={[typo["subtext"], styles.username]} numberOfLines={1} ellipsizeMode={"tail"}>{username}</Text>
+      <Text style={[
+        // typo["subtext"],
+        styles.username]} numberOfLines={1} ellipsizeMode={"tail"}>{username}</Text>
     </TouchableOpacity>
   );
 }

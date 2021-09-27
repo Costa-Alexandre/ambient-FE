@@ -1,20 +1,20 @@
 import { StyleSheet } from "react-native";
-import DesignTokens from "../scripts/DesignTokens";
+
+const colors = require('./colorStyles.json')
 
 export const globalStyles = StyleSheet.create({
-  // touchable
-  // color 
+
   accent: {
-    backgroundColor: "#37BB64",
+    backgroundColor: colors.accent,
   },
-  solid: {
-    backgroundColor: "#404040",
+  buttonSolid: {
+    backgroundColor: colors.button_solid,
   },
-  transparent: {
-    backgroundColor: "rgba(255,255,255,0.15)",
+  button: {
+    backgroundColor: colors.button,
   },
   warning: {
-    backgroundColor: "#F32248",
+    backgroundColor: colors.warning,
   },
   // Button Normal 
   wideNormal: {
@@ -60,5 +60,3 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 18,
   },
 });
-
-DesignTokens(globalStyles);

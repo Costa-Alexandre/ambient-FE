@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
-import { globalStyles } from '../../styles/global';
 import CustomIcon from '../icons/CustomIcons';
 
 export default function ButtonSquare(props) {
@@ -18,7 +17,7 @@ export default function ButtonSquare(props) {
   return (
     <View>
       <TouchableOpacity 
-        style={[styles.button, globalStyles[props.type], globalStyles[props.size]]}
+        style={styles.button}
         onPress={() => onPress(like)}
       >
         <CustomIcon name={props.name} size={32} color='#fff' />
@@ -32,6 +31,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     margin: 10,
+    backgroundColor: "#ffffff",
   },
   image: {
     width: 20,
