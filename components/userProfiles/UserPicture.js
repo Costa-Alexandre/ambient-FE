@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
-import { globalStyles } from '../../styles/global';
-
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { colorStyles } from '../../styles/colorStyles';
 
 export default function UserPicture({uri=null, callback=null, size=20}) {
 
@@ -13,7 +12,10 @@ export default function UserPicture({uri=null, callback=null, size=20}) {
 
   return (
     <TouchableOpacity
-      style={[globalStyles['solid'], {width: size, height: size, borderRadius: size*0.45}, styles.container]}
+      style={[
+        styles.solid,
+        {width: size, height: size, borderRadius: size*0.45},
+        styles.container]}
       activeOpacity={callback!==null ? 0.8 : 1}
       onPress={onPress}
     >
@@ -29,5 +31,8 @@ const styles = StyleSheet.create({
   },
   image: {
     flex:1
+  },
+  solid: {
+    backgroundColor: colorStyles.solid
   }
 })

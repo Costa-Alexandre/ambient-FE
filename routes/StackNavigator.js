@@ -1,11 +1,11 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from '../screens/Home';
 import Buttons from '../screens/Buttons';
 import Icons from '../screens/Icons';
 import Fonts from '../screens/Fonts';
+import Users from '../screens/Users';
 
 export default function Navigator() {
 
@@ -26,6 +26,10 @@ export default function Navigator() {
           <Stack.Screen
           name="Fonts"
           component={Fonts}
+          />
+          <Stack.Screen
+          name="User"
+          component={Users}
           />
           <Stack.Screen
           name="Icons"

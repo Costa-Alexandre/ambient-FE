@@ -1,24 +1,21 @@
 import React from 'react';
-import { Text, View, StyleSheet, FlatList } from 'react-native';
-import CustomIcon from '../components/icons/CustomIcons';
+import { Text, View, StyleSheet } from 'react-native';
+import { fontStyles } from '../styles/fontStyles';
 
 export default function Fonts() {
 
-  const icons = require('../assets/icons.json');
-
-
     return (
       <View style={styles.page}>
-        <Text style={[styles.text, styles.title]}>MOBILE</Text>
-        <Text style={[styles.text, styles.title]}>title</Text>
-        <Text style={[styles.text, styles.section]}>section</Text>
-        <Text style={[styles.text, styles.button]}>button</Text>
-        <Text style={[styles.text, styles.subtitle]}>subtitle</Text>
-        <Text style={[styles.text, styles.body]}>body</Text>
-        <Text style={[styles.text, styles.titleSecondary]}>titleSecondary</Text>
-        <Text style={[styles.text, styles.subtitleSecondary]}>subtitleSecondary</Text>
-        <Text style={[styles.text, styles.bodySecondary]}>bodySecondary</Text>
-        <Text style={[styles.text, styles.subtext]}>subtext</Text>
+        <Text>MOBILE</Text>
+        <Text style={fontStyles.title}>title</Text>
+        <Text style={fontStyles.section}>section</Text>
+        <Text style={fontStyles.button}>button</Text>
+        <Text style={fontStyles.subtitle}>subtitle</Text>
+        <Text style={fontStyles.body}>body</Text>
+        <Text style={fontStyles.titleSecondary}>titleSecondary</Text>
+        <Text style={fontStyles.subtitleSecondary}>subtitleSecondary</Text>
+        <Text style={fontStyles.bodySecondary}>bodySecondary</Text>
+        <Text style={fontStyles.subtext}>subtext</Text>
       </View>
     );
 }
@@ -32,50 +29,5 @@ const styles = StyleSheet.create({
   },
   text: {
     marginBottom: 10,
-  },
-  title: {
-    fontFamily: 'clarity-city-bold',
-    fontSize: 22,
-    lineHeight: 26,
-  },
-  section: {
-    fontFamily: 'clarity-city-bold',
-    fontSize: 16,
-    lineHeight: 16,
-  },
-  button: {
-    fontFamily: 'clarity-city-bold',
-    fontSize: 14,
-    lineHeight: 16,
-  },
-  subtitle: {
-    fontFamily: 'clarity-city-semibold',
-    fontSize: 14,
-    lineHeight: 16,
-  },
-  body: {
-    fontFamily: 'clarity-city-medium',
-    fontSize: 14,
-    lineHeight: 17,
-  },
-  titleSecondary: {
-    fontFamily: 'clarity-city-bold',
-    fontSize: 13,
-    lineHeight: 13,
-  },
-  subtitleSecondary: {
-    fontFamily: 'clarity-city-semibold',
-    fontSize: 13,
-    lineHeight: 13,
-  },
-  bodySecondary: {
-    fontFamily: 'clarity-city-medium',
-    fontSize: 13,
-    lineHeight: 15,
-  },
-  subtext: {
-    fontFamily: 'clarity-city-semibold',
-    fontSize: 12,
-    lineHeight: 12,
   },
 });

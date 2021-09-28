@@ -65,12 +65,6 @@
           "textCase": "none"
         }
       },
-      "test": {
-        "value": {
-          "backgroundColor": "red",
-          "flex": 1
-        }
-      },
       "body": {
         "type": "custom-fontStyle",
         "value": {

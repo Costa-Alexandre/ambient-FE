@@ -1,90 +1,149 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
-import ButtonNormal from "../components/buttons/ButtonNormal";
-import ButtonSquare from "../components/buttons/ButtonSquare";
-import ButtonRect from "../components/buttons/ButtonRect";
+import CustomButton from "../components/buttons/CustomButton";
+import { fontStyles } from "../styles/fontStyles";
+
 
 export default function Buttons() {
-  return ( 
+  return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>Normal Buttons</Text>
-        <View style={styles.table}>
-          <View style={styles.column}>
-            <Text style={styles.title}>Wide</Text>
-            <ButtonNormal type='accent' title='Accent' size='wideNormal'/>
-            <ButtonNormal type='solid' title='Solid' size='wideNormal' />
-            <ButtonNormal type='transparent' title='Transparent' size='wideNormal' />
-          </View>
-          <View style={styles.column}>
-            <Text style={styles.title}>Slim</Text>
-            <ButtonNormal type='accent' title='Accent' size='slimNormal'/>
-            <ButtonNormal type='solid' title='Solid' size='slimNormal' />
-            <ButtonNormal type='transparent' title='Transparent' size='slimNormal' />
-          </View>
-          <View style={styles.column}>
-            <Text style={styles.title}>Small</Text>
-            <ButtonNormal type='accent' title='Accent' size='smallNormal'/>
-            <ButtonNormal type='solid' title='Solid' size='smallNormal' />
-            <ButtonNormal type='transparent' title='Transparent' size='smallNormal' />
-          </View>
+
+      <Text style={titleStyle}>Normal Buttons</Text>
+      <View style={styles.content}>
+        <CustomButton
+          title="Button"
+          color="button_solid"
+          size="normalMediumWide" />
+        <CustomButton
+          title="Button"
+          color="accent"
+          size="normalMediumWide" />
+        <CustomButton
+          title="Button"
+          color="button"
+          size="normalMediumWide" />
+        <CustomButton
+          title="Button"
+          color="button_solid"
+          size="normalMediumSlim" />
+        <CustomButton
+          title="Button"
+          color="accent"
+          size="normalMediumSlim" />
+        <CustomButton
+          title="Button"
+          color="button"
+          size="normalMediumSlim" />
+        <CustomButton
+          title="Button"
+          color="button_solid"
+          size="normalSmall" />
+        <CustomButton
+          title="Button"
+          color="accent"
+          size="normalSmall" />
+        <CustomButton
+          title="Button"
+          color="button"
+          size="normalSmall" />
       </View>
-      <Text style={styles.title}>Square Buttons</Text>
-      <View style={styles.table}>
-        <View style={styles.column}>
-        <Text style={styles.title}>Big</Text>
-            <ButtonSquare type='accent' size='bigSquare' name='like' />
-            <ButtonSquare type='solid' size='bigSquare' name='like'  />
-            <ButtonSquare type='warning' size='bigSquare' name='like'  />
-            <ButtonSquare type='transparent' size='bigSquare' name='like'  />
-        </View>
-        <View style={styles.column}>
-          <Text style={styles.title}>Medium</Text>
-          <ButtonSquare type='accent' size='mediumSquare' name='like' />
-          <ButtonSquare type='solid' size='mediumSquare' name='like'  />
-          <ButtonSquare type='warning' size='mediumSquare' name='like'  />
-          <ButtonSquare type='transparent' size='mediumSquare' name='like'  />
-        </View>
-        <View style={styles.column}>
-          <Text style={styles.title}>Small</Text>
-          <ButtonSquare type='accent' size='smallSquare' name='like' />
-          <ButtonSquare type='solid' size='smallSquare' name='like'  />
-          <ButtonSquare type='warning' size='smallSquare' name='like'  />
-          <ButtonSquare type='transparent' size='smallSquare' name='like'  />
-        </View>
+      <Text style={titleStyle}>Square Buttons</Text>
+      <View style={styles.content}>
+        <CustomButton
+          icon="like"
+          color="button_solid"
+          size="squareBig" />
+        <CustomButton
+          icon="like"
+          color="accent"
+          size="squareBig" />
+        <CustomButton
+          icon="like"
+          color="warning"
+          size="squareBig" />
+        <CustomButton
+          icon="like"
+          color="button"
+          size="squareBig" />
+        <CustomButton
+          icon="like"
+          color="button_solid"
+          size="squareMedium" />
+        <CustomButton
+          icon="like"
+          color="accent"
+          size="squareMedium" />
+        <CustomButton
+          icon="like"
+          color="warning"
+          size="squareMedium" />
+        <CustomButton
+          icon="like"
+          color="button"
+          size="squareMedium" />
+        <CustomButton
+          icon="like"
+          color="button_solid"
+          size="squareSmall" />
+        <CustomButton
+          icon="like"
+          color="accent"
+          size="squareSmall" />
+        <CustomButton
+          icon="like"
+          color="warning"
+          size="squareSmall" />
+        <CustomButton
+          icon="like"
+          color="button"
+          size="squareSmall" />
       </View>
-      <Text style={styles.title}>Rectangle Buttons</Text>
-      <View style={styles.table}>
-        <View style={styles.column}>
-        <Text style={styles.title}>Wide</Text>
-            <ButtonRect type='accent' size='wideRect' name='like' />
-            <ButtonRect type='solid' size='wideRect' name='like'  />
-            <ButtonRect type='transparent' size='wideRect' name='like'  />
-        </View>
-        <View style={styles.column}>
-          <Text style={styles.title}>Small</Text>
-          <ButtonRect type='accent' size='smallRect' name='like' />
-          <ButtonRect type='solid' size='smallRect' name='like'  />
-          <ButtonRect type='transparent' size='smallRect' name='like'  />
-        </View>
+      <Text style={titleStyle}>Rectangle Buttons</Text>
+      <View style={styles.content}>
+        <CustomButton
+          icon="like"
+          color="button_solid"
+          size="rectangleSmall" />
+        <CustomButton
+          icon="like"
+          color="accent"
+          size="rectangleSmall" />
+        <CustomButton
+          icon="like"
+          color="button"
+          size="rectangleSmall" />
+        <CustomButton
+          icon="like"
+          color="button_solid"
+          size="rectangleWide" />
+        <CustomButton
+          icon="like"
+          color="accent"
+          size="rectangleWide" />
+        <CustomButton
+          icon="like"
+          color="button"
+          size="rectangleWide" />
       </View>
     </ScrollView>
   );
 };
 
-const styles = StyleSheet.create( {
+const styles = StyleSheet.create({
   container: {
     backgroundColor: "#000",
   },
-  table: {
+  content: {
+    flex: 1,
+    alignItems: "center",
+    marginBottom: 20,
+    flexBasis: 0.3,
     flexDirection: "row",
-    borderColor: "#fff",
-    borderWidth: 1,
-  },
-  title: {
-    fontSize: 20,
-    textAlign: "center",
-    color: "#fff",
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-} );
+    flexWrap: "wrap",
+  }
+});
+
+const titleStyle = StyleSheet.compose(
+  fontStyles.title,
+  { color: "#fff" }
+)
