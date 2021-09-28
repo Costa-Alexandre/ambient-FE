@@ -1,62 +1,53 @@
 import { StyleSheet } from "react-native";
 
-const colors = require('./colorStyles.json')
+export const buttonStyles = StyleSheet.create({
 
-export const globalStyles = StyleSheet.create({
-
-  accent: {
-    backgroundColor: colors.accent,
-  },
-  buttonSolid: {
-    backgroundColor: colors.button_solid,
-  },
-  button: {
-    backgroundColor: colors.button,
-  },
-  warning: {
-    backgroundColor: colors.warning,
-  },
   // Button Normal 
-  wideNormal: {
+  normalMediumWide: {
     width: 120,
     height: 44,
     borderRadius: 22,
   },
-  slimNormal: {
+  normalMediumSlim: {
     width: 90,
     height: 44,
     borderRadius: 22,
   },
-  smallNormal: {
+  normalSmall: {
     width: 90,
     height: 40,
     borderRadius: 20,
   },
   // Button Square 
-  bigSquare: {
+  squareBig: {
     width: 50,
     height: 50,
     borderRadius: 23,
   },
-  mediumSquare: {
+  squareMedium: {
     width: 44,
     height: 44,
     borderRadius: 20,
   },
-  smallSquare: {
+  squareSmall: {
     width: 40,
     height: 40,
     borderRadius: 20,
   },
   // Button Rect 
-  wideRect: {
+  rectangleWide: {
     width: 120,
     height: 44,
     borderRadius: 20,
   },
-  smallRect: {
+  rectangleSmall: {
     width: 60,
     height: 40,
     borderRadius: 18,
   },
+  spacing: {
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 10,
+  }
 });

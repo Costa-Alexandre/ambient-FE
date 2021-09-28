@@ -1,10 +1,9 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-// import { globalStyles } from '../../styles/global';
 import CustomIcon from '../icons/CustomIcons';
+import { colorStyles } from '../../styles/colorStyles';
 
 import Svg, { Path, Mask, Image as SVGImage, Rect } from "react-native-svg"
-
 
 function ProfileShapeRectBig({uri, hasCutout}) {
   // path converted from Figma with https://svg2jsx.com/ and https://react-svgr.com/playground/?native=true
@@ -25,7 +24,7 @@ function ProfileShapeRectBig({uri, hasCutout}) {
       </Mask>
       <Rect x="0" y="0"
         width="100%" height="100%"
-        // fill={globalStyles['solid'].backgroundColor}
+        fill={colorStyles.button_solid}
         mask={`url(#clip)`} />
       <SVGImage href={{uri:uri}}
         width="100%" height="100%"
@@ -52,7 +51,7 @@ export default function UserBig({uri=null, callback=null, isLive=false}) {
     >
       <ProfileShapeRectBig uri={uri} hasCutout={isLive}/>
       {isLive && <View style={styles.liveIndicator}>
-        <CustomIcon name={"live"} size={20} color='#37bb64' />
+        <CustomIcon name={"live"} size={20} color={colorStyles.accent} />
       </View>}
     </TouchableOpacity>
   );

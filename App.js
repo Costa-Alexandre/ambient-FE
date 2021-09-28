@@ -12,7 +12,7 @@ export default function App() {
 
     'Bold': require('./assets/fonts/ClarityCity-Bold.otf'),
     'Medium': require('./assets/fonts/ClarityCity-Medium.otf'),
-    'Semibold': require('./assets/fonts/ClarityCity-SemiBold.otf'),
+    'SemiBold': require('./assets/fonts/ClarityCity-SemiBold.otf'),
     'IcoMoon': require('./assets/fonts/icomoon.ttf') // Icons
   })
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
-// import { globalStyles } from '../../styles/global';
 import CustomIcon from '../icons/CustomIcons';
-// import { typo } from '../../styles/typo';
+import { fontStyles } from '../../styles/fontStyles';
+import { colorStyles } from '../../styles/colorStyles';
 
 import Svg, { Path, Mask, Image as SVGImage, Rect } from "react-native-svg"
 
@@ -26,7 +26,7 @@ function ProfileShapeRectStage({uri, hasCutout}) {
       </Mask>
       <Rect x="0" y="0"
         width="100%" height="100%"
-        // fill={globalStyles['solid'].backgroundColor}
+        fill={colorStyles.button_solid}
         mask={`url(#clip)`} />
       <SVGImage href={{uri:uri}}
         width="100%" height="100%"
@@ -60,7 +60,7 @@ export default function UserStage({uri=null, callback=null, username="...", isMu
         </View>
       </View>
       <Text style={[
-        // typo["subtext"],
+        fontStyles.subtitle,
         styles.username]} numberOfLines={1} ellipsizeMode={"tail"}>{username}</Text>
     </TouchableOpacity>
   );

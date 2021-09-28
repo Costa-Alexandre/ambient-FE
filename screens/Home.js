@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, FlatList } from 'react-native';
-import ButtonNormal from '../components/buttons/ButtonNormal';
+import CustomButton from '../components/buttons/CustomButton';
 
 export default function Home( { navigation } ) {
 
@@ -30,7 +30,7 @@ const menu = [
           numColumns={2}
           renderItem={({item}) => (
             <View style={styles.item}>
-              <ButtonNormal type='accent' size='wideNormal' title={item.title} handleClick={handleClick} />
+              <CustomButton color='accent' size='normalMediumWide' title={item.title} handleClick={handleClick} />
             </View>
           )}
         />
@@ -47,9 +47,6 @@ const styles = StyleSheet.create({
     flex: 1,
     
   },
-  content: {
-
-  },
   text: {
     color: '#fff',
     marginBottom: 20,
@@ -57,5 +54,6 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     alignItems: 'center',
+    marginBottom: 20,
   }
 });

@@ -1,0 +1,1 @@
+export const colorStyles = require('./colorStyles.json');

@@ -18,7 +18,7 @@ export default function Icons() {
                 <View style={styles.icon}>
                 <CustomIcon name={item.name} size={20} color='#000' />
                 </View>
-                <Text style={styles.text}>{item.name}</Text>
+                <Text style={styles.text}>{item.name} </Text>
               </View>
             )}
           />
