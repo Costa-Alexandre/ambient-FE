@@ -25,6 +25,7 @@ export default function CustomButton({ title, color, handleClick, size, icon }) 
     <View>
       <TouchableOpacity
         style={buttonStyle}
+        activeOpacity={callback!==null ? 0.8 : 1}
         onPress={() => {title && handleClick(title)}}
       >
         <Text style={textStyle}>
