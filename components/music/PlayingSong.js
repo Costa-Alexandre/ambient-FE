@@ -1,18 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import { colorStyles } from '../../styles/colorStyles';
 import { fontStyles } from '../../styles/fontStyles';
 import CustomIcon from '../icons/CustomIcons';
+import imageBackgroundColor from '../../utilities/imageColors';
 
 
-export default function PlayingSong({  }) {
+export default function PlayingSong({ uri }) {
 
-  const dummyUri = "https://f4.bcbits.com/img/a1024330960_10.jpg"
+  const [color, setColor] = useState("red")
+
+  const getImageColor = () => {
+    if (uri) {
+      imageBackgroundColor(uri)
+      .then(imageColor => setColor(imageColor))
+    }
+    else {
+      setColor("red")
+    }
+  }
+
+  useEffect(() => {
+    getImageColor()
+  }, [])
+
   return (
     <View style={styles.outerContainer}>
-      <ImageBackground style={styles.image} source={{uri:dummyUri}} imageStyle={{opacity:0.1}}>
-        {dummyUri && <Image style={styles.coverImage} source={{uri:dummyUri}} />}
-        {dummyUri && <View style={styles.textContainer}>
+      <ImageBackground style={styles.image} source={{uri:uri}} imageStyle={{opacity:0.1}}>
+        {uri && <Image style={styles.coverImage} source={{uri:uri}} />}
+        {uri && <View style={styles.textContainer}>
           <Text style={[fontStyles.subtitleSecondary, styles.songText]} numberOfLines={1}>Meat Grinder</Text>
           <Text style={[fontStyles.subtitleSecondary, styles.artistText]} numberOfLines={1}>Madvillain, Madlib, MF DOOM</Text>
         </View>}

@@ -20,7 +20,9 @@ export default function Shows() {
         amountListeners="50"
       />
 
-      <PlayingSong/>
+      <PlayingSong
+        uri="https://f4.bcbits.com/img/a1024330960_10.jpg"
+      />
 
     </ScrollView>
   );
