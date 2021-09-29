@@ -45,9 +45,10 @@ export const buttonStyles = StyleSheet.create({
     height: 40,
     borderRadius: 18,
   },
-  spacing: {
-    alignItems: "center",
-    justifyContent: "center",
-    margin: 10,
-  }
+  loginButton: {
+    width: '80%',
+    height: 44,
+    borderRadius: 22,
+    marginTop: 20,
+  },
 });

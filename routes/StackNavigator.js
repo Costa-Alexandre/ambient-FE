@@ -13,12 +13,21 @@ export default function Navigator() {
     
   return (
       <Stack.Navigator
-        screenOptions={{ headerStyle: { backgroundColor: '#000' }, headerTitleStyle: { color: '#fff'} }}
+        screenOptions={{
+          headerStyle: { 
+            backgroundColor: '#000',
+            }, 
+            headerTitleStyle: {
+              color: '#fff',
+              fontFamily: 'Bold',
+            },
+            headerTintColor: '#fff'
+        }}
         >
         <Stack.Screen 
           name="Home" 
           component={Home}
-          options={{ title: 'Components'}} />
+          options={{ title: 'Custom Components'}} />
         <Stack.Screen 
           name="Buttons" 
           component={Buttons} 
