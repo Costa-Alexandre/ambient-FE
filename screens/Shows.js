@@ -18,6 +18,7 @@ export default function Shows() {
         showDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. fejspo eos jo o oeo eo  fes  s s"
         amountSpeakers="5"
         amountListeners="50"
+        uri="https://f4.bcbits.com/img/a1024330960_10.jpg"
       />
 
       <PlayingSong
@@ -34,8 +35,3 @@ const styles = StyleSheet.create({
     padding: 16
   },
 });
-
-const titleStyle = StyleSheet.compose(
-  fontStyles.title,
-  { color: "#fff" }
-)

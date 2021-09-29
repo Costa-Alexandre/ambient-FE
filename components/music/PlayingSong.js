@@ -3,29 +3,13 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground } from
 import { colorStyles } from '../../styles/colorStyles';
 import { fontStyles } from '../../styles/fontStyles';
 import CustomIcon from '../icons/CustomIcons';
-import imageBackgroundColor from '../../utilities/imageColors';
 
 
 export default function PlayingSong({ uri }) {
 
-  const [color, setColor] = useState("#404040")
-
-  const getImageColor = () => {
-    if (uri) {
-      imageBackgroundColor(uri)
-      .then(imageColor => setColor(imageColor))
-    }
-    else {
-      setColor("red")
-    }
-  }
-
-  useEffect(() => {
-    // getImageColor()
-  }, [])
-
+  const dummyColor = "#404040"
   return (
-    <View style={[styles.outerContainer, {backgroundColor: color}]}>
+    <View style={[styles.outerContainer, {backgroundColor: dummyColor}]}>
       <ImageBackground style={styles.image} source={{uri:uri}} imageStyle={{opacity:0.1}}>
         {uri && <Image style={styles.coverImage} source={{uri:uri}} />}
         {uri && <View style={styles.textContainer}>

@@ -6,9 +6,10 @@ import CustomIcon from '../icons/CustomIcons';
 import CustomButton from '../buttons/CustomButton';
 import ShowName from './ShowName';
 import UserPicture from '../userProfiles/UserPicture';
+import PlayingSong from '../music/PlayingSong';
 
 
-export default function LiveShow({ showTitle="", showName="", showDescription="", amountSpeakers="", amountListeners="", users=[] }) {
+export default function LiveShow({ showTitle="", showName="", uri=null, showDescription="", amountSpeakers="", amountListeners="", users=[] }) {
 
   const userInfo = () => {
     return (
@@ -36,6 +37,12 @@ export default function LiveShow({ showTitle="", showName="", showDescription=""
 
       <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>{showName}</Text>
 
+      <View style={styles.songContainer}>
+        <PlayingSong
+          uri={uri}
+        />
+      </View>
+
       <Text style={[fontStyles.body, styles.showDescription]}>{showDescription}{userInfo()}</Text>
 
       <View style={styles.buttonRowContainer}>
@@ -54,6 +61,7 @@ export default function LiveShow({ showTitle="", showName="", showDescription=""
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   outerContainer: {
@@ -74,6 +82,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignContent: 'flex-start',
     backgroundColor: 'blue',
+  },
+  songContainer: {
+    marginBottom: 16,
   },
 
   showName: {
