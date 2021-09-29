@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { fontStyles } from "../styles/fontStyles";
 import LiveShow from '../components/shows/LiveShow';
 import ShowName from '../components/shows/ShowName';
+import PlayingSong from '../components/music/PlayingSong';
 
 
 export default function Shows() {
@@ -18,6 +19,8 @@ export default function Shows() {
         amountSpeakers="5"
         amountListeners="50"
       />
+
+      <PlayingSong/>
 
     </ScrollView>
   );
