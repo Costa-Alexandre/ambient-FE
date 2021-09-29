@@ -4,7 +4,7 @@ import CustomButton from '../components/buttons/CustomButton';
 
 export default function Home( { navigation } ) {
 
-const handleClick = (screen) => {
+const onPress = (screen) => (e) => {
   navigation.navigate(screen);
   console.log(screen);
 };
@@ -30,7 +30,11 @@ const menu = [
           numColumns={2}
           renderItem={({item}) => (
             <View style={styles.item}>
-              <CustomButton color='accent' size='normalMediumWide' title={item.title} handleClick={handleClick} />
+              <CustomButton 
+                title={item.title} 
+                color='accent' 
+                size='normalMediumWide' 
+                callback={onPress(item.title)} />
             </View>
           )}
         />

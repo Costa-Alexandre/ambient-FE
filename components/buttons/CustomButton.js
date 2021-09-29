@@ -5,7 +5,7 @@ import { colorStyles } from '../../styles/colorStyles';
 import { fontStyles } from '../../styles/fontStyles';
 import CustomIcon from '../icons/CustomIcons';
 
-export default function CustomButton({ title, color, handleClick, size, icon }) {
+export default function CustomButton({ title, color, size, icon, callback=null }) {
 
   const buttonStyle = StyleSheet.compose(
     buttonStyles[size],
@@ -26,7 +26,7 @@ export default function CustomButton({ title, color, handleClick, size, icon }) 
       <TouchableOpacity
         style={buttonStyle}
         activeOpacity={callback!==null ? 0.8 : 1}
-        onPress={() => {title && handleClick(title)}}
+        onPress={callback}
       >
         <Text style={textStyle}>
           {titleOrIcon(title, icon)}
