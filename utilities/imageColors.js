@@ -1,4 +1,4 @@
-import ImageColors from 'react-native-image-colors'
+// import ImageColors from 'react-native-image-colors'
 
 
 export const imageBackgroundColor = async (uri) => {

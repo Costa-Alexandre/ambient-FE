@@ -8,7 +8,7 @@ import imageBackgroundColor from '../../utilities/imageColors';
 
 export default function PlayingSong({ uri }) {
 
-  const [color, setColor] = useState("red")
+  const [color, setColor] = useState("#404040")
 
   const getImageColor = () => {
     if (uri) {
@@ -21,11 +21,11 @@ export default function PlayingSong({ uri }) {
   }
 
   useEffect(() => {
-    getImageColor()
+    // getImageColor()
   }, [])
 
   return (
-    <View style={styles.outerContainer}>
+    <View style={[styles.outerContainer, {backgroundColor: color}]}>
       <ImageBackground style={styles.image} source={{uri:uri}} imageStyle={{opacity:0.1}}>
         {uri && <Image style={styles.coverImage} source={{uri:uri}} />}
         {uri && <View style={styles.textContainer}>
