@@ -10,7 +10,14 @@ export default function Shows() {
     <ScrollView style={styles.container}>
 
       <ShowName name={"SHOW NAME"} />
-      <LiveShow />
+
+      <LiveShow
+        showTitle="SHOW NAME"
+        showName="Show Name"
+        showDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. fejspo eos jo o oeo eo  fes  s s"
+        amountSpeakers="5"
+        amountListeners="50"
+      />
 
     </ScrollView>
   );
