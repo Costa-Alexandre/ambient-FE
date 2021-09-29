@@ -13,12 +13,13 @@ export default function CustomButton({ title, color, size, icon, iconSize=20, ca
       backgroundColor: colorStyles[color],
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'center'
     },
   );
 
   function titleOrIcon(title, icon) {
     if (title) {
-      return title
+      return <Text style={textStyle}>{title}</Text>
     } else {
       return <CustomIcon name={icon} size={iconSize} color='#fff' />
     }
@@ -31,9 +32,7 @@ export default function CustomButton({ title, color, size, icon, iconSize=20, ca
       activeOpacity={callback!==null ? 0.8 : 1}
       onPress={callback}
     >
-      <Text style={textStyle}>
-        {titleOrIcon(title, icon)}
-      </Text>
+      {titleOrIcon(title, icon)}
     </TouchableOpacity>
   );
 }
