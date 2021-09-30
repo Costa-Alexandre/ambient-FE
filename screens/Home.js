@@ -19,7 +19,6 @@ const menu = [
   {title: 'Music', key: '7'},
   {title: 'Chat', key: '8'},
   {title: 'Icons', key: '9'},
-  {title: 'Shows', key: '10'},
 ]
 
 
