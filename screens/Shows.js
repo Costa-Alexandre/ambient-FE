@@ -11,18 +11,18 @@ export default function Shows() {
     <ScrollView style={styles.container}>
 
       <ShowName name={"SHOW NAME"} />
+      
+      <PlayingSong
+        uri="https://f4.bcbits.com/img/a1024330960_10.jpg"
+      />
 
       <LiveShow
         showTitle="SHOW NAME"
         showName="Show Name"
-        showDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. fejspo eos jo o oeo eo  fes  s s"
+        showDescription="Lorem ipsum dolor sit amet, consectetur adipiscing elit. fejspo eos jo o oeo "
         amountSpeakers="5"
         amountListeners="50"
-        uri="https://f4.bcbits.com/img/a1024330960_10.jpg"
-      />
-
-      <PlayingSong
-        uri="https://f4.bcbits.com/img/a1024330960_10.jpg"
+        imageUri="https://f4.bcbits.com/img/a1024330960_10.jpg"
       />
 
     </ScrollView>

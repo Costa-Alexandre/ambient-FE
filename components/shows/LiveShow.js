@@ -9,14 +9,11 @@ import UserPicture from '../userProfiles/UserPicture';
 import PlayingSong from '../music/PlayingSong';
 
 
-export default function LiveShow({ showTitle="", showName="", uri=null, showDescription="", amountSpeakers="", amountListeners="", users=[] }) {
+export default function LiveShow({ showTitle="", showName="", imageUri=null, showDescription="", amountSpeakers="", amountListeners="", users=[] }) {
 
   const userInfo = () => {
     return (
-      <>
-        <View style={styles.descriptionSpacer}></View>
-        <View style={styles.descriptionSpacer}></View>
-
+      <Text style={styles.userInfoContainer}>
         <Text style={[fontStyles.body, styles.userInfoText]}>{amountSpeakers}</Text>
         <View style={styles.descriptionSpacer}></View>
         <CustomIcon name={"microphone"} size={12} color={colorStyles.text_secondary} />
@@ -27,7 +24,7 @@ export default function LiveShow({ showTitle="", showName="", uri=null, showDesc
         <Text style={[fontStyles.body, styles.userInfoText]}>{amountListeners}</Text>
         <View style={styles.descriptionSpacer}></View>
         <CustomIcon name={"headphones"} size={12} color={colorStyles.text_secondary} />
-      </>
+      </Text>
     )
   }
 
@@ -39,11 +36,12 @@ export default function LiveShow({ showTitle="", showName="", uri=null, showDesc
 
       <View style={styles.songContainer}>
         <PlayingSong
-          uri={uri}
+          uri={imageUri}
         />
       </View>
 
-      <Text style={[fontStyles.body, styles.showDescription]}>{showDescription}{userInfo()}</Text>
+      <Text style={[fontStyles.body, styles.showDescription]}>{showDescription}{}</Text>
+      {userInfo()}
 
       <View style={styles.buttonRowContainer}>
         <CustomButton title="Listen" color="button_solid" size="normalMediumWide"/>
@@ -78,10 +76,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   userInfoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignContent: 'flex-start',
-    backgroundColor: 'blue',
+    marginBottom: 16
   },
   songContainer: {
     marginBottom: 16,
@@ -94,7 +89,6 @@ const styles = StyleSheet.create({
   },
   showDescription: {
     color: colorStyles.text_secondary,
-    marginBottom: 16
   },
   userInfoText: {
     color: colorStyles.text_secondary,
