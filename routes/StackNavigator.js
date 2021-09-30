@@ -14,7 +14,16 @@ export default function Navigator() {
     
   return (
       <Stack.Navigator
-        screenOptions={{ headerStyle: { backgroundColor: '#000' }, headerTitleStyle: { color: '#fff'} }}
+        screenOptions={{
+          headerStyle: { 
+            backgroundColor: '#000',
+            }, 
+            headerTitleStyle: {
+              color: '#fff',
+              fontFamily: 'Bold',
+            },
+            headerTintColor: '#fff'
+        }}
         >
         <Stack.Screen 
           name="Home" 

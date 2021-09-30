@@ -2,14 +2,24 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import myComponents from '../screens/myComponents';
-import RealApp from '../screens/RealApp';
+import StackNavigatorMain from './StackNavigatorMain';
+import { colorStyles } from '../styles/colorStyles';
+import { StatusBar } from 'expo-status-bar';
 
 const Drawer = createDrawerNavigator();
 
 export default function MyDrawer() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Components">
+      <StatusBar style="dark" />
+      <Drawer.Navigator 
+        screenOptions={{
+          drawerActiveTintColor: colorStyles.accent,
+          drawerType: 'slide',
+          headerTitle : '',
+        }}
+        initialRouteName="Real App"
+        >
         <Drawer.Screen
           name="Components"
           component={myComponents}
@@ -17,7 +27,7 @@ export default function MyDrawer() {
         />
         <Drawer.Screen
           name="Real App"
-          component={RealApp}
+          component={StackNavigatorMain}
           options={{ drawerLabel: 'Real App' }}
         />
       </Drawer.Navigator>
