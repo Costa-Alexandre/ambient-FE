@@ -4,12 +4,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import myComponents from '../screens/myComponents';
 import StackNavigatorMain from './StackNavigatorMain';
 import { colorStyles } from '../styles/colorStyles';
+import { StatusBar } from 'expo-status-bar';
 
 const Drawer = createDrawerNavigator();
 
 export default function MyDrawer() {
   return (
     <NavigationContainer>
+      <StatusBar style="dark" />
       <Drawer.Navigator 
         screenOptions={{
           drawerActiveTintColor: colorStyles.accent,
