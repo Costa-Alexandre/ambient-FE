@@ -5,7 +5,7 @@ import { colorStyles } from '../../styles/colorStyles';
 import { fontStyles } from '../../styles/fontStyles';
 import CustomIcon from '../icons/CustomIcons';
 
-export default function CustomButton({ title, color, size, icon, iconSize=20, callback=null }) {
+export default function CustomButton({ title, color, size, icon, iconSize=20, callback=null, disabled=false }) {
 
   const buttonStyle = StyleSheet.compose(
     buttonStyles[size],
@@ -19,9 +19,9 @@ export default function CustomButton({ title, color, size, icon, iconSize=20, ca
 
   function titleOrIcon(title, icon) {
     if (title) {
-      return <Text style={textStyle}>{title}</Text>
+      return <Text style={[textStyle, {opacity:(disabled||!callback) ? 0.3 : 1}]}>{title}</Text>
     } else {
-      return <CustomIcon name={icon} size={iconSize} color='#fff' />
+      return <CustomIcon name={icon} size={iconSize} color={(disabled||!callback) ? colorStyles.text_secondary : colorStyles.text} />
     }
   }
 

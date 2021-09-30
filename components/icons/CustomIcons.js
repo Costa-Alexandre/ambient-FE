@@ -10,5 +10,5 @@ import { createIconSetFromIcoMoon } from '@expo/vector-icons'
 
 export default function CustomIcon({name, size, color}) {
     return (
-        <Icon name={name} size={size} color={color} />
+      <Icon name={name} size={size} color={color}/>
     )}
