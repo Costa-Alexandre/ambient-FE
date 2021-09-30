@@ -20,7 +20,7 @@ export default function Login({ navigation }) {
         />
         <CustomButton 
           title='Sign up without Spotify'
-          color='button_solid' 
+          color='buttonSolid' 
           size='loginButton' 
           // callback={onPress('')}
         />

@@ -21,7 +21,7 @@ export default function CustomButton({ title, color, size, icon, iconSize=20, ca
     if (title) {
       return <Text style={[textStyle, {opacity:(disabled||!callback) ? 0.3 : 1}]}>{title}</Text>
     } else {
-      return <CustomIcon name={icon} size={iconSize} color={(disabled||!callback) ? colorStyles.text_secondary : colorStyles.text} />
+      return <CustomIcon name={icon} size={iconSize} color={(disabled||!callback) ? colorStyles.textSecondary : colorStyles.text} />
     }
   }
 

@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     height: 64,
     overflow: 'hidden',
-    backgroundColor: colorStyles.button_solid
+    backgroundColor: colorStyles.buttonSolid
   },
   coverImage: {
     width: 48,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   artistText: {
-    color: colorStyles.text_secondary,
+    color: colorStyles.textSecondary,
   },
   image: {
     flex: 1,

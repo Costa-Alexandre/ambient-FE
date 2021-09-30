@@ -12,7 +12,7 @@ export default function Buttons() {
       <View style={styles.content}>
         <CustomButton
           title="Button"
-          color="button_solid"
+          color="buttonSolid"
           size="normalMediumWide" />
         <CustomButton
           title="Button"
@@ -24,7 +24,7 @@ export default function Buttons() {
           size="normalMediumWide" />
         <CustomButton
           title="Button"
-          color="button_solid"
+          color="buttonSolid"
           size="normalMediumSlim" />
         <CustomButton
           title="Button"
@@ -36,7 +36,7 @@ export default function Buttons() {
           size="normalMediumSlim" />
         <CustomButton
           title="Button"
-          color="button_solid"
+          color="buttonSolid"
           size="normalSmall" />
         <CustomButton
           title="Button"
@@ -51,7 +51,7 @@ export default function Buttons() {
       <View style={styles.content}>
         <CustomButton
           icon="like"
-          color="button_solid"
+          color="buttonSolid"
           size="squareBig" />
         <CustomButton
           icon="like"
@@ -67,7 +67,7 @@ export default function Buttons() {
           size="squareBig" />
         <CustomButton
           icon="like"
-          color="button_solid"
+          color="buttonSolid"
           size="squareMedium" />
         <CustomButton
           icon="like"
@@ -83,7 +83,7 @@ export default function Buttons() {
           size="squareMedium" />
         <CustomButton
           icon="like"
-          color="button_solid"
+          color="buttonSolid"
           size="squareSmall" />
         <CustomButton
           icon="like"
@@ -102,7 +102,7 @@ export default function Buttons() {
       <View style={styles.content}>
         <CustomButton
           icon="like"
-          color="button_solid"
+          color="buttonSolid"
           size="rectangleSmall" />
         <CustomButton
           icon="like"
@@ -114,7 +114,7 @@ export default function Buttons() {
           size="rectangleSmall" />
         <CustomButton
           icon="like"
-          color="button_solid"
+          color="buttonSolid"
           size="rectangleWide" />
         <CustomButton
           icon="like"

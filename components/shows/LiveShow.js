@@ -16,14 +16,14 @@ export default function LiveShow({ showTitle="", showName="", imageUri=null, sho
       <Text style={styles.userInfoContainer}>
         <Text style={[fontStyles.body, styles.userInfoText]}>{amountSpeakers}</Text>
         <View style={styles.descriptionSpacer}></View>
-        <CustomIcon name={"microphone"} size={12} color={colorStyles.text_secondary} />
+        <CustomIcon name={"microphone"} size={12} color={colorStyles.textSecondary} />
 
         <View style={styles.descriptionSpacer}></View>
         <View style={styles.descriptionSpacer}></View>
 
         <Text style={[fontStyles.body, styles.userInfoText]}>{amountListeners}</Text>
         <View style={styles.descriptionSpacer}></View>
-        <CustomIcon name={"headphones"} size={12} color={colorStyles.text_secondary} />
+        <CustomIcon name={"headphones"} size={12} color={colorStyles.textSecondary} />
       </Text>
     )
   }
@@ -44,7 +44,7 @@ export default function LiveShow({ showTitle="", showName="", imageUri=null, sho
       {userInfo()}
 
       <View style={styles.buttonRowContainer}>
-        <CustomButton title="Listen" color="button_solid" size="normalMediumWide"/>
+        <CustomButton title="Listen" color="buttonSolid" size="normalMediumWide"/>
 
         <View style={styles.userImageContainer}>
           {users.map(user => <View style={styles.userImage}>
@@ -88,10 +88,10 @@ const styles = StyleSheet.create({
     marginBottom: 16
   },
   showDescription: {
-    color: colorStyles.text_secondary,
+    color: colorStyles.textSecondary,
   },
   userInfoText: {
-    color: colorStyles.text_secondary,
+    color: colorStyles.textSecondary,
   },
   descriptionSpacer: {
     width: 4

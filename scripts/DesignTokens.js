@@ -36,15 +36,19 @@ function Fonts() {
 function Colors() {
   // Read the colors from the DesignToken json file and generate key/value pairs
   // e.g { "color-primary": "#0070f3" }
-
   const { color:colors } = require("../assets/design_tokens.json");
 
+  // create empty dict 
   const colorsDict = {};
 
-    Object.keys(colors).forEach(key => {
-      colorsDict[key] = colors[key].value;
+  // loop through the colors and create key/value pairs
+  // snakeToCamel is used to convert the key from snake_case to camelCase 
+  Object.keys(colors).forEach(key => {
+    camelKey = snakeToCamel(key);
+    colorsDict[camelKey] = colors[key].value;
   })
 
+  // generate json file colors.json
   const myJSON = JSON.stringify(colorsDict);
   let fs = require('fs')
   fs.writeFile('./styles/colorStyles.json', myJSON, function(err, result) {
@@ -54,6 +58,10 @@ function Colors() {
       console.log('success generating colorStyles.json')
     }
   });
+}
+
+function snakeToCamel(str) {
+  return str.replace(/(\_\w)/g, function(m){return m[1].toUpperCase();});
 }
 
 Fonts();
