@@ -1,5 +1,8 @@
 package com.music.modradio;
 
+import com.reactlibrary.RNSpotifyRemotePackage;
+import com.lufinkey.react.eventemitter.RNEventEmitterPackage;
+
 import android.app.Application;
 import android.content.Context;
 import android.net.Uri;
@@ -43,6 +46,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       packages.add(new ModuleRegistryAdapter(mModuleRegistryProvider));
+      packages.add(new RNEventEmitterPackage());
+      // packages.add(new RNSpotifyRemotePackage());
       return packages;
     }
 

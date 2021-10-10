@@ -2,6 +2,14 @@ import React from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import CustomButton from '../../components/buttons/CustomButton';
 
+import { 
+	auth as SpotifyAuth, 
+	remote as SpotifyRemote, 
+	ApiScope, 
+	ApiConfig
+} from 'react-native-spotify-remote';
+
+
 export default function Login({ navigation }) {
 
   const onPress = (screen) => (e) => {
