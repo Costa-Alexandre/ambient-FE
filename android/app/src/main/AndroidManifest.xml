@@ -35,7 +35,7 @@
 
         <data
           android:scheme="modradio"
-          android:host="auth/"/>
+          android:host="auth"/>
       </intent-filter>
     </activity>
 
@@ -46,4 +46,7 @@
 
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>
   </application>
+  <queries>
+    <package android:name="com.spotify.music" />
+  </queries> 
 </manifest>
