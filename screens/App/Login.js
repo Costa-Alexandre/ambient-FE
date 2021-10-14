@@ -11,10 +11,10 @@ import {
 
 
 const spotifyConfig = {
-	clientID: "3bdffa3e54734d9195dbda3b4d50d5b7",
-	redirectURL: "http://127.0.0.1:3000/callback",
-	tokenRefreshURL: "http://127.0.0.1:3000/refresh",
-	tokenSwapURL: "http://127.0.0.1:3000/refresh",
+	clientID: "e471ac902dc247bd89e4f85b38661ca7",
+	redirectURL: "modradio://auth",
+	tokenRefreshURL: "https://modradio-test.glitch.me/refresh",
+	tokenSwapURL: "https://modradio-test.glitch.me/swap",
   // authType: "TOKEN",
 	scopes: [
     ApiScope.AppRemoteControlScope
@@ -31,8 +31,9 @@ export default function Login({ navigation }) {
     // SpotifyAuth.getSession()
     // .then(existingSession => {
     //   console.log(existingSession)
-    //   console.log(existingSession.expirationDate)
     // })
+    // .catch(error => console.log(error))
+
     SpotifyAuth.authorize(spotifyConfig)
     .then(session => {
       console.log(session)
