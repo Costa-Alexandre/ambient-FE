@@ -15,9 +15,8 @@ const spotifyConfig = {
 	redirectURL: "modradio://auth",
 	tokenRefreshURL: "https://modradio-test.glitch.me/refresh",
 	tokenSwapURL: "https://modradio-test.glitch.me/swap",
-  // authType: "TOKEN",
 	scopes: [
-    ApiScope.AppRemoteControlScope
+    ApiScope.AppRemoteControlScope, ApiScope.UserFollowReadScope
   ]
 }
 
@@ -28,15 +27,14 @@ export default function Login({ navigation }) {
     // navigation.navigate(screen);
     // console.log(screen);
 
-    // SpotifyAuth.getSession()
-    // .then(existingSession => {
-    //   console.log(existingSession)
-    // })
-    // .catch(error => console.log(error))
-
     SpotifyAuth.authorize(spotifyConfig)
     .then(session => {
       console.log(session)
+      SpotifyRemote.connect(session.accessToken)
+      .then(() => {
+        SpotifyRemote.playUri("spotify:track:6IA8E2Q5ttcpbuahIejO74")
+      })
+      .catch(error => console.log(error))
     })
     .catch(error => console.log(error))
   };
