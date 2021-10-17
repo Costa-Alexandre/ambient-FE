@@ -20,7 +20,7 @@ export default function Home() {
 
   const dummyLiveShowList = [
     {
-      key: 1, 
+      key: '1', 
       showTitle: "SHOW NAME",
       showName: "Show Name",
       showDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. fejspo eos jo o oeo",
@@ -29,7 +29,7 @@ export default function Home() {
       imageUri: "https://f4.bcbits.com/img/a1024330960_10.jpg",
     },
     {
-      key: 21, 
+      key: '2', 
       showTitle: "SHOW NAME 2",
       showName: "Show Name 2",
       showDescription: "Consectetur adipiscing elit. fejspo eos jo o oeo",
