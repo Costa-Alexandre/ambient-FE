@@ -2,7 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Login from '../screens/App/Login';
-import Home from '../screens/App/Home';
+import tabNavigator from './tabNavigator'
 
 export default function NavigatorMain() {
 
@@ -19,8 +19,8 @@ export default function NavigatorMain() {
           component={Login}
           options={{ title: 'Login / Sign Up'}} />
         <Stack.Screen 
-          name="Home" 
-          component={Home} 
+          name="App" 
+          component={tabNavigator} 
           />
       </Stack.Navigator>
     )

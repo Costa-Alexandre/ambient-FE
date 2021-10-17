@@ -47,7 +47,7 @@ export default function Login({ navigation }) {
           title='Continue with Spotify'
           color='accent' 
           size='loginButton' 
-          callback={onPress('Home')}
+          callback={onPress('App')}
         />
         <CustomButton 
           title='Sign up without Spotify'
