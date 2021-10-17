@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from '../screens/App/Home';
 import CustomIcon from '../components/icons/CustomIcons';
+import { colorStyles } from '../styles/colorStyles';
 
 const Tab = createBottomTabNavigator();
 
@@ -11,21 +12,13 @@ export default function App() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused }) => {
-            let iconName;
-
-            if (route.name === 'Home') {
-              iconName = focused
-                ? ''
-                : '';
-            } else if (route.name === 'Settings') {
-              iconName = focused ? '' : '';
-            }
-
-            // You can return any component that you like here!
-            return <CustomIcon name={route.name} size={20} color='#000' />;
+            let iconColor = focused ? 'white': '#ffffff50';
+            return <CustomIcon name={route.name} size={20} color={iconColor} />;
           },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
+          tabBarInactiveBackgroundColor: '#1b1b1fff',
+          tabBarActiveBackgroundColor: '#1b1b1fff',
+          tabBarShowLabel: false,
+          headerShown: false,
         })}
       >
         <Tab.Screen name="home" component={Home} />

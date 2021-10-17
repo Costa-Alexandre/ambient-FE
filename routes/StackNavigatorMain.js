@@ -20,7 +20,7 @@ export default function NavigatorMain() {
           options={{ title: 'Login / Sign Up'}} />
         <Stack.Screen 
           name="App" 
-          component={tabNavigator} 
+          component={tabNavigator}
           />
       </Stack.Navigator>
     )
