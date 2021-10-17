@@ -24,15 +24,16 @@ const spotifyConfig = {
 export default function Login({ navigation }) {
 
   const onPress = (screen) => (e) => {
-    // navigation.navigate(screen);
-    // console.log(screen);
+    
 
     SpotifyAuth.authorize(spotifyConfig)
     .then(session => {
       console.log(session)
       SpotifyRemote.connect(session.accessToken)
       .then(() => {
-        SpotifyRemote.playUri("spotify:track:6IA8E2Q5ttcpbuahIejO74")
+        // SpotifyRemote.playUri("spotify:track:6IA8E2Q5ttcpbuahIejO74")
+        navigation.navigate(screen);
+        console.log(screen);
       })
       .catch(error => console.log(error))
     })
