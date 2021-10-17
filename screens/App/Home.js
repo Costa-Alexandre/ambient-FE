@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import Menu from '../../components/menu/Menu';
 import LiveShow from '../../components/shows/LiveShow';
 import Stories from '../../components/shows/Stories';
@@ -8,6 +9,7 @@ import {
 	remote as SpotifyRemote, 
 } from 'react-native-spotify-remote';
 import PlayingSong from '../../components/music/PlayingSong';
+
 
 export default function Home() {
 
@@ -46,26 +48,28 @@ export default function Home() {
     return (
       <View style={styles.container}>
         <Menu user={dummyUser} callback={dummyOnPressHandler}/>
-        <View style={styles.stories}>
-          <Stories />
-        </View>
-        <View style={styles.liveShow}>
-          <FlatList
-            data={dummyLiveShowList}
-            renderItem={({ item }) => (
-            <View style={styles.liveShowItem}>
-              <LiveShow
-              showTitle={item.showTitle}
-              showName={item.showName}
-              showDescription={item.showDescription}
-              amountSpeakers={item.amountSpeakers}
-              amountListeners={item.amountListeners}
-              imageUri={item.imageUri}
-              />
-            </View>
-            )}
-          />
-        </View>
+          <View style={styles.liveShow}>
+            <FlatList
+              data={dummyLiveShowList}
+              ListHeaderComponent={
+                <View style={styles.stories}>
+                  <Stories />
+                </View>
+                }
+              renderItem={({ item }) => (
+              <View style={styles.liveShowItem}>
+                <LiveShow
+                showTitle={item.showTitle}
+                showName={item.showName}
+                showDescription={item.showDescription}
+                amountSpeakers={item.amountSpeakers}
+                amountListeners={item.amountListeners}
+                imageUri={item.imageUri}
+                />
+              </View>
+              )}
+            />
+          </View>
         <PlayingSong uri={dummyPlayingSongUri} />
       </View>
     );
@@ -75,13 +79,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-    justifyContent: 'flex-start',
   },
   stories: {
     marginVertical: 16,
   },
   liveShow: {
-    margin: 16,
+    marginHorizontal: 16,
     flex: 1,
   },
   liveShowItem: {
