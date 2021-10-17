@@ -4,12 +4,16 @@ import Menu from '../../components/menu/Menu';
 import LiveShow from '../../components/shows/LiveShow';
 import Stories from '../../components/shows/Stories';
 
+import { 
+	remote as SpotifyRemote, 
+} from 'react-native-spotify-remote';
+
 export default function Home() {
 
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Menu />
+          <Menu callback={() => {SpotifyRemote.playUri("spotify:track:6IA8E2Q5ttcpbuahIejO74")}}/>
           <View style={styles.stories}>
             <Stories />
           </View>
