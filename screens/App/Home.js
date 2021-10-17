@@ -7,6 +7,7 @@ import Stories from '../../components/shows/Stories';
 import { 
 	remote as SpotifyRemote, 
 } from 'react-native-spotify-remote';
+import PlayingSong from '../../components/music/PlayingSong';
 
 export default function Home() {
 
@@ -39,6 +40,8 @@ export default function Home() {
     },
   ]
 
+  const dummyPlayingSongUri = "https://f4.bcbits.com/img/a1024330960_10.jpg"
+
 
     return (
       <View style={styles.container}>
@@ -63,6 +66,7 @@ export default function Home() {
             )}
           />
         </View>
+        <PlayingSong uri={dummyPlayingSongUri} />
       </View>
     );
 }
