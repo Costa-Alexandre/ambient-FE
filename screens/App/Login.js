@@ -9,6 +9,22 @@ import {
 	ApiConfig
 } from 'react-native-spotify-remote';
 
+import io from "socket.io-client";
+import Peer from 'react-native-peerjs';
+
+const socket = io("http://192.168.178.22:3001")
+
+const myPeer = new Peer(undefined, {
+  host: "192.168.178.22",
+  port: "3001",
+  secure: false
+});
+
+
+socket.on("user-connected", (userId) => {
+  console.log(userId)
+});
+
 
 const spotifyConfig = {
 	clientID: "e471ac902dc247bd89e4f85b38661ca7",
