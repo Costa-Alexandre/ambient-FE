@@ -1,17 +1,48 @@
-import axios from 'react-native-axios';
+const serverBaseUrl = "http://192.168.178.22:3000" // replace this ip adress with your local ip or the deployed servers address
 
 
-const baseUrl = "http://192.168.178.22:3000" // replace this ip adress with your local ip or the deployed servers address
+export const userIsSignedUp = async (username) => {
+    try {
+        const response = await fetch(`${serverBaseUrl}/api/user/${username}`)
+        const userData = await response.json()
+        return userData !== null
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 
-export const signInUser = (userData) => {
-    const key = "test3"
-    const data = { token: key, firstName: key, lastName: key, username: key, email: key, avatar: key }
+export const signUpUser = async (spotifyData) => {
+    const signUpData = { 
+        displayName: spotifyData.display_name,
+        username: spotifyData.id,
+        email: spotifyData.email,
+        avatar: ""
+    }
 
-    axios.post(`${baseUrl}/api/user`, data)
-    .then(result => {
-        console.log(result)
-    })
-    .catch(error => console.log(error))
+    try {
+        const response = await fetch(`${serverBaseUrl}/api/user`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(signUpData)
+        })
+        const userData = await response.json()
+        return userData
+    } catch (error) {
+        console.log(error)
+    }
+}
 
+
+export const signInUser = async (username) => {
+    try {
+        const response = await fetch(`${serverBaseUrl}/api/user/${username}`)
+        const userData = await response.json()
+        return userData
+    } catch (error) {
+        console.log(error)
+    }
 }
