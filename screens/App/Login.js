@@ -12,19 +12,25 @@ import {
 import io from "socket.io-client";
 import Peer from 'react-native-peerjs';
 
-const socket = io("http://192.168.178.22:3001")
+// Socket.io code
+const socket = io("http://192.168.0.157:3001");
 
-const myPeer = new Peer(undefined, {
-  host: "192.168.178.22",
-  port: "3001",
-  secure: false
+socket.on("peer_id", peer_id => {
+  myPeer.connect(peer_id);
 });
 
+// Peer.js code
 
-socket.on("user-connected", (userId) => {
-  console.log(userId)
+const myPeer = new Peer({
+  host: "0.peerjs.com",
+  port: 443,
+  path: "/",
 });
 
+myPeer.on('open', id => socket.emit('peer_id', id));
+myPeer.on('connection', () => console.log('peers connected'));
+
+// Spotify code
 
 const spotifyConfig = {
 	clientID: "e471ac902dc247bd89e4f85b38661ca7",
@@ -36,6 +42,7 @@ const spotifyConfig = {
   ]
 }
 
+// React code
 
 export default function Login({ navigation }) {
 
@@ -44,7 +51,7 @@ export default function Login({ navigation }) {
 
     SpotifyAuth.authorize(spotifyConfig)
     .then(session => {
-      console.log(session)
+      console.log(`session: ${session.accessToken}`)
       SpotifyRemote.connect(session.accessToken)
       .then(() => {
         // SpotifyRemote.playUri("spotify:track:6IA8E2Q5ttcpbuahIejO74")
