@@ -34,7 +34,7 @@ myPeer.on('connection', () => console.log('peers connected'));
 
 const spotifyConfig = {
 	clientID: "e471ac902dc247bd89e4f85b38661ca7",
-	redirectURL: "modradio://auth",
+	redirectURL: "ambient://auth",
 	tokenRefreshURL: "https://modradio-test.glitch.me/refresh",
 	tokenSwapURL: "https://modradio-test.glitch.me/swap",
 	scopes: [

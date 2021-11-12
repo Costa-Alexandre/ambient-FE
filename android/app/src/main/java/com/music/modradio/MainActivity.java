@@ -1,4 +1,4 @@
-package com.music.modradio;
+package com.music.ambient;
 import android.content.res.Configuration;
 import android.content.Intent;
 

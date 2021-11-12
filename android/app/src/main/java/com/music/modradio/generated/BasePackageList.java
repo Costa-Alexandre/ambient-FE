@@ -1,4 +1,4 @@
-package com.music.modradio.generated;
+package com.music.ambient.generated;
 
 import java.util.Arrays;
 import java.util.List;
