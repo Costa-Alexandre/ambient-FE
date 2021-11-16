@@ -9,26 +9,7 @@ import {
 	ApiConfig
 } from 'react-native-spotify-remote';
 
-import io from "socket.io-client";
-import Peer from 'react-native-peerjs';
 
-// Socket.io code
-const socket = io("http://192.168.0.157:3001");
-
-socket.on("peer_id", peer_id => {
-  myPeer.connect(peer_id);
-});
-
-// Peer.js code
-
-const myPeer = new Peer({
-  host: "0.peerjs.com",
-  port: 443,
-  path: "/",
-});
-
-myPeer.on('open', id => socket.emit('peer_id', id));
-myPeer.on('connection', () => console.log('peers connected'));
 
 // Spotify code
 
@@ -51,7 +32,6 @@ export default function Login({ navigation }) {
 
     SpotifyAuth.authorize(spotifyConfig)
     .then(session => {
-      console.log(`session: ${session.accessToken}`)
       SpotifyRemote.connect(session.accessToken)
       .then(() => {
         navigation.navigate(screen);
