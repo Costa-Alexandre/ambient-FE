@@ -54,7 +54,6 @@ export default function Login({ navigation }) {
       console.log(`session: ${session.accessToken}`)
       SpotifyRemote.connect(session.accessToken)
       .then(() => {
-        // SpotifyRemote.playUri("spotify:track:6IA8E2Q5ttcpbuahIejO74")
         navigation.navigate(screen);
         console.log(screen);
       })
@@ -76,7 +75,6 @@ export default function Login({ navigation }) {
           title='Sign up without Spotify'
           color='buttonSolid' 
           size='loginButton' 
-          // callback={onPress('')}
         />
       </View>
     );

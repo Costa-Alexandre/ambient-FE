@@ -2,6 +2,7 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Login from '../screens/App/Login';
+import Show from '../screens/App/Show';
 import tabNavigator from './tabNavigator'
 
 export default function NavigatorMain() {
@@ -22,6 +23,10 @@ export default function NavigatorMain() {
           name="App" 
           component={tabNavigator}
           />
+          {/* <Stack.Screen 
+          name="Show" 
+          component={Show}
+          /> */}
       </Stack.Navigator>
     )
 }
