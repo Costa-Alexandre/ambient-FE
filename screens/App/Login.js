@@ -64,7 +64,7 @@ export default function Login({ navigation }) {
 
     return (
       <View style={styles.container}>
-        <Text style={{color: 'white'}}>The Real App</Text>
+        <Text style={{color: 'white'}}>ambient</Text>
         <CustomButton 
           title='Continue with Spotify'
           color='accent' 

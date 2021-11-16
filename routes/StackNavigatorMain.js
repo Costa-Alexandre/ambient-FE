@@ -23,10 +23,10 @@ export default function NavigatorMain() {
           name="App" 
           component={tabNavigator}
           />
-          {/* <Stack.Screen 
+          <Stack.Screen 
           name="Show" 
           component={Show}
-          /> */}
+          />
       </Stack.Navigator>
     )
 }

@@ -41,7 +41,7 @@ export default function Home({ navigation }) {
 
     return (
       <View style={styles.container}>
-        <Menu user={dummyUser} callback={dummyOnPressHandler}/>
+        <Menu user={dummyUser} />
           <View style={styles.liveShow}>
             <FlatList
               data={dummyLiveShowList}
@@ -60,7 +60,7 @@ export default function Home({ navigation }) {
                 amountSpeakers={item.amountSpeakers}
                 amountListeners={item.amountListeners}
                 imageUri={item.imageUri}
-                // listenCallback={navigation.navigate('Show')}
+                listenCallback={() => navigation.navigate('Show', item.key)}
                 />
               </View>
               )}

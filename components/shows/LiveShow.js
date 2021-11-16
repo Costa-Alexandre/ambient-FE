@@ -54,7 +54,7 @@ export default function LiveShow({
       {userInfo()}
 
       <View style={styles.buttonRowContainer}>
-        <CustomButton title="Listen" color="buttonSolid" size="normalMediumWide" callback={() => listenCallback} />
+        <CustomButton title="Listen" color="buttonSolid" size="normalMediumWide" callback={listenCallback}/>
 
         <View style={styles.userImageContainer}>
           {users.map(user => <View style={styles.userImage}>
