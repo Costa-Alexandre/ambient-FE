@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useRef } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import CustomButton from '../../components/buttons/CustomButton';
+import { Modalize } from 'react-native-modalize';
 
 import {remote as SpotifyRemote} from 'react-native-spotify-remote';
 
@@ -45,14 +46,46 @@ export default function Show({ route: {params: showId} }) {
     SpotifyRemote.playUri("spotify:track:4cY1UR4UCWzXqGm9lMvnQC")
   }
 
+  
+  const modalizeRef = useRef(null);
+  
+  const onOpen = () => {
+    modalizeRef.current?.open();
+  };
+  
+  const renderContent = () => (
+    <View>
+    <Text>Modal</Text>
+    <Text>2- Modal</Text>
+    <Text>Modalize</Text>
+  </View>
+  );
+  
   socketConnection(showId);
 
-    return (
+  return (
+    <>
       <View style={styles.container}>
+        <TouchableOpacity onPress={onOpen}>
+          <Text style={styles.text}>Open the modal</Text>
+        </TouchableOpacity>
         <Text style={styles.text}>{`${showId}`}</Text> 
         <CustomButton icon="play" callback={dummyOnPressHandler} />
       </View>
-    );
+
+      <Modalize 
+        ref={modalizeRef}
+        alwaysOpen={100}
+        // withHandle={false}
+        HeaderComponent={() => <Text>Header</Text>}
+        FooterComponent={() => <Text>Footer</Text>}
+        modalHeight={300}
+        withOverlay={false}
+      >
+        {renderContent()}
+      </Modalize>
+    </>
+  );
 }
 
 const styles = StyleSheet.create({
