@@ -132,7 +132,7 @@ android {
     }
 
     defaultConfig {
-        applicationId 'com.music.modradio'
+        applicationId 'com.music.ambient'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

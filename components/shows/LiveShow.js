@@ -9,7 +9,17 @@ import UserPicture from '../userProfiles/UserPicture';
 import PlayingSong from '../music/PlayingSong';
 
 
-export default function LiveShow({ showTitle="", showName="", imageUri=null, showDescription="", amountSpeakers="", amountListeners="", users=[] }) {
+export default function LiveShow({ 
+  showId="",
+  showTitle="",
+  showName="",
+  showDescription="",
+  amountSpeakers="",
+  amountListeners="",
+  imageUri=null,
+  users=[], 
+  listenCallback=null
+}) {
 
   const userInfo = () => {
     return (
@@ -44,7 +54,7 @@ export default function LiveShow({ showTitle="", showName="", imageUri=null, sho
       {userInfo()}
 
       <View style={styles.buttonRowContainer}>
-        <CustomButton title="Listen" color="buttonSolid" size="normalMediumWide"/>
+        <CustomButton title="Listen" color="buttonSolid" size="normalMediumWide" callback={listenCallback}/>
 
         <View style={styles.userImageContainer}>
           {users.map(user => <View style={styles.userImage}>

@@ -1,24 +1,18 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import Menu from '../../components/menu/Menu';
+import MenuHome from '../../components/menu/MenuHome'
 import LiveShow from '../../components/shows/LiveShow';
 import Stories from '../../components/shows/Stories';
 
-import { 
-	remote as SpotifyRemote, 
-} from 'react-native-spotify-remote';
+
 import PlayingSong from '../../components/music/PlayingSong';
 
 
-export default function Home() {
+export default function Home({ navigation }) {
 
   const dummyUser = {
     avatar: "https://images.unsplash.com/photo-1631701119265-33ca2b80d00d?ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDEyfHRvd0paRnNrcEdnfHxlbnwwfHx8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60",
-  }
-
-  const dummyOnPressHandler = () => {
-    SpotifyRemote.playUri("spotify:track:4cY1UR4UCWzXqGm9lMvnQC")
   }
 
   const dummyLiveShowList = [
@@ -47,7 +41,7 @@ export default function Home() {
 
     return (
       <View style={styles.container}>
-        <Menu user={dummyUser} callback={dummyOnPressHandler}/>
+        <MenuHome user={dummyUser} />
           <View style={styles.liveShow}>
             <FlatList
               data={dummyLiveShowList}
@@ -59,12 +53,14 @@ export default function Home() {
               renderItem={({ item }) => (
               <View style={styles.liveShowItem}>
                 <LiveShow
+                showId={item.key}
                 showTitle={item.showTitle}
                 showName={item.showName}
                 showDescription={item.showDescription}
                 amountSpeakers={item.amountSpeakers}
                 amountListeners={item.amountListeners}
                 imageUri={item.imageUri}
+                listenCallback={() => navigation.navigate('Show', item.key)}
                 />
               </View>
               )}

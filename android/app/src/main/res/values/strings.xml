@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <resources>
-  <string name="app_name">ModRadio</string>
+  <string name="app_name">ambient</string>
+  <string name="expo_splash_screen_resize_mode">native</string>
 </resources>

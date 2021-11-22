@@ -1,4 +1,4 @@
-package com.music.modradio;
+package com.music.ambient;
 
 import com.reactlibrary.RNSpotifyRemotePackage;
 import com.lufinkey.react.eventemitter.RNEventEmitterPackage;
@@ -14,7 +14,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.music.modradio.generated.BasePackageList;
+import com.music.ambient.generated.BasePackageList;
 
 import org.unimodules.adapters.react.ReactAdapterPackage;
 import org.unimodules.adapters.react.ModuleRegistryAdapter;
@@ -112,7 +112,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.music.modradio.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.music.ambient.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);
