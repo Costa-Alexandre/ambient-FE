@@ -7,7 +7,6 @@ import Peer from 'react-native-peerjs';
 import { Modalize } from 'react-native-modalize';
 import {remote as SpotifyRemote} from 'react-native-spotify-remote';
 import ShowInfo from '../../components/shows/ShowInfo';
-import MenuShow from '../../components/menu/MenuShow';
 
 
 const socketConnection = (roomId) => {
@@ -87,21 +86,23 @@ export default function Show({ route: {params: showId} }) {
     }
   ]
 
-  const image = { uri: 'https://f4.bcbits.com/img/a1024330960_10.jpg'}
+  const dummyBGImage = { uri: 'https://f4.bcbits.com/img/a1024330960_10.jpg'}
+
+  const dummyShowInfo = {
+    showId: "1",
+    showTitle: "SHOW NAME",
+    showName: "Some show",
+    showDescription: "this is a description",
+    amountSpeakers: "10",
+    amountListeners: "20",
+    imageUri: dummyBGImage.uri,
+    users: [], 
+    listenCallback: null
+  }
 
   return (
     <>
-    <View style={[styles.container, {backgroundColor: '#404040'}]}>
-      <ImageBackground 
-          source={image} 
-          imageStyle={{opacity:0.1}} 
-          style={styles.image}
-        >
-          <MenuShow />
-          <Text style={styles.text}>{`Show ${showId}`}</Text>
-          <CustomButton icon="play" callback={dummyOnPressHandler} />
-      </ImageBackground>
-    </View>
+      <ShowInfo {...dummyShowInfo} />
 
       <Modalize 
         ref={modalizeRef}
@@ -128,18 +129,8 @@ export default function Show({ route: {params: showId} }) {
 }
 
 const styles = StyleSheet.create({
-  text: {
-    textAlign: 'center',
-    color: 'white',
-  },
   rootModalize: {
     backgroundColor: '#000',
     flex: 1,
   },
-  image: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-  }
 });

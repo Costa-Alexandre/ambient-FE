@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     padding: 0,
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 10,
     marginBottom: 20,
   },
   leftMenu: {
