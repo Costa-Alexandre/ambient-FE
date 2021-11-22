@@ -4,7 +4,7 @@ import CustomButton from '../buttons/CustomButton';
 import UserPicture from '../userProfiles/UserPicture';
 
 
-export default function Menu({ user, size=40, callback=null }) {
+export default function MenuHome({ user, size=40, callback=null }) {
 
   return (
     <View style={styles.container}>

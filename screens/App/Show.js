@@ -7,6 +7,7 @@ import Peer from 'react-native-peerjs';
 import { Modalize } from 'react-native-modalize';
 import {remote as SpotifyRemote} from 'react-native-spotify-remote';
 import ShowInfo from '../../components/shows/ShowInfo';
+import MenuShow from '../../components/menu/MenuShow';
 
 
 const socketConnection = (roomId) => {
@@ -90,13 +91,13 @@ export default function Show({ route: {params: showId} }) {
 
   return (
     <>
-    <View style={[styles.outerContainer, {backgroundColor: '#404040'}]}>
+    <View style={[styles.container, {backgroundColor: '#404040'}]}>
       <ImageBackground 
           source={image} 
           imageStyle={{opacity:0.1}} 
-          resizeMode="cover"
           style={styles.image}
         >
+          <MenuShow />
           <Text style={styles.text}>{`Show ${showId}`}</Text>
           <CustomButton icon="play" callback={dummyOnPressHandler} />
       </ImageBackground>
@@ -127,10 +128,6 @@ export default function Show({ route: {params: showId} }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-  },
   text: {
     textAlign: 'center',
     color: 'white',
@@ -141,10 +138,8 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    alignItems: 'center',
-    padding: 8,
   },
-  outerContainer: {
+  container: {
     flex: 1,
   }
 });

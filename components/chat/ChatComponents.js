@@ -20,7 +20,7 @@ export function ChatHeader({ open, callback }) {
             callback(!isOpen);
           }}
         >
-          <CustomIcon name='arrow_left' size={20} color='#fff'/>
+          <CustomIcon name='arrow_left' size={20} color={colorStyles.text} />
         </TouchableOpacity>
     </View>
   );
