@@ -9,17 +9,24 @@ import {
 	ApiConfig
 } from 'react-native-spotify-remote';
 
+import { spotifyGetMe } from '../../api/spotify';
+import { signInUser, signUpUser, userIsSignedUp } from '../../api/users';
+
+
+const serverBaseUrl = "http://192.168.178.22:3000"
 
 
 // Spotify code
 
 const spotifyConfig = {
 	clientID: "e471ac902dc247bd89e4f85b38661ca7",
-	redirectURL: "ambient://auth",
-	tokenRefreshURL: "https://modradio-test.glitch.me/refresh",
-	tokenSwapURL: "https://modradio-test.glitch.me/swap",
+	redirectURL: "modradio://auth",
+	tokenRefreshURL: `${serverBaseUrl}/refresh`,
+	tokenSwapURL: `${serverBaseUrl}/swap`,
 	scopes: [
-    ApiScope.AppRemoteControlScope, ApiScope.UserFollowReadScope
+    ApiScope.AppRemoteControlScope,
+    ApiScope.UserFollowReadScope,
+    ApiScope.UserReadEmailScope
   ]
 }
 
@@ -27,8 +34,29 @@ const spotifyConfig = {
 
 export default function Login({ navigation }) {
 
-  const onPress = (screen) => (e) => {
-    
+  const signIn = async (e) => {
+    try {
+      const session = await SpotifyAuth.authorize(spotifyConfig)
+      await SpotifyRemote.connect(session.accessToken)
+
+      const spotifyData = await spotifyGetMe()
+      const username = spotifyData.id
+
+      const isSignedUp = await userIsSignedUp(username)
+
+      let userData = null
+      if (isSignedUp) {
+        userData = await signInUser(username)
+        console.log("sign in")
+      } else {
+        userData = await signUpUser(spotifyData)
+        console.log("sign up")
+      }
+
+      // The user is signed in now
+      // NOTE: We have our own user data + the spotify user data at this point and can use it in the app
+      console.log(userData)
+      navigation.navigate('App')
 
     SpotifyAuth.authorize(spotifyConfig)
     .then(session => {
