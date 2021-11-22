@@ -58,34 +58,21 @@ export default function Login({ navigation }) {
       console.log(userData)
       navigation.navigate('App')
 
-    SpotifyAuth.authorize(spotifyConfig)
-    .then(session => {
-      SpotifyRemote.connect(session.accessToken)
-      .then(() => {
-        navigation.navigate(screen);
-        console.log(screen);
-      })
-      .catch(error => console.log(error))
-    })
-    .catch(error => console.log(error))
+    } catch (error) {
+      console.log(error)
+    }
   };
 
-    return (
-      <View style={styles.container}>
-        <Text style={{color: 'white'}}>ambient</Text>
-        <CustomButton 
-          title='Continue with Spotify'
-          color='accent' 
-          size='loginButton' 
-          callback={onPress('App')}
-        />
-        <CustomButton 
-          title='Sign up without Spotify'
-          color='buttonSolid' 
-          size='loginButton' 
-        />
-      </View>
-    );
+  return (
+    <View style={styles.container}>
+      <CustomButton 
+        title='Continue with Spotify'
+        color='accent' 
+        size='loginButton' 
+        callback={signIn}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
