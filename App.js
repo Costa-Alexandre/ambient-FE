@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
-import MyDrawer from './routes/DrawerNavigator';
+import StackNavigatorMain from './routes/StackNavigatorMain'
 
 // Load custom fonts from the assets folder
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
 
   if (fontsLoaded) {
     return (
-      <MyDrawer />
+      <StackNavigatorMain />
     );
   } else {
     return (
