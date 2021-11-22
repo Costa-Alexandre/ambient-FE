@@ -1,12 +1,12 @@
-import React, { useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ImageBackground } from 'react-native';
 import CustomButton from '../../components/buttons/CustomButton';
-import { Modalize } from 'react-native-modalize';
-
-import {remote as SpotifyRemote} from 'react-native-spotify-remote';
-
+import { ChatInput, ChatHeader, ChatComment } from '../../components/chat/ChatComponents';
 import io from "socket.io-client";
 import Peer from 'react-native-peerjs';
+import { Modalize } from 'react-native-modalize';
+import {remote as SpotifyRemote} from 'react-native-spotify-remote';
+import ShowInfo from '../../components/shows/ShowInfo';
 
 
 const socketConnection = (roomId) => {
@@ -25,7 +25,7 @@ const socketConnection = (roomId) => {
   });
 
   myPeer.on('open', id => {
-    console.log(`myPeer opened with id: ${id}`);
+    // console.log(`myPeer opened with id: ${id}`);
     socket.emit('peer_id', id, roomId);
   });
 
@@ -42,59 +42,95 @@ const socketConnection = (roomId) => {
 
 export default function Show({ route: {params: showId} }) {
 
+  
+  const modalizeRef = useRef(null);
+  
+  const onToggle = (chatOpen) => {
+    if(chatOpen) {
+      // open chat modal
+      modalizeRef.current?.open('top');
+    } else {
+      // close chat modal
+      modalizeRef.current?.close('alwaysOpen');
+    }
+    
+  };
+  
+  socketConnection(showId);
+  
+  const [chatOpen, setChatOpen] = useState(false)
+  
+  useEffect(() => {
+    onToggle(chatOpen);
+  }, [chatOpen])
+  
+
+  // Dummy variables - DELETE
+
   const dummyOnPressHandler = () => {
     SpotifyRemote.playUri("spotify:track:4cY1UR4UCWzXqGm9lMvnQC")
   }
 
-  
-  const modalizeRef = useRef(null);
-  
-  const onOpen = () => {
-    modalizeRef.current?.open();
-  };
-  
-  const renderContent = () => (
-    <View>
-    <Text>Modal</Text>
-    <Text>2- Modal</Text>
-    <Text>Modalize</Text>
-  </View>
-  );
-  
-  socketConnection(showId);
+  const dummyMessages = [
+    {
+      key:'1', 
+      imageUri: "https://randomuser.me/api/portraits/men/1.jpg",
+      username: 'Username', 
+      payload: 'Comment text'
+    },
+    {
+      key:'2',
+      imageUri: "https://randomuser.me/api/portraits/women/1.jpg",
+      username: 'Username',
+      payload: 'Comment text'
+    }
+  ]
+
+  const dummyBGImage = { uri: 'https://f4.bcbits.com/img/a1024330960_10.jpg'}
+
+  const dummyShowInfo = {
+    showId: "1",
+    showTitle: "SHOW NAME",
+    showName: "Some show",
+    showDescription: "this is a description",
+    amountSpeakers: "10",
+    amountListeners: "20",
+    imageUri: dummyBGImage.uri,
+    users: [], 
+    listenCallback: null
+  }
 
   return (
     <>
-      <View style={styles.container}>
-        <TouchableOpacity onPress={onOpen}>
-          <Text style={styles.text}>Open the modal</Text>
-        </TouchableOpacity>
-        <Text style={styles.text}>{`${showId}`}</Text> 
-        <CustomButton icon="play" callback={dummyOnPressHandler} />
-      </View>
+      <ShowInfo {...dummyShowInfo} />
 
       <Modalize 
         ref={modalizeRef}
-        alwaysOpen={100}
-        // withHandle={false}
-        HeaderComponent={() => <Text>Header</Text>}
-        FooterComponent={() => <Text>Footer</Text>}
-        modalHeight={300}
+        alwaysOpen={140}
+        withHandle={false}
+        HeaderComponent={() => <ChatHeader open={false} callback={(state) => setChatOpen(state)} />}
+        FooterComponent={() => <ChatInput />}
+        modalHeight={404}
         withOverlay={false}
+        modalStyle={styles.rootModalize}
+        flatListProps={{
+          data: dummyMessages,
+          renderItem: ({ item }) => 
+            <ChatComment 
+              imageUri={item.imageUri} 
+              username={item.username}
+              payload={item.payload}
+            />
+        }}
       >
-        {renderContent()}
       </Modalize>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  rootModalize: {
     backgroundColor: '#000',
+    flex: 1,
   },
-  text: {
-    textAlign: 'center',
-    color: 'white',
-  }
 });

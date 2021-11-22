@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import Menu from '../../components/menu/Menu';
+import MenuHome from '../../components/menu/MenuHome'
 import LiveShow from '../../components/shows/LiveShow';
 import Stories from '../../components/shows/Stories';
 
@@ -41,7 +41,7 @@ export default function Home({ navigation }) {
 
     return (
       <View style={styles.container}>
-        <Menu user={dummyUser} />
+        <MenuHome user={dummyUser} />
           <View style={styles.liveShow}>
             <FlatList
               data={dummyLiveShowList}

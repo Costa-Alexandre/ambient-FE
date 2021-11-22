@@ -60,7 +60,7 @@ export default function UserStage({uri=null, callback=null, username="...", isMu
         </View>
       </View>
       <Text style={[
-        fontStyles.subtitle,
+        fontStyles.subtext,
         styles.username]} numberOfLines={1} ellipsizeMode={"tail"}>{username}</Text>
     </TouchableOpacity>
   );
