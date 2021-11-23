@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import CustomButton from "../../../ui/CustomButton";
-import CustomIcon from "../../../ui/CustomIcons";
+import CustomIcon from "../../../ui/CustomIcon";
 import { fontStyles } from "../../../styles/fontStyles";
 import { colorStyles } from "../../../styles/colorStyles";
 

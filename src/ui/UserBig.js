@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import CustomIcon from './CustomIcons';
-import { colorStyles } from '../styles/colorStyles';
+import { CustomIcon } from 'ui';
+import { colorStyles } from 'styles/colorStyles';
 
 import Svg, { Path, Mask, Image as SVGImage, Rect } from "react-native-svg"
 

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import { useState } from 'react';
 import { colorStyles } from '../../../styles/colorStyles'
 import { fontStyles } from '../../../styles/fontStyles'
-import CustomIcon from '../../../ui/CustomIcons';
+import CustomIcon from '../../../ui/CustomIcon';
 import UserPicture from '../../../ui/UserPicture';
 
 export function ChatHeader({ open, callback }) {

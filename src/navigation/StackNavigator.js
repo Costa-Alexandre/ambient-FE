@@ -2,8 +2,8 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import Login from '../screens/Login/Login';
-import Show from '../screens/Show/Show';
+import Login from 'screens/login/Login';
+import Show from 'screens/show/Show';
 import tabNavigator from './TabNavigator'
 
 export default function NavigatorMain() {

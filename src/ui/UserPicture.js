@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { colorStyles } from '../styles/colorStyles';
+import { colorStyles } from 'styles/colorStyles';
 
 export default function UserPicture({uri=null, callback=null, size=20}) {
 

@@ -1,12 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import MenuHome from './components/MenuHome'
-import LiveShow from './components/LiveShow';
-import Stories from './components/Stories';
-
-
-import PlayingSong from '../../ui/PlayingSong';
+import { MenuHome, Stories, LiveShow } from './components';
+import { PlayingSong } from 'ui';
 
 
 export default function Home({ navigation }) {

@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import Home from '../screens/Home/Home';
-import CustomIcon from '../ui/CustomIcons';
-import { colorStyles } from '../styles/colorStyles';
+import Home from 'screens/home/Home';
+import CustomIcon from 'ui/CustomIcon';
+import { colorStyles } from 'styles/colorStyles';
 
 const Tab = createBottomTabNavigator();
 

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
-import { colorStyles } from '../styles/colorStyles';
-import { fontStyles } from '../styles/fontStyles';
-import CustomIcon from './CustomIcons';
+import { colorStyles } from 'styles/colorStyles';
+import { fontStyles } from 'styles/fontStyles';
 
 
 export default function PlayingSong({ uri }) {

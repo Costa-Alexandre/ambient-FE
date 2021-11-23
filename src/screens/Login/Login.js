@@ -1,16 +1,16 @@
 import React from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
-import CustomButton from '../../ui/CustomButton';
 
 import { 
-	auth as SpotifyAuth, 
+  auth as SpotifyAuth, 
 	remote as SpotifyRemote, 
 	ApiScope, 
 	ApiConfig
 } from 'react-native-spotify-remote';
 
-import { spotifyGetMe } from '../../api/spotify';
-import { signInUser, signUpUser, userIsSignedUp } from '../../api/users';
+import { CustomButton } from 'ui';
+import { spotifyGetMe } from 'api/spotify';
+import { signInUser, signUpUser, userIsSignedUp } from 'api/users';
 
 
 const serverBaseUrl = "http://192.168.178.22:3000"

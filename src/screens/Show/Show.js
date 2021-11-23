@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground } from 'react-native';
-import CustomButton from '../../ui/CustomButton';
-import { ChatInput, ChatHeader, ChatComment } from './components/ChatComponents';
-import io from "socket.io-client";
-import Peer from 'react-native-peerjs';
-import { Modalize } from 'react-native-modalize';
 import {remote as SpotifyRemote} from 'react-native-spotify-remote';
-import ShowInfo from './components/ShowInfo';
+import { Modalize } from 'react-native-modalize';
+import Peer from 'react-native-peerjs';
+import io from "socket.io-client";
+
+import { ShowInfo, ChatInput, ChatHeader, ChatComment } from './components';
+
 
 
 const socketConnection = (roomId) => {
