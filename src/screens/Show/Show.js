@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ImageBackground } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {remote as SpotifyRemote} from 'react-native-spotify-remote';
 import { Modalize } from 'react-native-modalize';
 import Peer from 'react-native-peerjs';

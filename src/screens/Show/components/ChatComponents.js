@@ -1,10 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useState } from 'react';
-import { colorStyles } from '../../../styles/colorStyles'
-import { fontStyles } from '../../../styles/fontStyles'
-import CustomIcon from '../../../ui/CustomIcon';
-import UserPicture from '../../../ui/UserPicture';
+import { colorStyles, fontStyles } from 'styles'
+import { CustomIcon, UserPicture } from 'ui';
 
 export function ChatHeader({ open, callback }) {
 

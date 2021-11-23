@@ -1,10 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, ScrollView } from 'react-native';
-import { colorStyles } from '../../../styles/colorStyles';
-import { fontStyles } from '../../../styles/fontStyles';
-import ShowName from '../../../ui/ShowName';
-import PlayingSong from '../../../ui/PlayingSong';
-import MenuShow from './MenuShow';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { colorStyles, fontStyles } from 'styles';
+import { ShowName, PlayingSong } from 'ui';
+import MenuShow from './MenuShow'
 import LiveUsers from './LiveUsers';
 
 const dummyBGImage = { uri: 'https://f4.bcbits.com/img/a1024330960_10.jpg' }

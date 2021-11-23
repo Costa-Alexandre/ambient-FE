@@ -1,12 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { colorStyles } from '../../../styles/colorStyles';
-import { fontStyles } from '../../../styles/fontStyles';
-import CustomIcon from '../../../ui/CustomIcon';
-import CustomButton from '../../../ui/CustomButton';
-import ShowName from '../../../ui/ShowName';
-import UserPicture from '../../../ui/UserPicture';
-import PlayingSong from '../../../ui/PlayingSong';
+import { StyleSheet, Text, View } from 'react-native';
+import { colorStyles, fontStyles } from 'styles'
+import { CustomIcon, CustomButton, ShowName, UserPicture, PlayingSong } from 'ui';
 
 
 export default function LiveShow({ 

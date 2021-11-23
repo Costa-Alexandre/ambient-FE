@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
-import CustomButton from '../../../ui/CustomButton';
-import UserPicture from '../../../ui/UserPicture';
+import { StyleSheet, View } from 'react-native';
+import { CustomButton, UserPicture } from 'ui';
 
 
 export default function MenuHome({ user, size=40, callback=null }) {

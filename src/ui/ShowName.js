@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { colorStyles } from 'styles/colorStyles';
-import { fontStyles } from 'styles/fontStyles';
-import { CustomIcon } from 'ui';
+import { colorStyles, fontStyles } from 'styles';
+import CustomIcon from './CustomIcon';
 
 
 export default function ShowName({ name }) {

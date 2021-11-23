@@ -1,9 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { buttonStyles } from 'styles/buttonStyles';
-import { colorStyles } from 'styles/colorStyles';
-import { fontStyles } from 'styles/fontStyles';
-import { CustomIcon } from 'ui';
+import { buttonStyles, colorStyles, fontStyles } from 'styles';
+import CustomIcon from './CustomIcon';
 
 export default function CustomButton({ title, color, size, icon, iconSize=20, callback=null, disabled=false }) {
 

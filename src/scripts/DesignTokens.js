@@ -51,7 +51,7 @@ function Colors() {
   // generate json file colors.json
   const myJSON = JSON.stringify(colorsDict);
   let fs = require('fs')
-  fs.writeFile('./styles/colorStyles.json', myJSON, function(err, result) {
+  fs.writeFile('./styles.json', myJSON, function(err, result) {
     if(err) {
       console.log('error', err)
     } else {

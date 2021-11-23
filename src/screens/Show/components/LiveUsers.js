@@ -1,9 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, ScrollView, FlatList } from "react-native";
-import UserStage from "../../../ui/UserStage";
-import UserPicture from "../../../ui/UserPicture";
-import { fontStyles } from "../../../styles/fontStyles";
-import { colorStyles } from "../../../styles/colorStyles";
+import { UserStage, UserPicture } from "ui";
+import { fontStyles, colorStyles } from "styles";
 
 export default function LiveUsers({ stage, requesting, listening}) {
 

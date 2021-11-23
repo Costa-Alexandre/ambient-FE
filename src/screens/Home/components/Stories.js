@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, ScrollView } from 'react-native';
-import UserBig from '../../../ui/UserBig';
+import { StyleSheet, View, FlatList, ScrollView } from 'react-native';
+import { UserBig } from 'ui';
 
 
 export default function Stories({ users }) {
