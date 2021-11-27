@@ -1,13 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import Home from 'screens/home/Home';
+import { Home } from 'screens';
 import { CustomIcon } from 'ui';
-import { colorStyles } from 'styles';
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+export default function TabNavigator() {
   return (
       <Tab.Navigator
         screenOptions={({ route }) => ({

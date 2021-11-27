@@ -56,7 +56,7 @@ export default function Login({ navigation }) {
       // The user is signed in now
       // NOTE: We have our own user data + the spotify user data at this point and can use it in the app
       console.log(userData)
-      navigation.navigate('App')
+      navigation.navigate('Home')
 
     } catch (error) {
       console.log(error)
@@ -72,7 +72,7 @@ export default function Login({ navigation }) {
         color='accent' 
         size='loginButton'
         // DELETE line below and replace by callback={signIn} 
-        callback={ignoreAuth ? () => navigation.navigate('App') : signIn} 
+        callback={ignoreAuth ? () => navigation.navigate('Home') : signIn} 
       />
     </View>
   );

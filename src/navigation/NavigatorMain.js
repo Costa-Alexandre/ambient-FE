@@ -2,9 +2,8 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import Login from 'screens/login/Login';
-import Show from 'screens/show/Show';
-import tabNavigator from './TabNavigator'
+import { Login, Show } from 'screens';
+import TabNavigator from './TabNavigator'
 
 export default function NavigatorMain() {
 
@@ -23,8 +22,8 @@ export default function NavigatorMain() {
           component={Login}
           options={{ title: 'Login / Sign Up'}} />
         <Stack.Screen 
-          name="App" 
-          component={tabNavigator}
+          name="Home" 
+          component={TabNavigator}
           />
           <Stack.Screen 
           name="Show" 

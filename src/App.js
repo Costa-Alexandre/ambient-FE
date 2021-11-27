@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import AppLoading from 'expo-app-loading';
-import StackNavigator from 'navigation/StackNavigator'
+import { NavigatorMain } from 'navigation'
 import { loadFonts } from 'helpers';
 
 
@@ -11,7 +11,7 @@ export default function App() {
     return (
     <>
       {!fontsLoaded && (<AppLoading />)}
-      { fontsLoaded && (<StackNavigator />)}
+      { fontsLoaded && (<NavigatorMain />)}
     </>
     );
 };
