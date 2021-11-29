@@ -71,3 +71,6 @@ buck-out/
 web-build/
 
 # @end expo-cli
+
+# REST Clien
+*.http

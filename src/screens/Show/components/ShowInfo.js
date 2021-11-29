@@ -1,57 +1,59 @@
-import React from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
-import { colorStyles, fontStyles } from 'styles';
-import { ShowName, PlayingSong } from 'ui';
-import MenuShow from './MenuShow'
-import LiveUsers from './LiveUsers';
+import React, { useContext } from "react";
+import { StyleSheet, Text, View, ImageBackground, LogBox } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { colorStyles, fontStyles } from "styles";
+import { ShowName, PlayingSong } from "ui";
+import MenuShow from "./MenuShow";
+import LiveUsers from "./LiveUsers";
+import { MainContext } from "store/MainProvider";
 
-const dummyBGImage = { uri: 'https://f4.bcbits.com/img/a1024330960_10.jpg' }
+const dummyBGImage = { uri: "https://f4.bcbits.com/img/a1024330960_10.jpg" };
+
+//TODO: remove when fixed
+LogBox.ignoreLogs([
+  "VirtualizedLists should never be nested inside plain ScrollViews",
+]);
 
 export default function ShowInfo({
-  showId = "",
+  // showId = "",
   showTitle = "",
   showName = "",
   imageUri = null,
 }) {
+  // DELETE: testing useContext
+  const { user, showId } = useContext(MainContext);
 
+  console.log(showId);
 
   return (
-
-    <View style={[styles.outerContainer, { backgroundColor: '#404040' }]}>
-      
+    <ScrollView style={[styles.outerContainer, { backgroundColor: "#404040" }]}>
       <ImageBackground
         source={dummyBGImage}
         imageStyle={{ opacity: 0.1 }}
         style={styles.image}
       >
         <View style={styles.container}>
-
           <MenuShow />
 
-            <View style={styles.titleContainer}>
-              <ShowName name={showTitle} />
-              <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>{showName}</Text>
-            </View>
+          <View style={styles.titleContainer}>
+            <ShowName name={showTitle} />
+            <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>
+              {showName}
+            </Text>
+          </View>
 
-            <View style={styles.songContainer}>
-              <PlayingSong
-                uri={imageUri}
-              />
-            </View>
+          <View style={styles.songContainer}>
+            <PlayingSong uri={imageUri} />
+          </View>
 
-            <View style={styles.usersContainer}>
-              <LiveUsers />
-            </View>
-        
+          <View style={styles.usersContainer}>
+            <LiveUsers />
+          </View>
         </View>
-
       </ImageBackground>
-    </View>
-
-
+    </ScrollView>
   );
 }
-
 
 const styles = StyleSheet.create({
   outerContainer: {
@@ -59,9 +61,10 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingVertical: 10,
+    paddingBottom: 140,
   },
   titleContainer: {
-    flexDirection: 'column',
+    flexDirection: "column",
     marginHorizontal: 20,
   },
   songContainer: {
@@ -69,12 +72,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   usersContainer: {
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   showName: {
     color: colorStyles.text,
     marginTop: 8,
-    marginBottom: 16
+    marginBottom: 16,
   },
   image: {
     flex: 1,

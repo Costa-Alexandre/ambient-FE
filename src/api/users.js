@@ -1,4 +1,4 @@
-const serverBaseUrl = "http://192.168.178.22:3000" // replace this ip adress with your local ip or the deployed servers address
+import { serverBaseUrl } from "./config"
 
 
 export const userIsSignedUp = async (username) => {
@@ -17,7 +17,7 @@ export const signUpUser = async (spotifyData) => {
         displayName: spotifyData.display_name,
         username: spotifyData.id,
         email: spotifyData.email,
-        avatar: ""
+        avatar: spotifyData.images[0]?.url
     }
 
     try {

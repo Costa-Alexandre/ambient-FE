@@ -1,102 +1,90 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import {remote as SpotifyRemote} from 'react-native-spotify-remote';
-import { Modalize } from 'react-native-modalize';
+import React, { useRef, useState, useEffect } from "react";
+import { StyleSheet } from "react-native";
+import { remote as SpotifyRemote } from "react-native-spotify-remote";
+import { Modalize } from "react-native-modalize";
 
+import { ShowInfo, ChatInput, ChatHeader, ChatComment } from "./components";
 
-import { ShowInfo, ChatInput, ChatHeader, ChatComment } from './components';
-
-
-
-
-
-export default function Show({ route: {params: showId} }) {
-
-  
+export default function Show({ route: { params: showId } }) {
   const modalizeRef = useRef(null);
-  
+
   const onToggle = (chatOpen) => {
-    if(chatOpen) {
+    if (chatOpen) {
       // open chat modal
-      modalizeRef.current?.open('top');
+      modalizeRef.current?.open("top");
     } else {
       // close chat modal
-      modalizeRef.current?.close('alwaysOpen');
+      modalizeRef.current?.close("alwaysOpen");
     }
-    
   };
-  
-  socketConnection(showId);
-  
-  const [chatOpen, setChatOpen] = useState(false)
-  
+
+  const [chatOpen, setChatOpen] = useState(false);
+
   useEffect(() => {
     onToggle(chatOpen);
-  }, [chatOpen])
-  
+  }, [chatOpen]);
 
-  
   return (
     <>
       <ShowInfo {...dummyShowInfo} />
 
-      <Modalize 
+      <Modalize
         ref={modalizeRef}
         alwaysOpen={140}
         withHandle={false}
-        HeaderComponent={() => <ChatHeader open={false} callback={(state) => setChatOpen(state)} />}
+        HeaderComponent={() => (
+          <ChatHeader open={false} callback={(state) => setChatOpen(state)} />
+        )}
         FooterComponent={() => <ChatInput />}
-        modalHeight={404}
+        modalHeight={400}
         withOverlay={false}
         modalStyle={styles.rootModalize}
         flatListProps={{
           data: dummyMessages,
-          renderItem: ({ item }) => 
-            <ChatComment 
-              imageUri={item.imageUri} 
+          renderItem: ({ item }) => (
+            <ChatComment
+              imageUri={item.imageUri}
               username={item.username}
               payload={item.payload}
             />
+          ),
         }}
-      >
-      </Modalize>
+      ></Modalize>
     </>
   );
 }
-
 
 // Styles
 
 const styles = StyleSheet.create({
   rootModalize: {
-    backgroundColor: '#000',
+    backgroundColor: "#000",
     flex: 1,
   },
 });
 
-
 // Dummy variables - DELETE
 
 const dummyOnPressHandler = () => {
-  SpotifyRemote.playUri("spotify:track:4cY1UR4UCWzXqGm9lMvnQC")
-}
+  SpotifyRemote.playUri("spotify:track:4cY1UR4UCWzXqGm9lMvnQC");
+};
 
 const dummyMessages = [
   {
-    key:'1', 
+    key: "1",
     imageUri: "https://randomuser.me/api/portraits/men/1.jpg",
-    username: 'Username', 
-    payload: 'Comment text'
+    username: "Username",
+    payload: "Comment text",
   },
   {
-    key:'2',
+    key: "2",
     imageUri: "https://randomuser.me/api/portraits/women/1.jpg",
-    username: 'Username',
-    payload: 'Comment text'
-  }
-]
+    username: "Username",
+    payload: "Comment text",
+  },
+];
 
-const dummyBGImage = { uri: 'https://f4.bcbits.com/img/a1024330960_10.jpg'}
+const dummyBGImage = { uri: "https://f4.bcbits.com/img/a1024330960_10.jpg" };
 
 const dummyShowInfo = {
   showId: "1",
@@ -106,6 +94,6 @@ const dummyShowInfo = {
   amountSpeakers: "10",
   amountListeners: "20",
   imageUri: dummyBGImage.uri,
-  users: [], 
-  listenCallback: null
-}
+  users: [],
+  listenCallback: null,
+};

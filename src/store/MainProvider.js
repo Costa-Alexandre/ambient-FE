@@ -1,41 +1,37 @@
-import React, {useState} from 'react';
-import { mediaDevices } from 'react-native-webrtc';
+import React, { useState } from "react";
+import { mediaDevices } from "react-native-webrtc";
 import socketio from "socket.io-client";
 import {
-  SERVER_URL,
+  SOCKET_SERVER,
   PEER_SERVER_HOST,
   PEER_SERVER_PORT,
   PEER_SERVER_PATH,
-} from 'server';
-import Peer from 'react-native-peerjs';
-
+} from "server";
+import Peer from "react-native-peerjs";
 
 const initialValues = {
-  username: '',
-  peerId: '',
-  showId: '',
+  user: null,
+  spotifyData: null,
+  showId: "",
   localStream: null,
   remoteStreams: [],
   remoteUsers: [],
   initialize: () => {},
   setUsername: () => {},
-  joinShow: () => {},  // start show
+  joinShow: () => {}, // start show
   toggleMute: () => {},
   isMuted: false,
   leaveShow: () => {}, //leaveShow
   reset: () => {},
-  activeCalls: [],  // activeShow
+  activeCalls: [], // activeShow
 };
 
 export const MainContext = React.createContext(initialValues);
 
-const MainContextProvider = ({children}) => {
-  const [username, setUsername] = useState(initialValues.username);
-  const [peerId, setPeerId] = useState(initialValues.peerId);
+const MainContextProvider = ({ children }) => {
+  const [user, setUser] = useState(initialValues.user);
   const [showId, setShowId] = useState(initialValues.showId);
-  const [localStream, setLocalStream] = useState(
-    initialValues.localStream,
-  );
+  const [localStream, setLocalStream] = useState(initialValues.localStream);
   const [remoteStreams, setRemoteStreams] = useState(
     initialValues.remoteStreams
   );
@@ -46,22 +42,19 @@ const MainContextProvider = ({children}) => {
   const [activeCalls, setActiveCalls] = useState(initialValues.activeCalls);
 
   const initialize = async () => {
-
     const constraints = {
       audio: true,
-      video: false
+      video: false,
     };
 
     const newStream = await mediaDevices.getUserMedia(constraints);
 
     setLocalStream(newStream);
 
-    const io = socketio(SERVER_URL);
+    const io = socketio(SOCKET_SERVER);
 
-    io.on('connect', () => {
+    io.on("connect", () => {
       setSocket(io);
-      io.emit('register', username); // register user
-    });
 
     const peerServer = new Peer(undefined, {
       host: PEER_SERVER_HOST,
@@ -72,78 +65,80 @@ const MainContextProvider = ({children}) => {
         iceServers: [
           {
             urls: [
-              'stun:stun1.l.google.com:19302',
-              'stun:stun2.l.google.com:19302',
+              "stun:stun1.l.google.com:19302",
+              "stun:stun2.l.google.com:19302",
             ],
           },
         ],
       },
     });
 
-    peerServer.on('error', (err) =>
-      console.log('Peer server error', err),
-    );
+    // set
+    peerServer.on("error", (err) => console.log("Peer server error", err));
 
-    peerServer.on('open', (peerId) => {
+    peerServer.on("open", (peerId) => {
       setPeerServer(peerServer);
-      setPeerId(peerId);
-      io.emit('set-peer-id', peerId); // set user peer id
+      setUser(user.peerId);
     });
+
+      io.emit("register", user); // register user
+    });
+
+    
 
 
     // when a new user joins the room, all users start a call with the new user
-    io.on('user-joined', (user) => {
-      socket.emit('call', username);
+    io.on("user-joined-show", (user) => {
+      socket.emit("call", user.userId);
       setRemoteUsers([...remoteUsers, user]);
 
       try {
         const call = peerServer.call(user.peerId, localStream);
 
         call.on(
-          'stream',
+          "stream",
           (stream) => {
             setActiveCalls([...activeCalls, call]);
             setRemoteStreams([...remoteStreams, stream]);
           },
           (err) => {
-            console.error('Failed to get call stream', err);
-          },
+            console.error("Failed to get call stream", err);
+          }
         );
       } catch (error) {
-        console.log('Calling error', error);
+        console.log("Calling error", error);
       }
     });
 
     // answering a call
-    io.on('call', (user) => {
-      peerServer.on('call', (call) => {
+    io.on("call", (user) => {
+      peerServer.on("call", (call) => {
         setRemoteUsers([...remoteUsers, user]);
         call.answer(localStream);
         setActiveCalls([...activeCalls, call]);
 
-        call.on('stream', (stream) => {
+        call.on("stream", (stream) => {
           setRemoteStreams([...remoteStreams, stream]);
         });
 
-        call.on('close', () => {
+        call.on("close", () => {
           closeCall();
         });
 
-        call.on('error', () => {});
+        call.on("error", () => {});
       });
     });
   };
 
-  const joinShow = (roomId) => {
-
-    if(!roomId) {
-      console.log('Room id not found');
+  const joinShow = (showId) => {
+    if (!showId) {
+      console.log("Show not found");
       return;
     }
 
-    setShowId(roomId);
-    
-    socket.emit('join-show', username, roomId);
+    setShowId(showId);
+
+    socket.emit("user-join-show", user.userId, showId);
   };
 
   const toggleMute = () => {
@@ -155,7 +150,7 @@ const MainContextProvider = ({children}) => {
   };
 
   const leaveShow = () => {
-    activeCalls?.forEach(call => {
+    activeCalls?.forEach((call) => {
       call.close();
     });
     setActiveCalls([]);
@@ -169,18 +164,15 @@ const MainContextProvider = ({children}) => {
     setRemoteUsers([]);
     setLocalStream(null);
     setRemoteStreams([]);
-    setUsername('');
-    setPeerId('');
-    setShowId('');
+    setUser(null);
+    setShowId("");
   };
 
   return (
     <MainContext.Provider
       value={{
-        username,
-        setUsername,
-        peerId,
-        setPeerId,
+        user,
+        setUser,
         showId,
         setShowId,
         localStream,
@@ -197,8 +189,9 @@ const MainContextProvider = ({children}) => {
         leaveShow,
         reset,
         activeCalls,
-        setActiveCalls
-      }}>
+        setActiveCalls,
+      }}
+    >
       {children}
     </MainContext.Provider>
   );
@@ -206,5 +199,4 @@ const MainContextProvider = ({children}) => {
 
 export default MainContextProvider;
 
-
-// 'inspiration': https://github.com/metehankurucu/react-native-video-calling-app/blob/main/src/store/MainProvider.tsx 
+// 'inspiration': https://github.com/metehankurucu/react-native-video-calling-app/blob/main/src/store/MainProvider.tsx
