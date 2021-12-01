@@ -15,8 +15,7 @@ LogBox.ignoreLogs([
 ]);
 
 export default function ShowInfo({
-  showName = "",
-  showDescription = "",
+  showId,
 }) {
 
   return (
@@ -31,7 +30,7 @@ export default function ShowInfo({
 
           <View style={styles.titleContainer}>
             <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>
-              {showName}
+              {`showName`}
             </Text>
           </View>
 

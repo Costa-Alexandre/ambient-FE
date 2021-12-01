@@ -13,7 +13,7 @@ import { spotifyConfig } from "api/config";
 import { MainContext } from "store/MainProvider";
 
 export default function Login({ navigation }) {
-  
+
   const { 
     setUser,
     setSpotifyData
@@ -42,7 +42,6 @@ export default function Login({ navigation }) {
 
       // The user is signed in now
       // NOTE: We have our own user data + the spotify user data at this point and can use it in the app
-      // console.log(user);
       navigation.navigate("Home");
     } catch (error) {
       console.log(error);

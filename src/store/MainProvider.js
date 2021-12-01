@@ -24,7 +24,7 @@ const initialValues = {
     showId: "",
     showName: "",
     showDescription: "",
-    showImage: "",
+    imageUri: "",
   },
   localStream: null,
   remoteStreams: [],

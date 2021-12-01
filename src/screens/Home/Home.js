@@ -14,11 +14,10 @@ export default function Home({ navigation }) {
   } = useContext(MainContext);
 
 
-  console.log(activeShow);
+  
 
   const [liveShows, setliveShows] = useState([]);
 
-  const dummyPlayingSongUri = "https://f4.bcbits.com/img/a1024330960_10.jpg";
   const dummyShowImageUri = "https://f4.bcbits.com/img/a1024330960_10.jpg";
 
   useEffect(() => {
@@ -27,6 +26,7 @@ export default function Home({ navigation }) {
     }).catch(err => {
       console.log(err);
     });
+    console.log('from home', activeShow);
   }, []);
   
 
@@ -48,13 +48,13 @@ export default function Home({ navigation }) {
                 amountSpeakers={0}
                 amountListeners={0}
                 imageUri={dummyShowImageUri}
-                listenCallback={() => navigation.navigate('Show', item._id)}
+                listenCallback={() => navigation.navigate('Show', item)}
                 />
               </View>
               )}
             />
           </View>
-        {activeShow.showId !== "" && (<PlayingSong uri={activeShow.showImage} />)}
+        {activeShow.showId !== "" && (<PlayingSong uri={activeShow.imageUri} />)}
       </View>
     );
 }

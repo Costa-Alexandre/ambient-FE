@@ -28,4 +28,3 @@ function IconSelection() {
 
 }
 IconSelection();
-// console.log(IconSelection());

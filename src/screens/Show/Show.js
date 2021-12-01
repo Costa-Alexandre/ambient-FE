@@ -1,12 +1,27 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { StyleSheet } from "react-native";
 import { remote as SpotifyRemote } from "react-native-spotify-remote";
 import { Modalize } from "react-native-modalize";
+import { MainContext } from 'store/MainProvider';
 
 import { ShowInfo, ChatInput, ChatHeader, ChatComment } from "./components";
 
-export default function Show({ route: { params: showId } }) {
+export default function Show({ route: { params: activeShow } }) {
+  
+  const { setActiveShow } = useContext(MainContext);
+
+  useEffect(() => {
+    setActiveShow(activeShow);
+    console.log(activeShow);
+  }, []);
+
+  
+  
   const modalizeRef = useRef(null);
+
+  useEffect(() => {
+    onToggle(chatOpen);
+  }, [chatOpen]);
 
   const onToggle = (chatOpen) => {
     if (chatOpen) {
@@ -20,9 +35,7 @@ export default function Show({ route: { params: showId } }) {
 
   const [chatOpen, setChatOpen] = useState(false);
 
-  useEffect(() => {
-    onToggle(chatOpen);
-  }, [chatOpen]);
+  
 
   return (
     <>
