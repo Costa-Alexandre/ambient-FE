@@ -12,7 +12,7 @@ export default function MenuShow(){
           <View style={styles.arrowDown}>
             <CustomIcon name='arrow_left' color={colorStyles.text} size={20}/>
           </View>
-          <Text style={composeTitle}>Show</Text>
+          <Text style={composeTitle}>Home</Text>
         </View>
       </TouchableOpacity>
       <View style={styles.rightMenu}>
