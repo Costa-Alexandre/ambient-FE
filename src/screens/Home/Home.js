@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { MenuHome, Stories, LiveShow } from './components';
 import { PlayingSong } from 'ui';
+import { MainContext } from 'store/MainProvider';
 
 
 export default function Home({ navigation }) {
 
-  const dummyUser = {
-    avatar: "https://images.unsplash.com/photo-1631701119265-33ca2b80d00d?ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDEyfHRvd0paRnNrcEdnfHxlbnwwfHx8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60",
-  }
+  const { 
+    user,
+    spotifyData,
+  } = useContext(MainContext);
+
+  console.log(user);
+  console.log(spotifyData);
 
   const dummyLiveShowList = [
     {
@@ -36,7 +41,7 @@ export default function Home({ navigation }) {
 
     return (
       <View style={styles.container}>
-        <MenuHome user={dummyUser} />
+        <MenuHome user={user} />
           <View style={styles.liveShow}>
             <FlatList
               data={dummyLiveShowList}

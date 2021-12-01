@@ -1,6 +1,6 @@
 import { ApiScope } from "react-native-spotify-remote";
 
-export const serverBaseUrl = "http://192.168.178.22:3000";
+export const serverBaseUrl = "https://ambient-3wmumkj7ma-ey.a.run.app/";
 export const spotifyBaseUrl = "https://api.spotify.com/v1"
 
 export const spotifyConfig = {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { View, StyleSheet } from "react-native";
 
 import {
@@ -10,15 +10,22 @@ import { CustomButton } from "ui";
 import { spotifyGetMe } from "api/spotify";
 import { signInUser, signUpUser, userIsSignedUp } from "api/users";
 import { spotifyConfig } from "api/config";
+import { MainContext } from "store/MainProvider";
 
 export default function Login({ navigation }) {
+  const { 
+    setUser,
+    setSpotifyData
+  } = useContext(MainContext);
+
   const signIn = async (e) => {
     try {
       const session = await SpotifyAuth.authorize(spotifyConfig);
       await SpotifyRemote.connect(session.accessToken);
 
       const spotifyData = await spotifyGetMe();
-      const username = spotifyData.id;
+      setSpotifyData(spotifyData)
+      const username = spotifyData.id
 
       const isSignedUp = await userIsSignedUp(username);
 
@@ -30,17 +37,18 @@ export default function Login({ navigation }) {
         userData = await signUpUser(spotifyData);
         console.log("sign up");
       }
+      setUser(userData);
 
       // The user is signed in now
       // NOTE: We have our own user data + the spotify user data at this point and can use it in the app
-      console.log(userData);
+      // console.log(user);
       navigation.navigate("Home");
     } catch (error) {
       console.log(error);
     }
   };
   // DELETE: flag to skip authentication
-  const ignoreAuth = true;
+  const ignoreAuth = !true;
 
   return (
     <View style={styles.container}>

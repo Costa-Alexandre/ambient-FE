@@ -10,14 +10,20 @@ import {
 import Peer from "react-native-peerjs";
 
 const initialValues = {
-  user: null,
+  user: {
+    username: "",
+    displayName: "",
+    email: "",
+    avatar: "",
+    createdShows: [],
+    showShowNotifications: ""
+  },
   spotifyData: null,
   showId: "",
   localStream: null,
   remoteStreams: [],
   remoteUsers: [],
   initialize: () => {},
-  setUsername: () => {},
   joinShow: () => {}, // start show
   toggleMute: () => {},
   isMuted: false,
@@ -30,6 +36,7 @@ export const MainContext = React.createContext(initialValues);
 
 const MainContextProvider = ({ children }) => {
   const [user, setUser] = useState(initialValues.user);
+  const [spotifyData, setSpotifyData] = useState(initialValues.spotifyData)
   const [showId, setShowId] = useState(initialValues.showId);
   const [localStream, setLocalStream] = useState(initialValues.localStream);
   const [remoteStreams, setRemoteStreams] = useState(
@@ -165,6 +172,7 @@ const MainContextProvider = ({ children }) => {
     setLocalStream(null);
     setRemoteStreams([]);
     setUser(null);
+    setSpotifyData(null);
     setShowId("");
   };
 
@@ -173,6 +181,8 @@ const MainContextProvider = ({ children }) => {
       value={{
         user,
         setUser,
+        spotifyData,
+        setSpotifyData,
         showId,
         setShowId,
         localStream,
