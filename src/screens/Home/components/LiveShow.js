@@ -6,7 +6,6 @@ import { CustomIcon, CustomButton, ShowName, UserPicture, PlayingSong } from 'ui
 
 export default function LiveShow({ 
   showId="",
-  showTitle="",
   showName="",
   showDescription="",
   amountSpeakers="",
@@ -35,7 +34,6 @@ export default function LiveShow({
 
   return (
     <View style={styles.outerContainer}>
-      <ShowName name={showTitle}/>
 
       <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>{showName}</Text>
 

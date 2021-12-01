@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { StyleSheet, Text, View, ImageBackground, LogBox } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { colorStyles, fontStyles } from "styles";
-import { ShowName, PlayingSong } from "ui";
+import { PlayingSong } from "ui";
 import MenuShow from "./MenuShow";
 import LiveUsers from "./LiveUsers";
 import { MainContext } from "store/MainProvider";
@@ -15,15 +15,9 @@ LogBox.ignoreLogs([
 ]);
 
 export default function ShowInfo({
-  // showId = "",
-  showTitle = "",
   showName = "",
-  imageUri = null,
+  showDescription = "",
 }) {
-  // DELETE: testing useContext
-  const { user, showId } = useContext(MainContext);
-
-  console.log(showId);
 
   return (
     <ScrollView style={[styles.outerContainer, { backgroundColor: "#404040" }]}>
@@ -36,14 +30,13 @@ export default function ShowInfo({
           <MenuShow />
 
           <View style={styles.titleContainer}>
-            <ShowName name={showTitle} />
             <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>
               {showName}
             </Text>
           </View>
 
           <View style={styles.songContainer}>
-            <PlayingSong uri={imageUri} />
+            <PlayingSong uri={dummyBGImage.uri} />
           </View>
 
           <View style={styles.usersContainer}>
