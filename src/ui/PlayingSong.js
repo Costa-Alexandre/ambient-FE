@@ -4,14 +4,14 @@ import { colorStyles, fontStyles } from 'styles';
 
 
 
-export default function PlayingSong({ uri }) {
+export default function PlayingSong({ imageUri }) {
 
   const dummyColor = "#404040"
   return (
     <View style={[styles.outerContainer, {backgroundColor: dummyColor}]}>
-      <ImageBackground style={styles.image} source={{uri:uri}} imageStyle={{opacity:0.1}}>
-        {uri && <Image style={styles.coverImage} source={{uri:uri}} />}
-        {uri && <View style={styles.textContainer}>
+      <ImageBackground style={styles.image} source={{uri: imageUri}} imageStyle={{opacity:0.1}}>
+        {imageUri && <Image style={styles.coverImage} source={{uri: imageUri}} />}
+        {imageUri && <View style={styles.textContainer}>
           <Text style={[fontStyles.subtitleSecondary, styles.songText]} numberOfLines={1}>Meat Grinder</Text>
           <Text style={[fontStyles.subtitleSecondary, styles.artistText]} numberOfLines={1}>Madvillain, Madlib, MF DOOM</Text>
         </View>}

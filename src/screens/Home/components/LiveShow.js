@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colorStyles, fontStyles } from 'styles'
-import { CustomIcon, CustomButton, ShowName, UserPicture, PlayingSong } from 'ui';
+import { CustomIcon, CustomButton, UserPicture, PlayingSong } from 'ui';
 
 
 export default function LiveShow({ 
@@ -10,7 +10,7 @@ export default function LiveShow({
   showDescription="",
   amountSpeakers="",
   amountListeners="",
-  imageUri=null,
+  imageUri="",
   users=[], 
   listenCallback=null
 }) {
@@ -39,7 +39,7 @@ export default function LiveShow({
 
       <View style={styles.songContainer}>
         <PlayingSong
-          uri={imageUri}
+          imageUri={imageUri}
         />
       </View>
 

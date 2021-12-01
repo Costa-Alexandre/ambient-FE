@@ -7,7 +7,7 @@ import MenuShow from "./MenuShow";
 import LiveUsers from "./LiveUsers";
 import { MainContext } from "store/MainProvider";
 
-const dummyBGImage = { uri: "https://f4.bcbits.com/img/a1024330960_10.jpg" };
+const dummyBGImage = "https://f4.bcbits.com/img/a1024330960_10.jpg";
 
 //TODO: remove when fixed
 LogBox.ignoreLogs([
@@ -21,7 +21,7 @@ export default function ShowInfo({
   return (
     <ScrollView style={[styles.outerContainer, { backgroundColor: "#404040" }]}>
       <ImageBackground
-        source={dummyBGImage}
+        source={{uri: dummyBGImage}}
         imageStyle={{ opacity: 0.1 }}
         style={styles.image}
       >
@@ -35,7 +35,7 @@ export default function ShowInfo({
           </View>
 
           <View style={styles.songContainer}>
-            <PlayingSong uri={dummyBGImage.uri} />
+            <PlayingSong imageUri={dummyBGImage} />
           </View>
 
           <View style={styles.usersContainer}>
