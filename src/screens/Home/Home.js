@@ -1,42 +1,30 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import { MenuHome, Stories, LiveShow } from './components';
 import { PlayingSong } from 'ui';
 import { MainContext } from 'store/MainProvider';
+import { getLiveShows } from 'api/shows';
 
 
 export default function Home({ navigation }) {
 
   const { 
     user,
-    spotifyData,
   } = useContext(MainContext);
 
-  console.log(user);
-  console.log(spotifyData);
+  const [liveShows, setliveShows] = useState([]);
 
-  const dummyLiveShowList = [
-    {
-      key: '1', 
-      showTitle: "SHOW NAME",
-      showName: "Show Name",
-      showDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. fejspo eos jo o oeo",
-      amountSpeakers: "5",
-      amountListeners: "50",
-      imageUri: "https://f4.bcbits.com/img/a1024330960_10.jpg",
-    },
-    {
-      key: '2', 
-      showTitle: "SHOW NAME 2",
-      showName: "Show Name 2",
-      showDescription: "Consectetur adipiscing elit. fejspo eos jo o oeo",
-      amountSpeakers: "1",
-      amountListeners: "623",
-      imageUri: "https://yt3.ggpht.com/a/AATXAJzmEsgCTUtk-YcQp0s7Uf6OLJN4BRXsnvz33g=s900-c-k-c0xffffffff-no-rj-mo",
-    },
-  ]
+  const dummyPlayingSongUri = "https://f4.bcbits.com/img/a1024330960_10.jpg";
+  const dummyShowImageUri = "https://f4.bcbits.com/img/a1024330960_10.jpg";
 
-  const dummyPlayingSongUri = "https://f4.bcbits.com/img/a1024330960_10.jpg"
+  useEffect(() => {
+    getLiveShows().then(res => {
+      setliveShows(res);
+    }).catch(err => {
+      console.log(err);
+    });
+  }, []);
+  
 
 
     return (
@@ -44,18 +32,19 @@ export default function Home({ navigation }) {
         <MenuHome user={user} />
           <View style={styles.liveShow}>
             <FlatList
-              data={dummyLiveShowList}
+              data={liveShows}
+              keyExtractor={(item) => item._id}
               renderItem={({ item }) => (
               <View style={styles.liveShowItem}>
                 <LiveShow
-                showId={item.key}
-                showTitle={item.showTitle}
-                showName={item.showName}
-                showDescription={item.showDescription}
-                amountSpeakers={item.amountSpeakers}
-                amountListeners={item.amountListeners}
-                imageUri={item.imageUri}
-                listenCallback={() => navigation.navigate('Show', item.key)}
+                showId={item._id}
+                showTitle={item.name}
+                showName={item.name}
+                showDescription={item.description}
+                amountSpeakers={0}
+                amountListeners={0}
+                imageUri={dummyShowImageUri}
+                listenCallback={() => navigation.navigate('Show', item._id)}
                 />
               </View>
               )}
