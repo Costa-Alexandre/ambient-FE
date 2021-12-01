@@ -11,6 +11,7 @@ import Peer from "react-native-peerjs";
 
 const initialValues = {
   user: {
+    userId: "",
     username: "",
     displayName: "",
     email: "",
@@ -19,7 +20,12 @@ const initialValues = {
     showShowNotifications: ""
   },
   spotifyData: null,
-  showId: "",
+  activeShow: {
+    showId: "",
+    showName: "",
+    showDescription: "",
+    showImage: "",
+  },
   localStream: null,
   remoteStreams: [],
   remoteUsers: [],
@@ -37,7 +43,7 @@ export const MainContext = React.createContext(initialValues);
 const MainContextProvider = ({ children }) => {
   const [user, setUser] = useState(initialValues.user);
   const [spotifyData, setSpotifyData] = useState(initialValues.spotifyData)
-  const [showId, setShowId] = useState(initialValues.showId);
+  const [activeShow, setActiveShow] = useState(initialValues.activeShow);
   const [localStream, setLocalStream] = useState(initialValues.localStream);
   const [remoteStreams, setRemoteStreams] = useState(
     initialValues.remoteStreams
@@ -137,15 +143,15 @@ const MainContextProvider = ({ children }) => {
     });
   };
 
-  const joinShow = (showId) => {
-    if (!showId) {
+  const joinShow = (show) => {
+    if (!show.showId) {
       console.log("Show not found");
       return;
     }
 
-    setShowId(showId);
+    setActiveShow(show);
 
-    socket.emit("user-join-show", user.userId, showId);
+    socket.emit("user-join-show", user.userId, activeShow.showId);
   };
 
   const toggleMute = () => {
@@ -173,7 +179,7 @@ const MainContextProvider = ({ children }) => {
     setRemoteStreams([]);
     setUser(null);
     setSpotifyData(null);
-    setShowId("");
+    setActiveShow(null);
   };
 
   return (
@@ -183,8 +189,8 @@ const MainContextProvider = ({ children }) => {
         setUser,
         spotifyData,
         setSpotifyData,
-        showId,
-        setShowId,
+        activeShow,
+        setActiveShow,
         localStream,
         setLocalStream,
         remoteStreams,

@@ -13,6 +13,7 @@ import { spotifyConfig } from "api/config";
 import { MainContext } from "store/MainProvider";
 
 export default function Login({ navigation }) {
+  
   const { 
     setUser,
     setSpotifyData

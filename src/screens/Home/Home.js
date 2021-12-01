@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { MenuHome, Stories, LiveShow } from './components';
+import { MenuHome, LiveShow } from './components';
 import { PlayingSong } from 'ui';
 import { MainContext } from 'store/MainProvider';
 import { getLiveShows } from 'api/shows';
@@ -10,7 +10,11 @@ export default function Home({ navigation }) {
 
   const { 
     user,
+    activeShow,
   } = useContext(MainContext);
+
+
+  console.log(activeShow);
 
   const [liveShows, setliveShows] = useState([]);
 
@@ -50,7 +54,7 @@ export default function Home({ navigation }) {
               )}
             />
           </View>
-        <PlayingSong uri={dummyPlayingSongUri} />
+        {activeShow.showId !== "" && (<PlayingSong uri={activeShow.showImage} />)}
       </View>
     );
 }
