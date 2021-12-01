@@ -45,11 +45,6 @@ export default function Home({ navigation }) {
           <View style={styles.liveShow}>
             <FlatList
               data={dummyLiveShowList}
-              ListHeaderComponent={
-                <View style={styles.stories}>
-                  <Stories />
-                </View>
-                }
               renderItem={({ item }) => (
               <View style={styles.liveShowItem}>
                 <LiveShow
