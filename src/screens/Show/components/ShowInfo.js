@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { remote as SpotifyRemote } from "react-native-spotify-remote";
 import { StyleSheet, Text, View, ImageBackground, LogBox } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { colorStyles, fontStyles } from "styles";
@@ -6,6 +7,7 @@ import { PlayingSong } from "ui";
 import MenuShow from "./MenuShow";
 import LiveUsers from "./LiveUsers";
 import { MainContext } from "store/MainProvider";
+import { spotifyGetTrack } from "api/spotify";
 
 const dummyBGImage = "https://f4.bcbits.com/img/a1024330960_10.jpg";
 
@@ -18,10 +20,27 @@ export default function ShowInfo({
   showId,
 }) {
 
+  const [activeTrack, setActiveTrack] = useState('')
+  const [spotifyImageUri, setSpotifyImageUri] = useState(dummyBGImage)
+  
+const dummyOnPressHandler = () => {
+  setActiveTrack(`spotify:track:${dummyTrackId}`)
+};
+
+useEffect(() => {
+  if(activeTrack !== '') {
+    spotifyGetTrack(dummyTrackId).then(track => {
+      setSpotifyImageUri(track.album.images[0].url);
+    })
+    SpotifyRemote.playUri(activeTrack);
+  }
+}, [activeTrack])
+
+
   return (
     <ScrollView style={[styles.outerContainer, { backgroundColor: "#404040" }]}>
       <ImageBackground
-        source={{uri: dummyBGImage}}
+        source={{uri: spotifyImageUri}}
         imageStyle={{ opacity: 0.1 }}
         style={styles.image}
       >
@@ -35,7 +54,7 @@ export default function ShowInfo({
           </View>
 
           <View style={styles.songContainer}>
-            <PlayingSong imageUri={dummyBGImage} />
+            <PlayingSong imageUri={spotifyImageUri} callback={dummyOnPressHandler} />
           </View>
 
           <View style={styles.usersContainer}>
@@ -75,3 +94,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+
+const dummyTrackId = '4cY1UR4UCWzXqGm9lMvnQC'

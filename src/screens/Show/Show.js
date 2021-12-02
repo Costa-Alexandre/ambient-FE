@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import { StyleSheet } from "react-native";
-import { remote as SpotifyRemote } from "react-native-spotify-remote";
 import { Modalize } from "react-native-modalize";
 import { MainContext } from 'store/MainProvider';
 
@@ -12,7 +11,7 @@ export default function Show({ route: { params: activeShow } }) {
 
   useEffect(() => {
     setActiveShow(activeShow);
-    console.log(activeShow);
+    // console.log(activeShow);
   }, []);
 
   
@@ -78,9 +77,6 @@ const styles = StyleSheet.create({
 
 // Dummy variables - DELETE
 
-const dummyOnPressHandler = () => {
-  SpotifyRemote.playUri("spotify:track:4cY1UR4UCWzXqGm9lMvnQC");
-};
 
 const dummyMessages = [
   {

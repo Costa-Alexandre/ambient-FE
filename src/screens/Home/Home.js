@@ -26,7 +26,7 @@ export default function Home({ navigation }) {
     }).catch(err => {
       console.log(err);
     });
-    console.log('from home', activeShow);
+    // console.log('from home', activeShow);
   }, []);
   
 
