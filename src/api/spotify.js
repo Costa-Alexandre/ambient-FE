@@ -33,3 +33,21 @@ export const spotifyGetMe = async (token = null) => {
     console.log(error);
   }
 };
+
+export const spotifyGetTrack = async (trackId, token = null) => {
+  try {
+    if (!token) {
+      const session = await SpotifyAuth.getSession();
+      token = session.accessToken;
+    }
+
+    const response = await fetch(
+      `${spotifyBaseUrl}/tracks/${trackId}`,
+      spotifyRequestOptions(token)
+    );
+    const trackData = await response.json();
+    return trackData;
+  } catch (error) {
+    console.log(error);
+  }
+};
