@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 
 import {
@@ -6,6 +6,7 @@ import {
   remote as SpotifyRemote,
 } from "react-native-spotify-remote";
 
+import LoadingFullScreen from "./components/LoadingFullScreen";
 import { CustomButton } from "ui";
 import { spotifyGetMe } from "api/spotify";
 import { signInUser, signUpUser, userIsSignedUp } from "api/users";
@@ -14,12 +15,14 @@ import { MainContext } from "store/MainProvider";
 
 export default function Login({ navigation }) {
 
+  const [awaitingSignIn, setAwaitingSignIn] = useState(false)
+
   const { 
     setUser,
     setSpotifyData
   } = useContext(MainContext);
 
-  const signIn = async (e) => {
+  const signIn = async () => {
     try {
       const session = await SpotifyAuth.authorize(spotifyConfig);
       await SpotifyRemote.connect(session.accessToken);
@@ -40,25 +43,40 @@ export default function Login({ navigation }) {
       }
       setUser(userData);
 
-      // The user is signed in now
-      // NOTE: We have our own user data + the spotify user data at this point and can use it in the app
+      setAwaitingSignIn(false)
       navigation.navigate("Home");
     } catch (error) {
+      setAwaitingSignIn(false)
       console.log(error);
     }
+  }
+
+  const signInPressed = async (e) => {
+    setAwaitingSignIn(true)
   };
+
+  useEffect(() => {
+    if (awaitingSignIn) {
+      signIn()
+    }
+  }, [awaitingSignIn])
+
+
   // DELETE: flag to skip authentication
   const ignoreAuth = !true;
 
   return (
     <View style={styles.container}>
-      <CustomButton
-        title="Continue with Spotify"
-        color="accent"
-        size="loginButton"
-        // DELETE line below and replace by callback={signIn}
-        callback={ignoreAuth ? () => navigation.navigate("Home") : signIn}
-      />
+      {awaitingSignIn ? <LoadingFullScreen/> :
+        <View>
+          <CustomButton
+            title="Continue with Spotify"
+            color="accent"
+            size="loginButton"
+            // DELETE line below and replace by callback={signIn}
+            callback={ignoreAuth ? () => navigation.navigate("Home") : signInPressed}
+          />
+        </View>}
     </View>
   );
 }
