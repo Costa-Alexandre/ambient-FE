@@ -1,21 +1,18 @@
 import React, { useContext, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, Image, StatusBar, StyleSheet } from "react-native";
 
 import {
   auth as SpotifyAuth,
   remote as SpotifyRemote,
 } from "react-native-spotify-remote";
 
-import Logotype from '../../assets/icons/Logotype';
-import Logomark from '../../assets/icons/Logomark';
-
-import { colorStyles, fontStyles } from 'styles';
-
 import { CustomButton } from "ui";
 import { spotifyGetMe } from "api/spotify";
 import { signInUser, signUpUser, userIsSignedUp } from "api/users";
 import { spotifyConfig } from "api/config";
 import { MainContext } from "store/MainProvider";
+import BubbleBackground from "./components/BubbleBackground";
+import LoginLogo from "./components/LoginLogo";
 
 export default function Login({ navigation }) {
 
@@ -57,17 +54,15 @@ export default function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <StatusBar
+        animated={true}
+        backgroundColor={"transparent"}
+        barStyle={"light-content"} />
 
-      <View style={styles.logoContainer}>
-        <View style={{width:120, height:120, marginBottom: 20}}>
-          <Logomark />
-        </View>
-        <View style={{width: 180, height: 60}}>
-          <Logotype />
-        </View>
-        <Text style={[fontStyles.subtitle, styles.demoText]}>DEMO</Text>
-      </View>
-      
+      <BubbleBackground/>
+
+      <LoginLogo/>
+
       <View style={styles.buttonContainer}>
         <CustomButton
           title="Sign in with Spotify"
@@ -88,16 +83,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  logoContainer: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1
-  },
-  demoText: {
-    color: colorStyles.text
-  },
   buttonContainer: {
     marginBottom:100
-  }
+  },
 });
