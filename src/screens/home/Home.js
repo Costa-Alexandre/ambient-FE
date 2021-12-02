@@ -26,7 +26,6 @@ export default function Home({ navigation }) {
     }).catch(err => {
       console.log(err);
     });
-    // console.log('from home', activeShow);
   }, []);
   
 
@@ -42,12 +41,11 @@ export default function Home({ navigation }) {
               <View style={styles.liveShowItem}>
                 <LiveShow
                 showId={item._id}
-                showTitle={item.name}
                 showName={item.name}
                 showDescription={item.description}
                 amountSpeakers={0}
                 amountListeners={0}
-                imageUri={dummyShowImageUri}
+                imageUri={""}
                 listenCallback={() => navigation.navigate('Show', item)}
                 />
               </View>
