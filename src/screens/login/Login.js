@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Text, Image, StatusBar, StyleSheet } from "react-native";
 
 import {
   auth as SpotifyAuth,
@@ -11,6 +11,8 @@ import { spotifyGetMe } from "api/spotify";
 import { signInUser, signUpUser, userIsSignedUp } from "api/users";
 import { spotifyConfig } from "api/config";
 import { MainContext } from "store/MainProvider";
+import BubbleBackground from "./components/BubbleBackground";
+import LoginLogo from "./components/LoginLogo";
 
 export default function Login({ navigation }) {
 
@@ -52,13 +54,24 @@ export default function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <CustomButton
-        title="Continue with Spotify"
-        color="accent"
-        size="loginButton"
-        // DELETE line below and replace by callback={signIn}
-        callback={ignoreAuth ? () => navigation.navigate("Home") : signIn}
-      />
+      <StatusBar
+        animated={true}
+        backgroundColor={"transparent"}
+        barStyle={"light-content"} />
+
+      <BubbleBackground/>
+
+      <LoginLogo/>
+
+      <View style={styles.buttonContainer}>
+        <CustomButton
+          title="Sign in with Spotify"
+          color="accent"
+          size="loginButton"
+          // DELETE line below and replace by callback={signIn}
+          callback={ignoreAuth ? () => navigation.navigate("Home") : signIn}
+        />
+      </View>
     </View>
   );
 }
@@ -69,5 +82,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     alignItems: "center",
     justifyContent: "center",
+  },
+  buttonContainer: {
+    marginBottom:100
   },
 });
