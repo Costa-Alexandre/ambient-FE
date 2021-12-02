@@ -1,40 +1,26 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import { StyleSheet } from "react-native";
 import { Modalize } from "react-native-modalize";
-import { MainContext } from 'store/MainProvider';
+import { MainContext } from "store/MainProvider";
 
 import { ShowInfo, ChatInput, ChatHeader, ChatComment } from "./components";
 
 export default function Show({ route: { params: activeShow } }) {
-  
   const { setActiveShow } = useContext(MainContext);
 
   useEffect(() => {
     setActiveShow(activeShow);
-    // console.log(activeShow);
   }, []);
 
-  
-  
   const modalizeRef = useRef(null);
 
-  useEffect(() => {
-    onToggle(chatOpen);
-  }, [chatOpen]);
-
-  const onToggle = (chatOpen) => {
-    if (chatOpen) {
-      // open chat modal
-      modalizeRef.current?.open("top");
-    } else {
-      // close chat modal
-      modalizeRef.current?.close("alwaysOpen");
-    }
+  const isOpen = (state) => {
+    state && modalizeRef.current?.open("top");
+    !state && modalizeRef.current?.close("alwaysOpen");
+    setChatOpen(state);
   };
 
   const [chatOpen, setChatOpen] = useState(false);
-
-  
 
   return (
     <>
@@ -45,7 +31,7 @@ export default function Show({ route: { params: activeShow } }) {
         alwaysOpen={140}
         withHandle={false}
         HeaderComponent={() => (
-          <ChatHeader open={false} callback={(state) => setChatOpen(state)} />
+          <ChatHeader isOpen={chatOpen} callback={isOpen} />
         )}
         FooterComponent={() => <ChatInput />}
         modalHeight={400}
@@ -76,7 +62,6 @@ const styles = StyleSheet.create({
 });
 
 // Dummy variables - DELETE
-
 
 const dummyMessages = [
   {
