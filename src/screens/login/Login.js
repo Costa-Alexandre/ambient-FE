@@ -1,10 +1,15 @@
 import React, { useContext, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 import {
   auth as SpotifyAuth,
   remote as SpotifyRemote,
 } from "react-native-spotify-remote";
+
+import Logotype from '../../assets/icons/Logotype';
+import Logomark from '../../assets/icons/Logomark';
+
+import { colorStyles, fontStyles } from 'styles';
 
 import { CustomButton } from "ui";
 import { spotifyGetMe } from "api/spotify";
@@ -52,13 +57,26 @@ export default function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <CustomButton
-        title="Continue with Spotify"
-        color="accent"
-        size="loginButton"
-        // DELETE line below and replace by callback={signIn}
-        callback={ignoreAuth ? () => navigation.navigate("Home") : signIn}
-      />
+
+      <View style={styles.logoContainer}>
+        <View style={{width:120, height:120, marginBottom: 20}}>
+          <Logomark />
+        </View>
+        <View style={{width: 180, height: 60}}>
+          <Logotype />
+        </View>
+        <Text style={[fontStyles.subtitle, styles.demoText]}>DEMO</Text>
+      </View>
+      
+      <View style={styles.buttonContainer}>
+        <CustomButton
+          title="Sign in with Spotify"
+          color="accent"
+          size="loginButton"
+          // DELETE line below and replace by callback={signIn}
+          callback={ignoreAuth ? () => navigation.navigate("Home") : signIn}
+        />
+      </View>
     </View>
   );
 }
@@ -70,4 +88,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  logoContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1
+  },
+  demoText: {
+    color: colorStyles.text
+  },
+  buttonContainer: {
+    marginBottom:100
+  }
 });
