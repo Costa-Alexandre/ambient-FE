@@ -1,15 +1,16 @@
 import React, {useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Modalize } from "react-native-modalize";
+import { useModalize } from 'react-native-modalize/lib/utils/use-modalize';
 import { ChatInput, ChatHeader, ChatComment } from "./ChatComponents";
 
 export default function ShowModalize() {
 
-  const modalizeRef = useRef(null);
+  const { ref, open, close } = useModalize();
 
   const isOpen = (state) => {
-    state && modalizeRef.current?.open("top");
-    !state && modalizeRef.current?.close("alwaysOpen");
+    state && open("top");
+    !state && close("alwaysOpen");
     setChatOpen(state);
   };
 
@@ -17,7 +18,7 @@ export default function ShowModalize() {
 
   return (
     <Modalize
-        ref={modalizeRef}
+        ref={ref}
         alwaysOpen={140}
         withHandle={false}
         HeaderComponent={() => (
