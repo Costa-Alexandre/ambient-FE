@@ -25,7 +25,7 @@ export default function CreateShowModalize({ openModal, onClose }) {
           HeaderComponent={() => {}}
           FooterComponent={() => {}}
           modalHeight={353}
-          withOverlay={false}
+          withOverlay={true}
           modalStyle={styles.rootModalize}
         >
         <View style={styles.content}>
