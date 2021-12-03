@@ -1,29 +1,27 @@
 import React, {useRef, useState, useEffect } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { Modalize } from "react-native-modalize";
+import { useModalize } from 'react-native-modalize/lib/utils/use-modalize';
 import { CustomButton } from "ui";
 import { fontStyles, colorStyles } from "styles";
 
-export default function CreateShowModalize() {
+export default function CreateShowModalize({ openModal, onClose }) {
 
-  const modalizeRef = useRef(null);
+  const { ref, open, close } = useModalize();
   const [showName, setShowName] = useState("");
   const [showDescription, setShowDescription] = useState("");
 
-  const onOpen = () => {
-    modalizeRef.current?.open("");
-  };
-
   useEffect(() => {
-    onOpen();
+    openModal && open();
   }, [])
 
 
   return (
       <Modalize
-          ref={modalizeRef}
+          ref={ref}
           handlePosition={"inside"}
           handleStyle={{width: 44, height: 6, borderRadius: 14, backgroundColor: colorStyles.textSecondary}}
+          onClose={onClose}
           HeaderComponent={() => {}}
           FooterComponent={() => {}}
           modalHeight={353}

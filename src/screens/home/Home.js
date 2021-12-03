@@ -9,6 +9,7 @@ import { getLiveShows } from "api/shows";
 export default function Home({ navigation }) {
   const { user, activeShow } = useContext(MainContext);
   const [liveShows, setliveShows] = useState([]);
+  const [modal, setModal] = useState(null);
 
   useEffect(() => {
     getLiveShows()
@@ -20,12 +21,20 @@ export default function Home({ navigation }) {
       });
   }, []);
 
+  const openModal = () => {
+    setModal((<CreateShowModalize openModal={true} onClose={closeModal}/>));
+  }
+
+  const closeModal = () => {
+    setModal(null);
+  }
+
   return (
     <>
       <View style={styles.container}>
         <MenuHome 
           user={user} 
-          callback={() => {}} 
+          callback={openModal} 
         />
         <View style={styles.liveShow}>
           <FlatList
@@ -49,7 +58,7 @@ export default function Home({ navigation }) {
         {activeShow.showId !== "" && <PlayingSong uri={activeShow.imageUri} />}
       </View>
       <Portal>
-        <CreateShowModalize />
+        {modal}
       </Portal>
     </>
   );
