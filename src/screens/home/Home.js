@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
+import { Portal } from "react-native-portalize";
 import { MenuHome, LiveShow, CreateShowModalize } from "./components";
 import { PlayingSong } from "ui";
 import { MainContext } from "store/MainProvider";
@@ -24,7 +25,7 @@ export default function Home({ navigation }) {
       <View style={styles.container}>
         <MenuHome 
           user={user} 
-          callback={() => modalizeRef.current?.open("top")} 
+          callback={() => {}} 
         />
         <View style={styles.liveShow}>
           <FlatList
@@ -47,7 +48,9 @@ export default function Home({ navigation }) {
         </View>
         {activeShow.showId !== "" && <PlayingSong uri={activeShow.imageUri} />}
       </View>
-      <CreateShowModalize />
+      <Portal>
+        <CreateShowModalize />
+      </Portal>
     </>
   );
 }

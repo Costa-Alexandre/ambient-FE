@@ -20,44 +20,44 @@ export default function CreateShowModalize() {
 
 
   return (
-    <Modalize
-        ref={modalizeRef}
-        handlePosition={"inside"}
-        handleStyle={{width: 44, height: 6, borderRadius: 14, backgroundColor: colorStyles.textSecondary}}
-        HeaderComponent={() => {}}
-        FooterComponent={() => {}}
-        modalHeight={353}
-        withOverlay={false}
-        modalStyle={styles.rootModalize}
-      >
-      <View style={styles.content}>
-        <View style={styles.inputContainer}>
-          <View style={styles.frame}>
-            <Text style={composeText}>Show Name</Text>
-            <TextInput 
-              onChangeText={(showName) => setShowName(showName)}
-              value={showName}
-              style={[composeInput, {height: 46}]}
-              placeholder="Name your show..."
-              placeholderTextColor="#ffffff50"
-            />
+      <Modalize
+          ref={modalizeRef}
+          handlePosition={"inside"}
+          handleStyle={{width: 44, height: 6, borderRadius: 14, backgroundColor: colorStyles.textSecondary}}
+          HeaderComponent={() => {}}
+          FooterComponent={() => {}}
+          modalHeight={353}
+          withOverlay={false}
+          modalStyle={styles.rootModalize}
+        >
+        <View style={styles.content}>
+          <View style={styles.inputContainer}>
+            <View style={styles.frame}>
+              <Text style={composeText}>Show Name</Text>
+              <TextInput 
+                onChangeText={(showName) => setShowName(showName)}
+                value={showName}
+                style={[composeInput, {height: 46}]}
+                placeholder="Name your show..."
+                placeholderTextColor="#ffffff50"
+              />
+            </View>
+            <View style={styles.frame}>
+              <Text style={composeText}>Description</Text>
+              <TextInput 
+                onChangeText={(showDescription) => setShowDescription(showDescription)}
+                value={showDescription}
+                style={[composeInput, {height: 73}]}
+                placeholder="Quickly describe your shows content here..."
+                placeholderTextColor="#ffffff50"
+              />
+            </View>
           </View>
-          <View style={styles.frame}>
-            <Text style={composeText}>Description</Text>
-            <TextInput 
-              onChangeText={(showDescription) => setShowDescription(showDescription)}
-              value={showDescription}
-              style={[composeInput, {height: 73}]}
-              placeholder="Quickly describe your shows content here..."
-              placeholderTextColor="#ffffff50"
-            />
+          <View style={styles.buttonContainer}>
+          <CustomButton size="startShowButton" color="button" title="Schedule" callback={() => {}} />
+          <CustomButton size="startShowButton" color="accent" title="Start Show" callback={() => {}} />
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-        <CustomButton size="startShowButton" color="button" title="Schedule" callback={() => {}} />
-        <CustomButton size="startShowButton" color="accent" title="Start Show" callback={() => {}} />
-        </View>
-      </View>
       </Modalize>
   )
 }
