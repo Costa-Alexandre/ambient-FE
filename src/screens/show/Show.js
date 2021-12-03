@@ -13,7 +13,7 @@ export default function Show({ route: { params: activeShow },  navigation }) {
 
   return (
     <>
-      <ShowInfo {...dummyShowInfo} callback={(screen) => navigation.navigate(screen)} />
+      <ShowInfo {...dummyShowInfo} callback={(screen) => navigation.navigate(screen)} goBack={() => navigation.goBack()} />
       <ShowModalize />
     </>
   );

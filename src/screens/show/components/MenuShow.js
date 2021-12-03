@@ -4,9 +4,9 @@ import { CustomButton, CustomIcon } from "ui";
 import { fontStyles, colorStyles } from "styles";
 import { MainContext } from "store/MainProvider";
 
-export default function MenuShow({ navigation, callback }){
+export default function MenuShow({ callback, goBack }){
 
-  const { setActiveShow, activeShow } = useContext(MainContext);
+  const { setActiveShow } = useContext(MainContext);
   
   const resetShow = () => {
     return (
@@ -20,7 +20,7 @@ export default function MenuShow({ navigation, callback }){
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={goBack} >
         <View style={styles.leftMenu}>
           <View style={styles.arrowDown}>
             <CustomIcon name='arrow_left' color={colorStyles.text} size={20}/>

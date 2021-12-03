@@ -15,7 +15,7 @@ LogBox.ignoreLogs([
   "VirtualizedLists should never be nested inside plain ScrollViews",
 ]);
 
-export default function ShowInfo({ callback }) {
+export default function ShowInfo({ callback, goBack }) {
 
   const [activeTrack, setActiveTrack] = useState('')
   const [spotifyImageUri, setSpotifyImageUri] = useState(dummyBGImage)
@@ -42,7 +42,7 @@ useEffect(() => {
         style={styles.image}
       >
         <View style={styles.container}>
-          <MenuShow callback={callback} />
+          <MenuShow callback={callback} goBack={goBack} />
 
           <View style={styles.titleContainer}>
             <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>

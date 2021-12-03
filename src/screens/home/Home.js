@@ -34,7 +34,7 @@ export default function Home({ navigation }) {
       <View style={styles.container}>
         <MenuHome 
           user={user} 
-          callback={openModal} 
+          callback={openModal}
         />
         <View style={styles.liveShow}>
           <FlatList
