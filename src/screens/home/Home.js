@@ -4,7 +4,7 @@ import { Portal } from "react-native-portalize";
 import { MenuHome, LiveShow, CreateShowModalize } from "./components";
 import { PlayingSong } from "ui";
 import { MainContext } from "store/MainProvider";
-import { getLiveShows } from "api/shows";
+import { getShows } from "api/shows";
 
 export default function Home({ navigation }) {
   const { user, activeShow } = useContext(MainContext);
@@ -12,17 +12,17 @@ export default function Home({ navigation }) {
   const [modal, setModal] = useState(null);
 
   useEffect(() => {
-    getLiveShows()
+    getShows()
       .then((res) => {
         setliveShows(res);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [activeShow]);
 
   const openModal = () => {
-    setModal((<CreateShowModalize openModal={true} onClose={closeModal}/>));
+    setModal((<CreateShowModalize openModal={true} onClose={closeModal} callback={(newShow) => navigation.navigate('Show', newShow)} />));
   }
 
   const closeModal = () => {

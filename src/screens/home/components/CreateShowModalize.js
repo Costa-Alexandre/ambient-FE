@@ -4,8 +4,9 @@ import { Modalize } from "react-native-modalize";
 import { useModalize } from 'react-native-modalize/lib/utils/use-modalize';
 import { CustomButton } from "ui";
 import { fontStyles, colorStyles } from "styles";
+import { postShow } from "api/shows";
 
-export default function CreateShowModalize({ openModal, onClose }) {
+export default function CreateShowModalize({ openModal, onClose, callback=null }) {
 
   const { ref, open, close } = useModalize();
   const [showName, setShowName] = useState("");
@@ -15,6 +16,15 @@ export default function CreateShowModalize({ openModal, onClose }) {
     openModal && open();
   }, [])
 
+  const createShow = async () => {
+    const newShow = await postShow({
+      name: showName,
+      description: showDescription
+    });
+    close();
+    callback(newShow);
+  }
+
 
   return (
       <Modalize
@@ -22,8 +32,6 @@ export default function CreateShowModalize({ openModal, onClose }) {
           handlePosition={"inside"}
           handleStyle={{width: 44, height: 6, borderRadius: 14, backgroundColor: colorStyles.textSecondary}}
           onClose={onClose}
-          HeaderComponent={() => {}}
-          FooterComponent={() => {}}
           modalHeight={353}
           withOverlay={true}
           modalStyle={styles.rootModalize}
@@ -52,8 +60,13 @@ export default function CreateShowModalize({ openModal, onClose }) {
             </View>
           </View>
           <View style={styles.buttonContainer}>
-          <CustomButton size="startShowButton" color="button" title="Schedule" callback={() => {}} />
-          <CustomButton size="startShowButton" color="accent" title="Start Show" callback={() => {}} />
+          <CustomButton size="startShowButton" color="button" title="Schedule" callback={null} />
+          <CustomButton 
+            size="startShowButton" 
+            color="accent" 
+            title="Start Show" 
+            callback={() => createShow(
+            )} />
           </View>
         </View>
       </Modalize>
