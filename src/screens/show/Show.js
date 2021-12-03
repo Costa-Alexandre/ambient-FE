@@ -3,7 +3,7 @@ import { MainContext } from "store/MainProvider";
 
 import { ShowInfo, ShowModalize } from "./components";
 
-export default function Show({ route: { params: activeShow } }) {
+export default function Show({ route: { params: activeShow },  navigation }) {
   
   const { setActiveShow } = useContext(MainContext);
 
@@ -13,7 +13,7 @@ export default function Show({ route: { params: activeShow } }) {
 
   return (
     <>
-      <ShowInfo {...dummyShowInfo} />
+      <ShowInfo {...dummyShowInfo} callback={(screen) => navigation.navigate(screen)} />
       <ShowModalize />
     </>
   );

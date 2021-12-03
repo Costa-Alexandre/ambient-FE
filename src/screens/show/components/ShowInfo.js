@@ -6,7 +6,6 @@ import { colorStyles, fontStyles } from "styles";
 import { PlayingSong } from "ui";
 import MenuShow from "./MenuShow";
 import LiveUsers from "./LiveUsers";
-import { MainContext } from "store/MainProvider";
 import { spotifyGetTrack } from "api/spotify";
 
 const dummyBGImage = "https://f4.bcbits.com/img/a1024330960_10.jpg";
@@ -16,9 +15,7 @@ LogBox.ignoreLogs([
   "VirtualizedLists should never be nested inside plain ScrollViews",
 ]);
 
-export default function ShowInfo({
-  showId,
-}) {
+export default function ShowInfo({ callback }) {
 
   const [activeTrack, setActiveTrack] = useState('')
   const [spotifyImageUri, setSpotifyImageUri] = useState(dummyBGImage)
@@ -45,7 +42,7 @@ useEffect(() => {
         style={styles.image}
       >
         <View style={styles.container}>
-          <MenuShow />
+          <MenuShow callback={callback} />
 
           <View style={styles.titleContainer}>
             <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>
