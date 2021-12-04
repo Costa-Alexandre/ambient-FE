@@ -1,17 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 import { View, Text, Image, StatusBar, StyleSheet } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   auth as SpotifyAuth,
   remote as SpotifyRemote,
 } from "react-native-spotify-remote";
 
-import LoadingFullScreen from "./components/LoadingFullScreen";
 import { CustomButton } from "ui";
 import { spotifyGetMe } from "api/spotify";
 import { signInUser, signUpUser, userIsSignedUp } from "api/users";
 import { spotifyConfig } from "api/config";
 import { MainContext } from "store/MainProvider";
+import LoadingFullScreen from "./components/LoadingFullScreen";
 import BubbleBackground from "./components/BubbleBackground";
 import LoginLogo from "./components/LoginLogo";
 
@@ -28,6 +29,8 @@ export default function Login({ navigation }) {
     try {
       const session = await SpotifyAuth.authorize(spotifyConfig);
       await SpotifyRemote.connect(session.accessToken);
+
+      console.log(Object.keys(session))
 
       const spotifyData = await spotifyGetMe();
       setSpotifyData(spotifyData)
@@ -53,13 +56,31 @@ export default function Login({ navigation }) {
     }
   }
 
+  const getStorageToken = async () => {
+    let token = null
+    try {
+      token = await AsyncStorage.getItem('refresh_token')
+    } catch(e) {
+      console.log(e)
+      // error reading value
+    }
+    return token
+  }
+
   const signInPressed = async (e) => {
     setAwaitingSignIn(true)
   };
 
   useEffect(() => {
     if (awaitingSignIn) {
-      signIn()
+      getStorageToken()
+      .then(refresh_token => {
+        if (refresh_token) {
+          console.log(refresh_token)
+        } else {
+          signIn()
+        }
+      })
     }
   }, [awaitingSignIn])
 
@@ -74,18 +95,19 @@ export default function Login({ navigation }) {
         backgroundColor={"transparent"}
         barStyle={"light-content"} />
 
-      <BubbleBackground/>
-      <LoginLogo/>
-          
       {awaitingSignIn ? <LoadingFullScreen/> :
-        <View>
-          <CustomButton
-            title="Continue with Spotify"
-            color="accent"
-            size="loginButton"
-            // DELETE line below and replace by callback={signIn}
-            callback={ignoreAuth ? () => navigation.navigate("Home") : signInPressed}
-          />
+        <View style={styles.container}>
+          <BubbleBackground/>
+          <LoginLogo/>
+          <View style={styles.buttonContainer}>
+            <CustomButton
+              title="Continue with Spotify"
+              color="accent"
+              size="loginButton"
+              // DELETE line below and replace by callback={signIn}
+              callback={ignoreAuth ? () => navigation.navigate("Home") : signInPressed}
+            />
+          </View>
         </View>}
     </View>
   );

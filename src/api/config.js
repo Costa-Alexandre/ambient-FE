@@ -8,6 +8,7 @@ export const spotifyConfig = {
 	redirectURL: "modradio://auth",
 	tokenRefreshURL: `${serverBaseUrl}/refresh`,
 	tokenSwapURL: `${serverBaseUrl}/swap`,
+	// authType: "CODE",
 	scopes: [
     ApiScope.AppRemoteControlScope,
     ApiScope.UserFollowReadScope,
