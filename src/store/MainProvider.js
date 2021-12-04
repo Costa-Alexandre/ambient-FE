@@ -26,6 +26,12 @@ const initialValues = {
     showDescription: "",
     imageUri: "",
   },
+  activeTrack: {
+    id: "",
+    name: "",
+    uri: "",
+    artists: [] 
+  },
   localStream: null,
   remoteStreams: [],
   remoteUsers: [],
