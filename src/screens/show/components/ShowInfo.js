@@ -8,41 +8,44 @@ import MenuShow from "./MenuShow";
 import LiveUsers from "./LiveUsers";
 import { MainContext } from "store/MainProvider";
 import { spotifyGetTrack } from "api/spotify";
+import useAverageColor from "../../../hooks/averageColor";
 
-const dummyBGImage = "https://f4.bcbits.com/img/a1024330960_10.jpg";
+const dummyBGImage = "https://media1.jpc.de/image/w600/front/0/0075678642128.jpg";
 
 //TODO: remove when fixed
 LogBox.ignoreLogs([
   "VirtualizedLists should never be nested inside plain ScrollViews",
 ]);
 
-export default function ShowInfo({
-  showId,
-}) {
+export default function ShowInfo({ showId, }) {
 
   const [activeTrack, setActiveTrack] = useState('')
   const [spotifyImageUri, setSpotifyImageUri] = useState(dummyBGImage)
+  const [averageColor, setImageUri] = useAverageColor(dummyBGImage, "#1B1B1F")
   
-const dummyOnPressHandler = () => {
-  setActiveTrack(`spotify:track:${dummyTrackId}`)
-};
+  const dummyOnPressHandler = () => {
+    setActiveTrack(`spotify:track:${dummyTrackId}`)
+  };
 
-useEffect(() => {
-  if(activeTrack !== '') {
-    spotifyGetTrack(dummyTrackId).then(track => {
-      setSpotifyImageUri(track.album.images[0].url);
-    })
-    SpotifyRemote.playUri(activeTrack);
-  }
-}, [activeTrack])
+  useEffect(() => {
+    setImageUri(spotifyImageUri)
+  }, [spotifyImageUri])
 
+  useEffect(() => {
+    if(activeTrack !== '') {
+      spotifyGetTrack(dummyTrackId).then(track => {
+        setSpotifyImageUri(track.album.images[0].url);
+      })
+      SpotifyRemote.playUri(activeTrack);
+    }
+  }, [activeTrack])
 
   return (
-    <ScrollView style={[styles.outerContainer, { backgroundColor: "#404040" }]}>
+    <ScrollView style={[styles.outerContainer, { backgroundColor: averageColor }]}>
       <ImageBackground
         source={{uri: spotifyImageUri}}
         imageStyle={{ opacity: 0.1 }}
-        style={styles.image}
+        style={[styles.image, {backgroundColor: "rgba(0, 0, 0, 0.65)"}]}
       >
         <View style={styles.container}>
           <MenuShow />

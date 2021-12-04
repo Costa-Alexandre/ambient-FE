@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import { colorStyles, fontStyles } from 'styles';
+import useAverageColor from '../hooks/averageColor';
 
 
 
 export default function PlayingSong({ imageUri=dummyBGImage, callback=null }) {
 
-  const dummyColor = "#404040"
+  const [averageColor, setImageUri] = useAverageColor(imageUri, "#1B1B1F")
+
+  useEffect(() => {
+    setImageUri(imageUri)
+  }, [imageUri])
+
   return (
     <TouchableOpacity 
-      style={[styles.outerContainer, {backgroundColor: dummyColor}]}
+      style={[styles.outerContainer, {backgroundColor: averageColor}]}
       onPress={callback}
     >
       <ImageBackground 
-        style={styles.image} 
+        style={[styles.image, {backgroundColor:"rgba(0, 0, 0, 0.5)"}]} 
         source={{uri: imageUri}} 
-        imageStyle={{opacity:0.1}}
+        imageStyle={{ opacity: 0.2 }}
       >
         {imageUri && <Image style={styles.coverImage} source={{uri: imageUri}} />}
         {imageUri && <View style={styles.textContainer}>

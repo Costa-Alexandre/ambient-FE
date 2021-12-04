@@ -63,6 +63,10 @@ export default function Login({ navigation }) {
     }
   }, [awaitingSignIn])
 
+  useEffect(() => {
+    navigation.navigate("Home");
+  }, [])
+
 
   // DELETE: flag to skip authentication
   const ignoreAuth = !true;
@@ -74,11 +78,11 @@ export default function Login({ navigation }) {
         backgroundColor={"transparent"}
         barStyle={"light-content"} />
 
-      <BubbleBackground/>
-      <LoginLogo/>
-          
       {awaitingSignIn ? <LoadingFullScreen/> :
-        <View>
+        <View style={styles.buttonContainer}>
+          <BubbleBackground/>
+          <LoginLogo/>
+
           <CustomButton
             title="Continue with Spotify"
             color="accent"
@@ -99,6 +103,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonContainer: {
-    marginBottom:100
+    marginBottom: 100
   },
 });

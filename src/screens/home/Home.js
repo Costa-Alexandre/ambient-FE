@@ -8,13 +8,7 @@ import { getLiveShows } from 'api/shows';
 
 export default function Home({ navigation }) {
 
-  const { 
-    user,
-    activeShow,
-  } = useContext(MainContext);
-
-
-  
+  const { user, activeShow } = useContext(MainContext);
 
   const [liveShows, setliveShows] = useState([]);
 
@@ -29,8 +23,6 @@ export default function Home({ navigation }) {
     // console.log('from home', activeShow);
   }, []);
   
-
-
     return (
       <View style={styles.container}>
         <MenuHome user={user} />
