@@ -4,8 +4,7 @@ import { StyleSheet, Text, View, ImageBackground, LogBox } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { colorStyles, fontStyles } from "styles";
 import { PlayingSong } from "ui";
-import MenuShow from "./MenuShow";
-import LiveUsers from "./LiveUsers";
+import { MenuShow, LiveUsers } from "./components";
 import { spotifyGetTrack } from "api/spotify";
 
 const dummyBGImage = "https://f4.bcbits.com/img/a1024330960_10.jpg";

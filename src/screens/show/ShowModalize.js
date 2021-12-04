@@ -2,7 +2,7 @@ import React, {useRef, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { useModalize } from 'react-native-modalize/lib/utils/use-modalize';
-import { ChatInput, ChatHeader, ChatComment } from "./ChatComponents";
+import { ChatInput, ChatHeader, ChatComment } from "./components";
 
 export default function ShowModalize() {
 

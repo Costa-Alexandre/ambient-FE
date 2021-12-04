@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { MainContext } from "store/MainProvider";
-
-import { ShowInfo, ShowModalize } from "./components";
+import ShowInfo from "./ShowInfo"
+import ShowModalize from "./ShowModalize";
 
 export default function Show({ route: { params: activeShow },  navigation }) {
   
