@@ -11,7 +11,7 @@ export default function MenuHome({ user, size=40, callback=null }) {
         <UserPicture uri={user.avatar} size={size} callback={callback} />
       </View>
       <View style={styles.buttons}>
-        <CustomButton icon='live' color='accent' size='rectangleSmall' />
+        <CustomButton icon='live' color='accent' size='rectangleSmall' callback={callback} />
         <CustomButton icon='calendar' color='buttonSolid' size='squareSmall' />
       </View>
     </View>

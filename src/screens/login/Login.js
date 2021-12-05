@@ -94,20 +94,19 @@ export default function Login({ navigation }) {
         animated={true}
         backgroundColor={"transparent"}
         barStyle={"light-content"} />
-
+          
       {awaitingSignIn ? <LoadingFullScreen/> :
-        <View style={styles.container}>
+        <View style={styles.buttonContainer}>
           <BubbleBackground/>
           <LoginLogo/>
-          <View style={styles.buttonContainer}>
-            <CustomButton
-              title="Continue with Spotify"
-              color="accent"
-              size="loginButton"
-              // DELETE line below and replace by callback={signIn}
-              callback={ignoreAuth ? () => navigation.navigate("Home") : signInPressed}
-            />
-          </View>
+
+          <CustomButton
+            title="Continue with Spotify"
+            color="accent"
+            size="loginButton"
+            // DELETE line below and replace by callback={signIn}
+            callback={ignoreAuth ? () => navigation.navigate("Home") : signInPressed}
+          />
         </View>}
     </View>
   );

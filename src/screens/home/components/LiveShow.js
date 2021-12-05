@@ -5,13 +5,11 @@ import { CustomIcon, CustomButton, UserPicture, PlayingSong } from 'ui';
 
 
 export default function LiveShow({ 
-  showId="",
   showName="",
   showDescription="",
   amountSpeakers="",
   amountListeners="",
   imageUri="",
-  users=[], 
   listenCallback=null
 }) {
 
@@ -38,19 +36,17 @@ export default function LiveShow({
       <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>{showName}</Text>
 
       <View style={styles.songContainer}>
-        <PlayingSong
-          imageUri={imageUri}
-        />
+        {imageUri !== "" && (<PlayingSong imageUri={imageUri} />)}
       </View>
 
-      <Text style={[fontStyles.body, styles.showDescription]}>{showDescription}{}</Text>
-      {userInfo()}
+      <Text style={[fontStyles.body, styles.showDescription]}>{showDescription}{". "}{userInfo()}</Text>
+      
 
       <View style={styles.buttonRowContainer}>
         <CustomButton title="Listen" color="buttonSolid" size="normalMediumWide" callback={listenCallback}/>
 
         <View style={styles.userImageContainer}>
-          {users.map(user => <View style={styles.userImage}>
+          {dummyUsers.map(user => <View style={styles.userImage}>
             <UserPicture
               size={32}
               uri={null} 
@@ -71,6 +67,7 @@ const styles = StyleSheet.create({
     backgroundColor: colorStyles.card,
   },
   buttonRowContainer: {
+    marginTop: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
@@ -103,3 +100,5 @@ const styles = StyleSheet.create({
     marginLeft: 8
   }
 });
+
+const dummyUsers = [];

@@ -1,13 +1,26 @@
-import React from "react";
+import React, {useContext } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { CustomButton, CustomIcon } from "ui";
 import { fontStyles, colorStyles } from "styles";
+import { MainContext } from "store/MainProvider";
 
-export default function MenuShow(){
+export default function MenuShow({ callback, goBack }){
+
+  const { setActiveShow } = useContext(MainContext);
+  
+  const resetShow = () => {
+    return (
+    {
+      showId: "",
+      showName: "",
+      showDescription: "",
+      imageUri: "",
+    }
+    )};
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={goBack} >
         <View style={styles.leftMenu}>
           <View style={styles.arrowDown}>
             <CustomIcon name='arrow_left' color={colorStyles.text} size={20}/>
@@ -16,7 +29,10 @@ export default function MenuShow(){
         </View>
       </TouchableOpacity>
       <View style={styles.rightMenu}>
-        <CustomButton title="Leave" color="button" size="normalSmall" callback={() => {}}/>
+        <CustomButton title="Leave" color="button" size="normalSmall" callback={() => {
+          setActiveShow(resetShow());
+          callback("Home");
+        }}/>
         <TouchableOpacity style={styles.moreIcon}>
         <CustomIcon name='more' size={20} color={colorStyles.text} />
         </TouchableOpacity>

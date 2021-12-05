@@ -50,7 +50,7 @@ export default function UserStage({uri=null, callback=null, username="...", isMu
       activeOpacity={callback!==null ? 0.8 : 1}
       onPress={onPress}
     >
-      <View style={[styles.wrapper, {borderColor: isTalking&&!isMuted ? 'red' : 'transparent'}]}>
+      <View style={[styles.wrapper, {borderColor: isTalking&&!isMuted ? 'rgba(255, 255, 255, 0.75)' : 'transparent'}]}>
         <View style={styles.image}>
           <ProfileShapeRectStage uri={uri} hasCutout={isMuted}/>
           {isMuted && <View style={styles.muteIcon}>

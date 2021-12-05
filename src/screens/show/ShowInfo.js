@@ -1,60 +1,56 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { remote as SpotifyRemote } from "react-native-spotify-remote";
 import { StyleSheet, Text, View, ImageBackground, LogBox } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { colorStyles, fontStyles } from "styles";
-import { PlayingSong } from "ui";
-import MenuShow from "./MenuShow";
-import LiveUsers from "./LiveUsers";
-import { MainContext } from "store/MainProvider";
+import { MenuShow, LiveUsers, ShowSong } from "./components";
 import { spotifyGetTrack } from "api/spotify";
+import { MainContext } from "store/MainProvider";
+import useAverageColor from 'hooks/averageColor';
 
-const dummyBGImage = "https://f4.bcbits.com/img/a1024330960_10.jpg";
+
 
 //TODO: remove when fixed
 LogBox.ignoreLogs([
   "VirtualizedLists should never be nested inside plain ScrollViews",
 ]);
 
-export default function ShowInfo({
-  showId,
-}) {
+export default function ShowInfo({ callback, goBack }) {
+  const {activeTrack, setActiveTrack, activeShow } = useContext(MainContext);
+  const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri, "#1B1B1F")
 
-  const [activeTrack, setActiveTrack] = useState('')
-  const [spotifyImageUri, setSpotifyImageUri] = useState(dummyBGImage)
-  
-const dummyOnPressHandler = () => {
-  setActiveTrack(`spotify:track:${dummyTrackId}`)
-};
-
-useEffect(() => {
-  if(activeTrack !== '') {
+  const dummyOnPressHandler = () => {
     spotifyGetTrack(dummyTrackId).then(track => {
-      setSpotifyImageUri(track.album.images[0].url);
+      setActiveTrack(track)
+      SpotifyRemote.playUri(track.uri);
+      console.log(`Set track ${track.name}, uri: ${track.uri} and start playing!`)
     })
-    SpotifyRemote.playUri(activeTrack);
-  }
-}, [activeTrack])
+  };
 
+  useEffect(() => {
+    setImageUri(activeTrack.imageUri)
+  }, [activeTrack])
 
   return (
-    <ScrollView style={[styles.outerContainer, { backgroundColor: "#404040" }]}>
+    <ScrollView style={[styles.outerContainer, { backgroundColor: averageColor }]}>
       <ImageBackground
-        source={{uri: spotifyImageUri}}
+        source={{ uri: activeTrack.imageUri }}
         imageStyle={{ opacity: 0.1 }}
-        style={styles.image}
+        style={[styles.image, {backgroundColor: "rgba(0, 0, 0, 0.65)"}]}
       >
         <View style={styles.container}>
-          <MenuShow />
+          <MenuShow callback={callback} goBack={goBack} />
 
           <View style={styles.titleContainer}>
             <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>
-              {`showName`}
+              {activeShow.name}
             </Text>
           </View>
 
           <View style={styles.songContainer}>
-            <PlayingSong imageUri={spotifyImageUri} callback={dummyOnPressHandler} />
+            <ShowSong
+              callback={dummyOnPressHandler}
+            />
           </View>
 
           <View style={styles.usersContainer}>
@@ -95,5 +91,4 @@ const styles = StyleSheet.create({
   },
 });
 
-
-const dummyTrackId = '4cY1UR4UCWzXqGm9lMvnQC'
+const dummyTrackId = "11dFghVXANMlKmJXsNCbNl";

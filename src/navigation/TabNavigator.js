@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Host } from 'react-native-portalize';
 import { Home } from 'screens';
 import { CustomIcon } from 'ui';
 
@@ -7,6 +8,7 @@ const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
   return (
+    <Host>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused }) => {
@@ -24,5 +26,6 @@ export default function TabNavigator() {
         <Tab.Screen name="search" component={Home} />
         <Tab.Screen name="message" component={Home} />
       </Tab.Navigator>
+    </Host>
   );
 }
