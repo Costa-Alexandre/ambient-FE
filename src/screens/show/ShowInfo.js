@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { remote as SpotifyRemote } from "react-native-spotify-remote";
 import { StyleSheet, Text, View, ImageBackground, LogBox } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -6,6 +6,7 @@ import { colorStyles, fontStyles } from "styles";
 import { MenuShow, LiveUsers, ShowSong } from "./components";
 import { spotifyGetTrack } from "api/spotify";
 import { MainContext } from "store/MainProvider";
+import useAverageColor from 'hooks/averageColor';
 
 
 
@@ -16,6 +17,7 @@ LogBox.ignoreLogs([
 
 export default function ShowInfo({ callback, goBack }) {
   const {activeTrack, setActiveTrack, activeShow } = useContext(MainContext);
+  const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri, "#1B1B1F")
 
   const dummyOnPressHandler = () => {
     spotifyGetTrack(dummyTrackId).then(track => {
@@ -23,15 +25,18 @@ export default function ShowInfo({ callback, goBack }) {
       SpotifyRemote.playUri(track.uri);
       console.log(`Set track ${track.name}, uri: ${track.uri} and start playing!`)
     })
-    
   };
 
+  useEffect(() => {
+    setImageUri(activeTrack.imageUri)
+  }, [activeTrack])
+
   return (
-    <ScrollView style={[styles.outerContainer, { backgroundColor: "#303030" }]}>
+    <ScrollView style={[styles.outerContainer, { backgroundColor: averageColor }]}>
       <ImageBackground
         source={{ uri: activeTrack.imageUri }}
         imageStyle={{ opacity: 0.1 }}
-        style={styles.image}
+        style={[styles.image, {backgroundColor: "rgba(0, 0, 0, 0.65)"}]}
       >
         <View style={styles.container}>
           <MenuShow callback={callback} goBack={goBack} />
