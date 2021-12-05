@@ -73,12 +73,12 @@ export default function Login({ navigation }) {
         animated={true}
         backgroundColor={"transparent"}
         barStyle={"light-content"} />
-
-      <BubbleBackground/>
-      <LoginLogo/>
           
       {awaitingSignIn ? <LoadingFullScreen/> :
-        <View>
+        <View style={styles.buttonContainer}>
+          <BubbleBackground/>
+          <LoginLogo/>
+
           <CustomButton
             title="Continue with Spotify"
             color="accent"
