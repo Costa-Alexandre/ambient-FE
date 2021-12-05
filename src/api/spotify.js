@@ -49,7 +49,7 @@ export const spotifyGetTrack = async (trackId, token = null) => {
     const { id, name, uri, artists, album: { images } } = await response.json();
 
     const track = {
-      id, name, uri, artist: artists[0].name, url: images[0].url //TODO: get list of all artists
+      id, name, uri, artist: artists[0].name, imageUri: images[0].url //TODO: get list of all artists
     }
     return track;
   } catch (error) {

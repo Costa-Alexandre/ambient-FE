@@ -7,7 +7,7 @@ import { MainContext } from "store/MainProvider";
 import { getShows } from "api/shows";
 
 export default function Home({ navigation }) {
-  const { user, activeShow } = useContext(MainContext);
+  const { user, activeShow, activeTrack } = useContext(MainContext);
   const [liveShows, setliveShows] = useState([]);
   const [modal, setModal] = useState(null);
 
@@ -55,7 +55,7 @@ export default function Home({ navigation }) {
             )}
           />
         </View>
-        {activeShow.showId !== "" && <PlayingSong uri={activeShow.imageUri} />}
+        {/* {activeShow.showId !== "" && <PlayingSong uri={activeShow.imageUri} />} */}
       </View>
       <Portal>
         {modal}

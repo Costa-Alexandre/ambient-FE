@@ -21,15 +21,15 @@ const initialValues = {
   },
   spotifyData: null,
   activeShow: {
-    showId: "",
-    showName: "",
-    showDescription: "",
-    imageUri: "",
+    _id: "",
+    name: "",
+    description: ""
   },
   activeTrack: {
     id: "",
     name: "",
     uri: "",
+    imageUri: undefined,
     artists: [] 
   },
   localStream: null,
@@ -50,6 +50,7 @@ const MainContextProvider = ({ children }) => {
   const [user, setUser] = useState(initialValues.user);
   const [spotifyData, setSpotifyData] = useState(initialValues.spotifyData)
   const [activeShow, setActiveShow] = useState(initialValues.activeShow);
+  const [activeTrack, setActiveTrack] = useState(initialValues.activeTrack)
   const [localStream, setLocalStream] = useState(initialValues.localStream);
   const [remoteStreams, setRemoteStreams] = useState(
     initialValues.remoteStreams
@@ -197,6 +198,8 @@ const MainContextProvider = ({ children }) => {
         setSpotifyData,
         activeShow,
         setActiveShow,
+        activeTrack,
+        setActiveTrack,
         localStream,
         setLocalStream,
         remoteStreams,
