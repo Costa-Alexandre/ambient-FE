@@ -63,10 +63,6 @@ export default function Login({ navigation }) {
     }
   }, [awaitingSignIn])
 
-
-  // DELETE: flag to skip authentication
-  const ignoreAuth = !true;
-
   return (
     <View style={styles.container}>
       <StatusBar
@@ -83,8 +79,7 @@ export default function Login({ navigation }) {
             title="Continue with Spotify"
             color="accent"
             size="loginButton"
-            // DELETE line below and replace by callback={signIn}
-            callback={ignoreAuth ? () => navigation.navigate("Home") : signInPressed}
+            callback={signInPressed}
           />
         </View>}
     </View>
