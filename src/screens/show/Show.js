@@ -9,6 +9,7 @@ export default function Show({ route: { params: activeShow },  navigation }) {
 
   useEffect(() => {
     setActiveShow(activeShow);
+    console.log(`Welcome to show ${activeShow.name}!`);
   }, []);
 
   return (

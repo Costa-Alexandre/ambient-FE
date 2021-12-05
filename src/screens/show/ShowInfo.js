@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { remote as SpotifyRemote } from "react-native-spotify-remote";
 import { StyleSheet, Text, View, ImageBackground, LogBox } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { colorStyles, fontStyles } from "styles";
-import { PlayingSong } from "ui";
-import { MenuShow, LiveUsers } from "./components";
+import { MenuShow, LiveUsers, ShowSong } from "./components";
 import { spotifyGetTrack } from "api/spotify";
+import { MainContext } from "store/MainProvider";
 
-const dummyBGImage = "https://f4.bcbits.com/img/a1024330960_10.jpg";
+
 
 //TODO: remove when fixed
 LogBox.ignoreLogs([
@@ -15,25 +15,21 @@ LogBox.ignoreLogs([
 ]);
 
 export default function ShowInfo({ callback, goBack }) {
-  const [activeTrack, setActiveTrack] = useState(null);
-  const [spotifyImageUri, setSpotifyImageUri] = useState(dummyBGImage);
+  const {activeTrack, setActiveTrack, activeShow } = useContext(MainContext);
 
-  const dummyOnPressHandler = async () => {
-    let track = await spotifyGetTrack(dummyTrackId);
-    setActiveTrack(track);
+  const dummyOnPressHandler = () => {
+    spotifyGetTrack(dummyTrackId).then(track => {
+      setActiveTrack(track)
+      SpotifyRemote.playUri(track.uri);
+      console.log(`Set track ${track.name}, uri: ${track.uri} and start playing!`)
+    })
+    
   };
 
-  useEffect(() => {
-    if (activeTrack) {
-      setSpotifyImageUri(activeTrack.url);
-      SpotifyRemote.playUri(activeTrack.uri);
-    }
-  }, [activeTrack]);
-
   return (
-    <ScrollView style={[styles.outerContainer, { backgroundColor: "#404040" }]}>
+    <ScrollView style={[styles.outerContainer, { backgroundColor: "#303030" }]}>
       <ImageBackground
-        source={{ uri: spotifyImageUri }}
+        source={{ uri: activeTrack.imageUri }}
         imageStyle={{ opacity: 0.1 }}
         style={styles.image}
       >
@@ -42,13 +38,12 @@ export default function ShowInfo({ callback, goBack }) {
 
           <View style={styles.titleContainer}>
             <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>
-              {`showName`}
+              {activeShow.name}
             </Text>
           </View>
 
           <View style={styles.songContainer}>
-            <PlayingSong
-              imageUri={spotifyImageUri}
+            <ShowSong
               callback={dummyOnPressHandler}
             />
           </View>
@@ -91,5 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const dummyTrackId = "4cY1UR4UCWzXqGm9lMvnQC";
-const dummyTrackUri = "spotify:track:4cY1UR4UCWzXqGm9lMvnQC";
+const dummyTrackId = "11dFghVXANMlKmJXsNCbNl";
