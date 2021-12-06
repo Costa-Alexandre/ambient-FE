@@ -6,16 +6,26 @@ import { MainContext } from "store/MainProvider";
 
 export default function MenuShow({ callback, goBack }){
 
-  const { setActiveShow } = useContext(MainContext);
+  const { setActiveShow, setActiveTrack } = useContext(MainContext);
   
   const resetShow = () => {
     return (
-    {
-      showId: "",
-      showName: "",
-      showDescription: "",
-      imageUri: "",
-    }
+      {
+        _id: "",
+        name: "",
+        description: "",
+      }
+    )};
+
+    const resetTrack = () => {
+    return (
+      {
+        id: "",
+        name: "",
+        uri: "",
+        imageUri: null,
+        artists: []
+      }
     )};
 
   return (
@@ -31,6 +41,7 @@ export default function MenuShow({ callback, goBack }){
       <View style={styles.rightMenu}>
         <CustomButton title="Leave" color="button" size="normalSmall" callback={() => {
           setActiveShow(resetShow());
+          setActiveTrack(resetTrack());
           callback("Home");
         }}/>
         <TouchableOpacity style={styles.moreIcon}>
