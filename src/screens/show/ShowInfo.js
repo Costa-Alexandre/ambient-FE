@@ -45,6 +45,8 @@ export default function ShowInfo({ callback, goBack }) {
       <View style={styles.songContainer}>
         <ShowSong
           callback={dummyOnPressHandler}
+          onPause={() => SpotifyRemote.pause()}
+          onPlay={() => SpotifyRemote.playUri("")}
         />
       </View>
 
@@ -97,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const dummyTrackId = "11dFghVXANMlKmJXsNCbNl";
+const dummyTrackId = "7oFiFPltiQTBqVutyiSwvE";

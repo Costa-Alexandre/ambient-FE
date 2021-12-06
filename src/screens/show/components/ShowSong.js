@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {
   StyleSheet,
   Text,
@@ -10,9 +10,10 @@ import { CustomButton, PlayingSong } from "ui";
 import { colorStyles, fontStyles } from "styles";
 import { MainContext } from "store/MainProvider";
 
-export default function ShowSong({ callback=null }) {
+export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
 
   const { activeTrack } = useContext(MainContext);
+  const [pause, setPause] = useState(false);
   
   const noMusic = () => {
     return (
@@ -23,7 +24,7 @@ export default function ShowSong({ callback=null }) {
           >
             Tap to pick music
           </Text>
-          <CustomButton icon="spotify" callback={callback} />
+          <CustomButton icon="spotify" size={40} callback={callback} />
         </View>
     )
   };
@@ -35,20 +36,35 @@ export default function ShowSong({ callback=null }) {
         source={activeTrack.imageUri}
         imageStyle={{ opacity: 0.1 }}
       >
-        <Image style={styles.coverImage} source={activeTrack.imageUri} />
-        <View style={styles.textContainer}>
-          <Text
-            style={[fontStyles.subtitleSecondary, styles.songText]}
-            numberOfLines={1}
-          >
-            {activeTrack.name}
-          </Text>
-          <Text
-            style={[fontStyles.subtitleSecondary, styles.artistText]}
-            numberOfLines={1}
-          >
-            {activeTrack.artist}
-          </Text>
+        <View style={styles.playContainer}>
+          <Image style={styles.coverImage} source={activeTrack.imageUri} />
+          <View style={styles.textContainer}>
+            <Text
+              style={[fontStyles.subtitleSecondary, styles.songText]}
+              numberOfLines={1}
+            >
+              {activeTrack.name}
+            </Text>
+            <Text
+              style={[fontStyles.subtitleSecondary, styles.artistText]}
+              numberOfLines={1}
+            >
+              {activeTrack.artist}
+            </Text>
+          </View>
+          <View style={{marginLeft: 20}}>
+            {!pause && <CustomButton icon="pause" size={40} callback={() => {
+              onPause();
+              setPause(true);
+            }} />}
+            {pause && <CustomButton icon="play" size={40} callback={() => {
+              onPlay();
+              setPause(false);
+            }} />}
+          </View>
+            <View style={{marginLeft: 20}}>
+              <CustomButton icon="spotify" size={40} callback={callback} />
+            </View>
         </View>
       </ImageBackground>
     );
@@ -79,12 +95,6 @@ const styles = StyleSheet.create({
   artistText: {
     color: colorStyles.textSecondary,
   },
-  image: {
-    flex: 1,
-    alignItems: "center",
-    padding: 8,
-    flexDirection: "row",
-  },
   noMusicContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -93,8 +103,23 @@ const styles = StyleSheet.create({
   },
   noMusicText: {
     color: colorStyles.text,
-  }
+  },
+  image: {
+    flex: 1,
+    alignItems: "center",
+    flexDirection: "row",
+  },
+  iconContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  playContainer: {
+    flex: 1,
+    padding: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 });
 
-const dummyBGImage = "https://f4.bcbits.com/img/a1024330960_10.jpg";
-const dummyColor = "#404040";
+
