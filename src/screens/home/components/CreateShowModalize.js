@@ -60,53 +60,54 @@ export default function CreateShowModalize({ openModal, onClose, callback=null }
             </View>
           </View>
           <View style={styles.buttonContainer}>
-          <CustomButton size="startShowButton" color="button" title="Schedule" callback={null} />
-          <CustomButton 
-            size="startShowButton" 
-            color="accent" 
-            title="Start Show" 
-            callback={() => createShow(
-            )} />
-          </View>
+            <CustomButton size="startShowButton" color="button" title="Schedule" callback={null} />
+            <View style={{width: 16}}></View>
+            <CustomButton 
+              size="startShowButton" 
+              color="accent" 
+              title="Start Show" 
+              callback={() => createShow(
+              )} />
+            </View>
         </View>
       </Modalize>
   )
 }
 
 
-  const styles = StyleSheet.create({
-    rootModalize: {
-      backgroundColor: colorStyles.card,
-      flex: 1,
-    },
-    text: {
-      color: colorStyles.textSecondary,
-    },
-    content: {
-      marginHorizontal: 20,
-      marginTop: 54,
-      marginBottom: 32,
-    },
-    buttonContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-    },
-    inputContainer: {
-      flexDirection: "column",
-    },
-    frame: {
-      flexDirection: "column",
-      marginBottom: 32,
-    },
-    input: {
-      width: "100%",
-      backgroundColor: colorStyles.input,
-      borderRadius: 8,
-      color: colorStyles.text,
-      paddingHorizontal: 20,
-      marginTop: 8,
-    },
-  });
+const styles = StyleSheet.create({
+  rootModalize: {
+    backgroundColor: colorStyles.card,
+    flex: 1,
+  },
+  text: {
+    color: colorStyles.textSecondary,
+  },
+  content: {
+    marginHorizontal: 20,
+    marginTop: 54,
+    marginBottom: 32,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  inputContainer: {
+    flexDirection: "column",
+  },
+  frame: {
+    flexDirection: "column",
+    marginBottom: 32,
+  },
+  input: {
+    width: "100%",
+    backgroundColor: colorStyles.input,
+    borderRadius: 8,
+    color: colorStyles.text,
+    paddingHorizontal: 20,
+    marginTop: 8,
+  },
+});
 
-  const composeText = StyleSheet.compose([styles.text, fontStyles.subtext]);
-  const composeInput = StyleSheet.compose(styles.input, fontStyles.body);
+const composeText = StyleSheet.compose([styles.text, fontStyles.subtext]);
+const composeInput = StyleSheet.compose(styles.input, fontStyles.body);

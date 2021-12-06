@@ -73,10 +73,12 @@ export default function ShowInfo({ callback, goBack }) {
 const styles = StyleSheet.create({
   outerContainer: {
     flex: 1,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16
   },
   container: {
     paddingVertical: 10,
-    paddingBottom: 140,
+    paddingBottom: 140
   },
   titleContainer: {
     flexDirection: "column",

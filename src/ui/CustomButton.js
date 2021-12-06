@@ -24,7 +24,7 @@ export default function CustomButton({ title, color, size, icon, iconSize=20, ca
 
   
   return (
-    <View style={styles.buttonContainer}>
+    // <View style={styles.buttonContainer}>
       <TouchableOpacity
         style={buttonStyle}
         activeOpacity={callback!==null && !loading ? 0.8 : 1}
@@ -32,7 +32,7 @@ export default function CustomButton({ title, color, size, icon, iconSize=20, ca
       >
         {loading ? <ActivityIndicator color="white" size="small"/> : titleOrIcon(title, icon)}
       </TouchableOpacity>
-    </View>
+    // </View>
   );
 }
 
@@ -50,6 +50,6 @@ const textStyle = StyleSheet.compose(
 const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
   }
 })

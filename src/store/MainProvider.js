@@ -15,7 +15,7 @@ const initialValues = {
     username: "",
     displayName: "",
     email: "",
-    avatar: "",
+    avatar: null,
     createdShows: [],
     showShowNotifications: ""
   },
