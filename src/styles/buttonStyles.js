@@ -46,12 +46,12 @@ export const buttonStyles = StyleSheet.create({
     borderRadius: 18,
   },
   loginButton: {
-    width: '80%',
+    flexGrow: 1,
     height: 44,
     borderRadius: 22,
   },
   startShowButton: {
-    width: '48%',
+    flexGrow: 1,
     height: 44,
     borderRadius: 22,
   },

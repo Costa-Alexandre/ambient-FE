@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, Text, Image, StatusBar, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
@@ -38,8 +38,8 @@ export default function Login({ navigation }) {
   }
 
   const getWasSignedIn = async () => {
-    // return false
-    // let wasSignedIn = false
+    return false
+    let wasSignedIn = false
     try {
       wasSignedIn = await AsyncStorage.getItem('was_signed_in')
       if (wasSignedIn) wasSignedIn = JSON.parse(wasSignedIn)
@@ -108,17 +108,19 @@ export default function Login({ navigation }) {
   return (
     <View style={styles.container}>          
       {awaitingAutoSignIn ? <LoadingFullScreen/> :
-        <View style={styles.buttonContainer}>
+        <View style={styles.contentContainer}>
           <BubbleBackground/>
           <LoginLogo/>
 
-          <CustomButton
-            title={awaitingSignIn ? "loading" : "Continue with Spotify"}
-            color="accent"
-            size="loginButton"
-            loading={awaitingSignIn}
-            callback={signInPressed}
-          />
+          <View style={styles.buttonContainer}>
+            <CustomButton
+              title={awaitingSignIn ? "loading" : "Continue with Spotify"}
+              color="accent"
+              size="loginButton"
+              loading={awaitingSignIn}
+              callback={signInPressed}
+            />
+          </View>
         </View>}
     </View>
   );
@@ -131,10 +133,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  buttonContainer: {
+  contentContainer: {
     marginBottom: 100,
     width: '100%',
     flexGrow: 1,
     flex: 1,
   },
+  buttonContainer: {
+    height: 44,
+    marginHorizontal: 20
+  }
 });
