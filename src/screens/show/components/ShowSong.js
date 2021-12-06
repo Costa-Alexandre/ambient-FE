@@ -18,23 +18,23 @@ export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
   const noMusic = () => {
     return (
       <View style={styles.noMusicContainer}>
-          <Text
-            style={[fontStyles.subtitleSecondary, styles.noMusicText]}
-            numberOfLines={1}
-          >
-            Tap to pick music
-          </Text>
-          <CustomButton icon="spotify" size={40} callback={callback} />
-        </View>
+        <Text
+          style={[fontStyles.subtitleSecondary, styles.noMusicText]}
+          numberOfLines={1}
+        >
+          Tap to pick music
+        </Text>
+        <CustomButton icon="spotify" size={40} callback={callback} />
+      </View>
     )
   };
 
   const playMusic = () => {
     return (
       <ImageBackground
-        style={styles.image}
+        style={[styles.image, { backgroundColor: "rgba(0, 0, 0, 0.5)" }]}
         source={activeTrack.imageUri}
-        imageStyle={{ opacity: 0.1 }}
+        imageStyle={{ opacity: 0.2 }}
       >
         <View style={styles.playContainer}>
           <Image style={styles.coverImage} source={activeTrack.imageUri} />
