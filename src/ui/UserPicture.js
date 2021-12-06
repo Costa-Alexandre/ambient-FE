@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colorStyles.buttonSolid,
     justifyContent: 'center',
-    alignItems: 'center'
   },
   image: {
     flex:1
