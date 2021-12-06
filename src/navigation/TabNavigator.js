@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Host } from 'react-native-portalize';
 import { Home } from 'screens';
 import { CustomIcon } from 'ui';
+import { colorStyles } from 'styles';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,11 +13,11 @@ export default function TabNavigator() {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused }) => {
-            let iconColor = focused ? 'white': '#ffffff50';
+            let iconColor = focused ? colorStyles.text : colorStyles.textSecondary;
             return <CustomIcon name={route.name} size={20} color={iconColor} />;
           },
-          tabBarInactiveBackgroundColor: '#1b1b1fff',
-          tabBarActiveBackgroundColor: '#1b1b1fff',
+          tabBarInactiveBackgroundColor: colorStyles.card,
+          tabBarActiveBackgroundColor: colorStyles.card,
           tabBarShowLabel: false,
           headerShown: false,
         })}
