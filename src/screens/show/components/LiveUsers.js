@@ -55,7 +55,7 @@ export default function LiveUsers({ stage, requesting, listening }) {
         numColumns={7}
         renderItem={({ item }) => (
           <View style={styles.itemSmall}>
-            <UserPicture uri={item.uri} callback={null} size={40} />
+            <UserPicture uri={item.uri} callback={null} name={"-"} size={40} />
           </View>
         )}
       />

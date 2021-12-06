@@ -47,7 +47,7 @@ export function ChatInput() {
 export function ChatComment({ imageUri, username, payload }) {
   return (
     <View style={styles.message}>
-      <UserPicture size={20} uri={imageUri} />
+      <UserPicture size={20} uri={imageUri} name={username} />
       <Text style={composeUsername}>
         {username}: <Text style={styles.payload}>{payload}</Text>
       </Text>

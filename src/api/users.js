@@ -17,7 +17,7 @@ export const signUpUser = async (spotifyData) => {
         displayName: spotifyData.display_name,
         username: spotifyData.id,
         email: spotifyData.email,
-        avatar: spotifyData.images[0]?.url
+        avatar: spotifyData.images ? spotifyData.images[0].url : null
     }
 
     try {
@@ -41,6 +41,7 @@ export const signInUser = async (username) => {
     try {
         const response = await fetch(`${serverBaseUrl}/api/user/${username}`)
         const userData = await response.json()
+        if (!userData.avatar) userData.avatar = null
         return userData
     } catch (error) {
         console.log(error)
