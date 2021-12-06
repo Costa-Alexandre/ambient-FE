@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 16,
-    top: 0,
+    top: 1,
     left: 0,
     backgroundColor: `linear-gradient(180deg, #000000 0%, rgba(0, 0, 0, 0) 100%);`,
   },
