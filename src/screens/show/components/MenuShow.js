@@ -6,17 +6,7 @@ import { MainContext } from "store/MainProvider";
 
 export default function MenuShow({ callback, goBack }){
 
-  const { setActiveShow } = useContext(MainContext);
-  
-  const resetShow = () => {
-    return (
-    {
-      showId: "",
-      showName: "",
-      showDescription: "",
-      imageUri: "",
-    }
-    )};
+  const { setActiveShow, setActiveTrack, resetShow, resetTrack } = useContext(MainContext);
 
   return (
     <View style={styles.container}>
@@ -29,8 +19,9 @@ export default function MenuShow({ callback, goBack }){
         </View>
       </TouchableOpacity>
       <View style={styles.rightMenu}>
-        <CustomButton title="Leave" color="button" size="normalSmall" callback={() => {
+        <CustomButton title="Leave" color="button" size="slimShort" callback={() => {
           setActiveShow(resetShow());
+          setActiveTrack(resetTrack());
           callback("Home");
         }}/>
         <TouchableOpacity style={styles.moreIcon}>

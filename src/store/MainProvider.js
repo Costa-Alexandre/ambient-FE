@@ -29,7 +29,7 @@ const initialValues = {
     id: "",
     name: "",
     uri: "",
-    imageUri: "https://media1.jpc.de/image/w600/front/0/0075678642128.jpg",
+    imageUri: null,
     artists: [] 
   },
   localStream: null,
@@ -177,17 +177,25 @@ const MainContextProvider = ({ children }) => {
     setRemoteUsers([]);
   };
 
-  const reset = async () => {
-    peerServer?.destroy();
-    socket?.disconnect();
-    setActiveCalls([]);
-    setRemoteUsers([]);
-    setLocalStream(null);
-    setRemoteStreams([]);
-    setUser(null);
-    setSpotifyData(null);
-    setActiveShow(null);
-  };
+  const resetShow = () => {
+    return (
+      {
+        _id: "",
+        name: "",
+        description: "",
+      }
+    )};
+
+    const resetTrack = () => {
+    return (
+      {
+        id: "",
+        name: "",
+        uri: "",
+        imageUri: null,
+        artists: []
+      }
+    )};
 
   return (
     <MainContext.Provider
@@ -212,7 +220,8 @@ const MainContextProvider = ({ children }) => {
         isMuted,
         setIsMuted,
         leaveShow,
-        reset,
+        resetShow,
+        resetTrack,
         activeCalls,
         setActiveCalls,
       }}

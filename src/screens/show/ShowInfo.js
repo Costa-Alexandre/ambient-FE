@@ -17,7 +17,7 @@ LogBox.ignoreLogs([
 
 export default function ShowInfo({ callback, goBack }) {
   const {activeTrack, setActiveTrack, activeShow } = useContext(MainContext);
-  const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri, "#1B1B1F")
+  const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri?.uri, "#1B1B1F")
 
   const dummyOnPressHandler = () => {
     spotifyGetTrack(dummyTrackId).then(track => {
@@ -28,36 +28,44 @@ export default function ShowInfo({ callback, goBack }) {
   };
 
   useEffect(() => {
-    setImageUri(activeTrack.imageUri)
+    setImageUri(activeTrack.imageUri?.uri)
   }, [activeTrack])
+
+  const showContent = () => {
+    return (
+    <View style={styles.container}>
+      <MenuShow callback={callback} goBack={goBack} />
+
+      <View style={styles.titleContainer}>
+        <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>
+          {activeShow.name}
+        </Text>
+      </View>
+
+      <View style={styles.songContainer}>
+        <ShowSong
+          callback={dummyOnPressHandler}
+          onPause={() => SpotifyRemote.pause()}
+          onPlay={() => SpotifyRemote.playUri("")}
+        />
+      </View>
+
+      <View style={styles.usersContainer}>
+        <LiveUsers />
+      </View>
+    </View>);
+  }
 
   return (
     <ScrollView style={[styles.outerContainer, { backgroundColor: averageColor }]}>
-      <ImageBackground
-        source={{ uri: activeTrack.imageUri }}
+      {activeTrack.imageUri && <ImageBackground
+        source={activeTrack.imageUri}
         imageStyle={{ opacity: 0.1 }}
         style={[styles.image, {backgroundColor: "rgba(0, 0, 0, 0.65)"}]}
       >
-        <View style={styles.container}>
-          <MenuShow callback={callback} goBack={goBack} />
-
-          <View style={styles.titleContainer}>
-            <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>
-              {activeShow.name}
-            </Text>
-          </View>
-
-          <View style={styles.songContainer}>
-            <ShowSong
-              callback={dummyOnPressHandler}
-            />
-          </View>
-
-          <View style={styles.usersContainer}>
-            <LiveUsers />
-          </View>
-        </View>
-      </ImageBackground>
+        {showContent()}
+      </ImageBackground>}
+      {!activeTrack.imageUri && showContent()}
     </ScrollView>
   );
 }
@@ -91,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const dummyTrackId = "11dFghVXANMlKmJXsNCbNl";
+const dummyTrackId = "7oFiFPltiQTBqVutyiSwvE";

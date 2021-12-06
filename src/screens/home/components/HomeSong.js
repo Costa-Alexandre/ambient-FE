@@ -1,19 +1,17 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect} from "react";
 import {
   StyleSheet,
   Text,
   View,
-  Image,
-  ImageBackground,
+  Image
 } from "react-native";
 import { CustomButton, PlayingSong } from "ui";
 import { colorStyles, fontStyles } from "styles";
 import { MainContext } from "store/MainProvider";
 
-export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
+export default function HomeSong({ callback=null }) {
 
-  const { activeTrack } = useContext(MainContext);
-  const [pause, setPause] = useState(false);
+  const { activeTrack, activeShow, setActiveShow, setActiveTrack, resetShow, resetTrack } = useContext(MainContext);
   
   const noMusic = () => {
     return (
@@ -22,20 +20,14 @@ export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
             style={[fontStyles.subtitleSecondary, styles.noMusicText]}
             numberOfLines={1}
           >
-            Tap to pick music
+            No song playing
           </Text>
-          <CustomButton icon="spotify" size={40} callback={callback} />
         </View>
     )
   };
 
   const playMusic = () => {
     return (
-      <ImageBackground
-        style={styles.image}
-        source={activeTrack.imageUri}
-        imageStyle={{ opacity: 0.1 }}
-      >
         <View style={styles.playContainer}>
           <Image style={styles.coverImage} source={activeTrack.imageUri} />
           <View style={styles.textContainer}>
@@ -43,30 +35,23 @@ export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
               style={[fontStyles.subtitleSecondary, styles.songText]}
               numberOfLines={1}
             >
-              {activeTrack.name}
+              {activeShow.name}
             </Text>
             <Text
               style={[fontStyles.subtitleSecondary, styles.artistText]}
               numberOfLines={1}
             >
-              {activeTrack.artist}
+              {`${activeTrack.name} - ${activeTrack.artist}`}
             </Text>
           </View>
-          <View style={{marginLeft: 20}}>
-            {!pause && <CustomButton icon="pause" size={40} callback={() => {
-              onPause();
-              setPause(true);
-            }} />}
-            {pause && <CustomButton icon="play" size={40} callback={() => {
-              onPlay();
-              setPause(false);
-            }} />}
-          </View>
-            <View style={{marginLeft: 20}}>
-              <CustomButton icon="spotify" size={40} callback={callback} />
-            </View>
+          <CustomButton title="Leave" color="button" size="slimShort" callback={
+            () => {
+              setActiveShow(resetShow());
+              setActiveTrack(resetTrack())
+            }
+          } />
+
         </View>
-      </ImageBackground>
     );
   };
 
@@ -119,6 +104,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    backgroundColor: colorStyles.card,
   },
 });
 

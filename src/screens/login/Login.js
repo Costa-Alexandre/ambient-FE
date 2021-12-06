@@ -106,9 +106,6 @@ export default function Login({ navigation }) {
   }, [awaitingAutoSignIn])
 
 
-  // DELETE: flag to skip authentication
-  const ignoreAuth = !true;
-
   return (
     <View style={styles.container}>          
       {awaitingAutoSignIn ? <LoadingFullScreen/> :
@@ -121,8 +118,7 @@ export default function Login({ navigation }) {
             color="accent"
             size="loginButton"
             loading={awaitingSignIn}
-            // DELETE line below and replace by callback={signIn}
-            callback={ignoreAuth ? () => navigation.navigate("Home") : signInPressed}
+            callback={signInPressed}
           />
         </View>}
     </View>
