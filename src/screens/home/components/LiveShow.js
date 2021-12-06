@@ -49,7 +49,8 @@ export default function LiveShow({
           {dummyUsers.map(user => <View style={styles.userImage}>
             <UserPicture
               size={32}
-              uri={null} 
+              uri={null}
+              name={"-"}
               callback={() => {}}
             />
           </View>)}
