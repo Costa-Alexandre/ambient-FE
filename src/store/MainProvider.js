@@ -29,7 +29,7 @@ const initialValues = {
     id: "",
     name: "",
     uri: "",
-    imageUri: { uri: "https://media1.jpc.de/image/w600/front/0/0075678642128.jpg"},
+    imageUri: null,
     artists: [] 
   },
   localStream: null,
