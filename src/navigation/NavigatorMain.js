@@ -11,25 +11,22 @@ export default function NavigatorMain() {
     
   return (
     <NavigationContainer>
-        <StatusBar style="dark" />
+      <StatusBar style="light" backgroundColor="transparent" />
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
-          }}
-          >
+          }} >
           <Stack.Screen 
             name="Login" 
             component={Login}
             options={{ title: 'Login / Sign Up'}} />
           <Stack.Screen 
             name="Home" 
-            component={TabNavigator}
-            />
-            <Stack.Screen 
+            component={TabNavigator} />
+          <Stack.Screen 
             name="Show" 
-            component={Show}
-            />
-        </Stack.Navigator>
+            component={Show} />
+      </Stack.Navigator>
     </NavigationContainer>
     )
 }
