@@ -32,10 +32,10 @@ export default function ShowSong({ callback=null }) {
     return (
       <ImageBackground
         style={styles.image}
-        source={{ uri: activeTrack.imageUri }}
+        source={activeTrack.imageUri}
         imageStyle={{ opacity: 0.1 }}
       >
-        <Image style={styles.coverImage} source={{ uri: activeTrack.imageUri }} />
+        <Image style={styles.coverImage} source={activeTrack.imageUri} />
         <View style={styles.textContainer}>
           <Text
             style={[fontStyles.subtitleSecondary, styles.songText]}

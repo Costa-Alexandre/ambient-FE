@@ -17,7 +17,7 @@ LogBox.ignoreLogs([
 
 export default function ShowInfo({ callback, goBack }) {
   const {activeTrack, setActiveTrack, activeShow } = useContext(MainContext);
-  const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri, "#1B1B1F")
+  const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri.uri, "#1B1B1F")
 
   const dummyOnPressHandler = () => {
     spotifyGetTrack(dummyTrackId).then(track => {
@@ -28,13 +28,13 @@ export default function ShowInfo({ callback, goBack }) {
   };
 
   useEffect(() => {
-    setImageUri(activeTrack.imageUri)
+    setImageUri(activeTrack.imageUri.uri)
   }, [activeTrack])
 
   return (
     <ScrollView style={[styles.outerContainer, { backgroundColor: averageColor }]}>
       <ImageBackground
-        source={{ uri: activeTrack.imageUri }}
+        source={activeTrack.imageUri}
         imageStyle={{ opacity: 0.1 }}
         style={[styles.image, {backgroundColor: "rgba(0, 0, 0, 0.65)"}]}
       >
