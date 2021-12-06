@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import { Portal } from "react-native-portalize";
-import { MenuHome, LiveShow, CreateShowModalize } from "./components";
-import { PlayingSong } from "ui";
+import { MenuHome, LiveShow, CreateShowModalize, HomeSong } from "./components";
 import { MainContext } from "store/MainProvider";
 import { getShows } from "api/shows";
 
@@ -55,7 +54,11 @@ export default function Home({ navigation }) {
             )}
           />
         </View>
-        {/* {activeShow.showId !== "" && <PlayingSong uri={activeShow.imageUri} />} */}
+        {activeTrack.id !== "" && <HomeSong
+          callback={() => navigation.navigate("Show", activeShow)}
+          onPause={() => SpotifyRemote.pause()}
+          onPlay={() => SpotifyRemote.playUri("")}
+        />}
       </View>
       <Portal>
         {modal}

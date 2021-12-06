@@ -13,7 +13,7 @@ export const buttonStyles = StyleSheet.create({
     height: 44,
     borderRadius: 22,
   },
-  normalSmall: {
+  slimShort: {
     width: 90,
     height: 40,
     borderRadius: 20,
