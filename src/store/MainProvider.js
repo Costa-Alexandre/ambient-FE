@@ -11,7 +11,7 @@ import Peer from "react-native-peerjs";
 
 const initialValues = {
   user: {
-    userId: "",
+    _id: "",
     username: "",
     displayName: "",
     email: "",
