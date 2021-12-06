@@ -18,6 +18,7 @@ import LoginLogo from "./components/LoginLogo";
 
 export default function Login({ navigation }) {
 
+  const [awaitingAutoSignIn, setAwaitingAutoSignIn] = useState(true)
   const [awaitingSignIn, setAwaitingSignIn] = useState(false)
 
   const { 
@@ -25,85 +26,101 @@ export default function Login({ navigation }) {
     setSpotifyData
   } = useContext(MainContext);
 
+
+  const setWasSignedIn = async (value) => {
+    let wasSignedIn = false
+    try {
+      await AsyncStorage.setItem('was_signed_in', JSON.stringify(value))
+    } catch(e) {
+      console.log(e)
+    }
+    return wasSignedIn
+  }
+
+  const getWasSignedIn = async () => {
+    // return false
+    // let wasSignedIn = false
+    try {
+      wasSignedIn = await AsyncStorage.getItem('was_signed_in')
+      if (wasSignedIn) wasSignedIn = JSON.parse(wasSignedIn)
+      console.log(wasSignedIn)
+    } catch(e) {
+      console.log(e)
+    }
+    return wasSignedIn
+  }
+
+
   const signIn = async () => {
     try {
-      const session = await SpotifyAuth.authorize(spotifyConfig);
-      await SpotifyRemote.connect(session.accessToken);
+      const session = await SpotifyAuth.authorize(spotifyConfig)
+      await SpotifyRemote.connect(session.accessToken)
 
-      console.log(Object.keys(session))
-
-      const spotifyData = await spotifyGetMe();
+      const spotifyData = await spotifyGetMe()
       setSpotifyData(spotifyData)
       const username = spotifyData.id
 
-      const isSignedUp = await userIsSignedUp(username);
+      const isSignedUp = await userIsSignedUp(username)
 
       let userData = null;
       if (isSignedUp) {
-        userData = await signInUser(username);
-        console.log("sign in");
+        userData = await signInUser(username)
       } else {
-        userData = await signUpUser(spotifyData);
-        console.log("sign up");
+        userData = await signUpUser(spotifyData)
       }
       setUser(userData);
 
-      setAwaitingSignIn(false)
-      navigation.navigate("Home");
+      await setWasSignedIn(true)
+      navigation.navigate("Home")
     } catch (error) {
+      setAwaitingAutoSignIn(false)
       setAwaitingSignIn(false)
-      console.log(error);
+      console.log(error)
     }
   }
 
-  const getStorageToken = async () => {
-    let token = null
-    try {
-      token = await AsyncStorage.getItem('refresh_token')
-    } catch(e) {
-      console.log(e)
-      // error reading value
-    }
-    return token
-  }
 
   const signInPressed = async (e) => {
     setAwaitingSignIn(true)
   };
 
+
   useEffect(() => {
     if (awaitingSignIn) {
-      getStorageToken()
-      .then(refresh_token => {
-        if (refresh_token) {
-          console.log(refresh_token)
-        } else {
+      signIn()
+    }
+  }, [awaitingSignIn])
+
+
+  useEffect(() => {
+    if (awaitingAutoSignIn) {
+      getWasSignedIn()
+      .then(wasSignedIn => {
+        if (wasSignedIn) {
           signIn()
+        } else {
+          setAwaitingAutoSignIn(false)
         }
       })
     }
-  }, [awaitingSignIn])
+  }, [awaitingAutoSignIn])
 
 
   // DELETE: flag to skip authentication
   const ignoreAuth = !true;
 
   return (
-    <View style={styles.container}>
-      <StatusBar
-        animated={true}
-        backgroundColor={"transparent"}
-        barStyle={"light-content"} />
-          
-      {awaitingSignIn ? <LoadingFullScreen/> :
+    <View style={styles.container}>          
+      {awaitingAutoSignIn ? <LoadingFullScreen/> :
         <View style={styles.buttonContainer}>
           <BubbleBackground/>
           <LoginLogo/>
 
           <CustomButton
-            title="Continue with Spotify"
+            title={awaitingSignIn ? "loading" : "Continue with Spotify"}
             color="accent"
             size="loginButton"
+            loading={awaitingSignIn}
             // DELETE line below and replace by callback={signIn}
             callback={ignoreAuth ? () => navigation.navigate("Home") : signInPressed}
           />
@@ -120,6 +137,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonContainer: {
-    marginBottom:100
+    marginBottom: 100,
+    width: '100%',
+    flexGrow: 1,
+    flex: 1,
   },
 });

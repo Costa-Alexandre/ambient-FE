@@ -49,7 +49,6 @@ export const buttonStyles = StyleSheet.create({
     width: '80%',
     height: 44,
     borderRadius: 22,
-    marginTop: 20,
   },
   startShowButton: {
     width: '48%',

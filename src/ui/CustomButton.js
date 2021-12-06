@@ -1,15 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, ActivityIndicator, View, Dimensions } from 'react-native';
 import { buttonStyles, colorStyles, fontStyles } from 'styles';
 import CustomIcon from './CustomIcon';
 
-export default function CustomButton({ title, color, size, icon, iconSize=20, callback=null, disabled=false }) {
+export default function CustomButton({ title, color, size, icon, iconSize=20, callback=null, disabled=false, loading=false }) {
 
   const buttonStyle = StyleSheet.compose(
     buttonStyles[size],
     {
       backgroundColor: colorStyles[color],
-      flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center'
     },
@@ -25,22 +24,32 @@ export default function CustomButton({ title, color, size, icon, iconSize=20, ca
 
   
   return (
-    <TouchableOpacity
-      style={buttonStyle}
-      activeOpacity={callback!==null ? 0.8 : 1}
-      onPress={callback}
-    >
-      {titleOrIcon(title, icon)}
-    </TouchableOpacity>
+    <View style={styles.buttonContainer}>
+      <TouchableOpacity
+        style={buttonStyle}
+        activeOpacity={callback!==null && !loading ? 0.8 : 1}
+        onPress={loading ? null : callback}
+      >
+        {loading ? <ActivityIndicator color="white" size="small"/> : titleOrIcon(title, icon)}
+      </TouchableOpacity>
+    </View>
   );
 }
 
-  const textStyle = StyleSheet.compose(
-    fontStyles.button,
-    {
-      textAlign: 'center',
-      textAlignVertical: "center",
-      color: colorStyles.text,
-      flex: 1,
-    }
-  );
+const textStyle = StyleSheet.compose(
+  fontStyles.button,
+  {
+    textAlign: 'center',
+    textAlignVertical: "center",
+    color: colorStyles.text,
+    flex: 1,
+  }
+);
+
+
+const styles = StyleSheet.create({
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  }
+})
