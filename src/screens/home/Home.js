@@ -1,9 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, Text } from "react-native";
 import { Portal } from "react-native-portalize";
 import { MenuHome, LiveShow, CreateShowModalize, HomeSong } from "./components";
 import { MainContext } from "store/MainProvider";
 import { getShows } from "api/shows";
+import { fontStyles, colorStyles } from "styles";
+import Logomark from '../../assets/icons/Logomark';
 
 export default function Home({ navigation }) {
   const { user, activeShow, activeTrack } = useContext(MainContext);
@@ -28,6 +30,17 @@ export default function Home({ navigation }) {
     setModal(null);
   }
 
+  const emptyShowList = () => {
+    return (
+      <View style={styles.noShowsContainer}>
+        <View style={{ width:150, height:150, marginBottom: 20, opacity: 0.5 }}>
+          <Logomark />
+        </View>
+        <Text style={[fontStyles.subtitle, { color: colorStyles.textSecondary }]}>No active shows right now</Text>
+      </View>
+    )
+  }
+
   return (
     <>
       <View style={styles.container}>
@@ -39,6 +52,7 @@ export default function Home({ navigation }) {
           <FlatList
             data={liveShows}
             keyExtractor={(item) => item._id}
+            ListEmptyComponent={emptyShowList()}
             renderItem={({ item }) => (
               <View style={styles.liveShowItem}>
                 <LiveShow
@@ -82,6 +96,13 @@ const styles = StyleSheet.create({
   liveShowItem: {
     marginBottom: 16,
   },
+  noShowsContainer: {
+    flex: 1,
+    marginTop: 100,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
 
 const dummyShowImageUri = "https://f4.bcbits.com/img/a1024330960_10.jpg";

@@ -38,8 +38,8 @@ export default function Login({ navigation }) {
   }
 
   const getWasSignedIn = async () => {
-    return false
-    let wasSignedIn = false
+    // return false
+    // let wasSignedIn = false
     try {
       wasSignedIn = await AsyncStorage.getItem('was_signed_in')
       if (wasSignedIn) wasSignedIn = JSON.parse(wasSignedIn)
