@@ -13,9 +13,9 @@ import { CustomIcon, UserPicture } from "ui";
 export function ChatHeader({ isOpen, callback }) {
   return (
     <View style={styles.headerContainer}>
-      <Text style={composeHeader}>Chat</Text>
+      <Text style={[composeHeader, styles.chatHeaderText]}>Chat</Text>
       <TouchableOpacity
-        style={isOpen ? styles.arrowDown : styles.arrowUp}
+        style={[isOpen ? styles.arrowDown : styles.arrowUp, styles.arrowBtn]}
         onPress={() => {
           callback(!isOpen);
         }}
@@ -78,9 +78,18 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: 'center',
     backgroundColor: "#000",
-    paddingHorizontal: 22,
-    paddingVertical: 20,
+    height: 60,
+  },
+  chatHeaderText: {
+    marginLeft: 20
+  },
+  arrowBtn: {
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   arrowUp: {
     transform: [{ rotate: "90deg" }],
