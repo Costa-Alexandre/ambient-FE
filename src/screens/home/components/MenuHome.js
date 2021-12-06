@@ -8,7 +8,7 @@ export default function MenuHome({ user, size=40, callback=null }) {
   return (
     <View style={styles.container}>
       <View>
-        <UserPicture uri={user.avatar} size={size} callback={callback} name={user.displayName[0]} />
+        <UserPicture uri={user.avatar} size={size} name={user.displayName[0]} />
       </View>
       <View style={styles.buttons}>
         <CustomButton icon='live' color='accent' size='rectangleSmall' callback={callback} />
