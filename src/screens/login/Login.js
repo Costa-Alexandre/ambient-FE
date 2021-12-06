@@ -43,7 +43,6 @@ export default function Login({ navigation }) {
     try {
       wasSignedIn = await AsyncStorage.getItem('was_signed_in')
       if (wasSignedIn) wasSignedIn = JSON.parse(wasSignedIn)
-      console.log(wasSignedIn)
     } catch(e) {
       console.log(e)
     }
