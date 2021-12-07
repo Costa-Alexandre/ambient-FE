@@ -56,7 +56,7 @@ export default function HomeSong({ callback=null }) {
   };
 
   return (
-    <PlayingSong callback={callback} >
+    <PlayingSong callback={callback} bottomFlat={true} >
       {activeTrack.uri !== "" && playMusic()}
       {activeTrack.uri == "" && noMusic()}
     </PlayingSong>
@@ -100,6 +100,8 @@ const styles = StyleSheet.create({
   },
   playContainer: {
     flex: 1,
+    borderTopStartRadius: 8,
+    borderTopEndRadius: 8,
     padding: 8,
     flexDirection: "row",
     alignItems: "center",

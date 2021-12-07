@@ -4,7 +4,7 @@ import { colorStyles } from "styles";
 import useAverageColor from 'hooks/averageColor';
 import { MainContext } from "store/MainProvider";
 
-export default function PlayingSong({ children, callback=null }) {
+export default function PlayingSong({ children, callback=null, bottomFlat=false }) {
   const { activeTrack } = useContext(MainContext);
   const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri?.uri, colorStyles.buttonSolid);
 
@@ -13,19 +13,28 @@ export default function PlayingSong({ children, callback=null }) {
   }, [activeTrack])
 
   return (
-    <TouchableOpacity
-      style={[styles.outerContainer, { backgroundColor: averageColor }]}
-      onPress={callback}
-    >
-      {children}
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity
+        style={[bottomFlat ? styles.outerContainerFlat : styles.outerContainer, 
+        { backgroundColor: averageColor}]}
+        onPress={callback}
+      >
+        {children}
+      </TouchableOpacity>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   outerContainer: {
-    borderRadius: 8,
     height: 64,
-    overflow: "hidden"
+    overflow: "hidden",
+    borderRadius: 8,
+  },
+  outerContainerFlat: {
+    height: 64,
+    overflow: "hidden",
+    borderTopEndRadius: 8,
+    borderTopStartRadius: 8,
   }
 });

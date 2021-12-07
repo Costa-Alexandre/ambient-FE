@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Host } from 'react-native-portalize';
 import { Home } from 'screens';
@@ -16,10 +17,9 @@ export default function TabNavigator() {
             let iconColor = focused ? colorStyles.text : colorStyles.textSecondary;
             return <CustomIcon name={route.name} size={20} color={iconColor} />;
           },
-          tabBarInactiveBackgroundColor: colorStyles.card,
-          tabBarActiveBackgroundColor: colorStyles.card,
           tabBarShowLabel: false,
           headerShown: false,
+          tabBarStyle: styles.tabBarStyle,
         })}
       >
         <Tab.Screen name="home" component={Home} />
@@ -30,3 +30,11 @@ export default function TabNavigator() {
     </Host>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBarStyle: {
+    backgroundColor: colorStyles.card,
+    borderTopColor: colorStyles.card,
+    borderTopWidth: 1,
+  },
+});
