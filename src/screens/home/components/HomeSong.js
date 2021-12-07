@@ -100,9 +100,9 @@ const styles = StyleSheet.create({
   },
   playContainer: {
     flex: 1,
-    borderTopStartRadius: 8,
-    borderTopEndRadius: 8,
-    padding: 8,
+    borderTopStartRadius: 16,
+    borderTopEndRadius: 16,
+    padding: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",

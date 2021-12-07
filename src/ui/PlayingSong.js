@@ -32,9 +32,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   outerContainerFlat: {
-    height: 64,
+    height: 84,
     overflow: "hidden",
-    borderTopEndRadius: 8,
-    borderTopStartRadius: 8,
+    borderTopEndRadius: 16,
+    borderTopStartRadius: 16,
   }
 });

@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Host } from 'react-native-portalize';
 import { Home } from 'screens';
 import { CustomIcon } from 'ui';
 import { colorStyles } from 'styles';
+import { MainContext } from 'store/MainProvider';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
+  const { activeTrack } = useContext(MainContext);
   return (
     <Host>
       <Tab.Navigator
@@ -19,7 +21,7 @@ export default function TabNavigator() {
           },
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarStyle: styles.tabBarStyle,
+          tabBarStyle: activeTrack.uri ? styles.tabBarStyleFlat : styles.tabBarStyle,
         })}
       >
         <Tab.Screen name="home" component={Home} />
@@ -33,8 +35,15 @@ export default function TabNavigator() {
 
 const styles = StyleSheet.create({
   tabBarStyle: {
+    position: 'absolute',
     backgroundColor: colorStyles.card,
     borderTopColor: colorStyles.card,
-    borderTopWidth: 1,
+    borderTopStartRadius: 16,
+    borderTopEndRadius: 16,
+    overflow: "hidden",
+  },
+  tabBarStyleFlat: {
+    backgroundColor: colorStyles.card,
+    borderTopColor: colorStyles.card,
   },
 });
