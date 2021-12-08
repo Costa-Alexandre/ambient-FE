@@ -51,8 +51,8 @@ export default function Home({ navigation }) {
             data={liveShows}
             keyExtractor={(item) => item._id}
             ListEmptyComponent={emptyShowList()}
-            renderItem={({ item }) => (
-              <View style={styles.liveShowItem}>
+            renderItem={({ item, index }) => (
+              <View style={index == 0 ? [styles.liveShowItem, {marginTop: 72}] : styles.liveShowItem}>
                 <LiveShow
                   showId={item._id}
                   showName={item.name}
@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   liveShowItem: {
-    top: 72,
     marginBottom: 16,
   },
   noShowsContainer: {
