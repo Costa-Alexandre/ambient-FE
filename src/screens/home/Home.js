@@ -45,10 +45,7 @@ export default function Home({ navigation }) {
   return (
     <>
       <View style={styles.container}>
-        <MenuHome 
-          user={user} 
-          callback={openModal}
-        />
+        
         <View style={styles.liveShow}>
           <FlatList
             data={liveShows}
@@ -69,6 +66,11 @@ export default function Home({ navigation }) {
             )}
           />
         </View>
+
+        <MenuHome 
+          user={user} 
+          callback={openModal}
+        />
 
         <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']} style={styles.linearGradientBottom}></LinearGradient>
         
@@ -100,6 +102,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   liveShowItem: {
+    top: 72,
     marginBottom: 16,
   },
   noShowsContainer: {
