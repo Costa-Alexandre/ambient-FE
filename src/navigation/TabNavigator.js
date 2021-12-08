@@ -10,7 +10,10 @@ import { MainContext } from 'store/MainProvider';
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
-  const { activeTrack } = useContext(MainContext);
+  const { activeShow } = useContext(MainContext);
+
+  let averageColor = activeShow.averageColor;
+
   return (
     <Host>
       <Tab.Navigator
@@ -21,7 +24,12 @@ export default function TabNavigator() {
           },
           tabBarShowLabel: false,
           headerShown: false,
-          tabBarStyle: activeTrack.uri ? styles.tabBarStyleFlat : styles.tabBarStyle,
+          tabBarStyle: activeShow._id ? 
+          {
+            backgroundColor: averageColor ? averageColor : colorStyles.card,
+            borderTopWidth: 0,
+            borderTopColor: averageColor ? averageColor : colorStyles.card
+          } : styles.tabBarStyle,
         })}
       >
         <Tab.Screen name="home" component={Home} />
@@ -37,13 +45,9 @@ const styles = StyleSheet.create({
   tabBarStyle: {
     position: 'absolute',
     backgroundColor: colorStyles.card,
-    borderTopColor: colorStyles.card,
+    borderTopWidth: 0,
     borderTopStartRadius: 16,
     borderTopEndRadius: 16,
     overflow: "hidden",
-  },
-  tabBarStyleFlat: {
-    backgroundColor: colorStyles.card,
-    borderTopColor: colorStyles.card,
-  },
+  }
 });

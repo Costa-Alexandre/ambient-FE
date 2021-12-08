@@ -6,7 +6,7 @@ import { MainContext } from "store/MainProvider";
 import { getShows } from "api/shows";
 import { fontStyles, colorStyles } from "styles";
 import LinearGradient from "react-native-linear-gradient";
-import Logomark from '../../assets/icons/Logomark';
+import Logomark from 'assets/icons/Logomark';
 
 export default function Home({ navigation }) {
   const { user, activeShow, activeTrack } = useContext(MainContext);
@@ -74,10 +74,8 @@ export default function Home({ navigation }) {
 
         <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']} style={styles.linearGradientBottom}></LinearGradient>
         
-        {activeTrack.id !== "" && <HomeSong
+        {activeShow._id !== "" && <HomeSong
           callback={() => navigation.navigate("Show", activeShow)}
-          onPause={() => SpotifyRemote.pause()}
-          onPlay={() => SpotifyRemote.playUri("")}
         />}
 
       </View>

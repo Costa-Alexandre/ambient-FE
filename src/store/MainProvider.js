@@ -23,7 +23,8 @@ const initialValues = {
   activeShow: {
     _id: "",
     name: "",
-    description: ""
+    description: "",
+    averageColor: "",
   },
   activeTrack: {
     id: "",

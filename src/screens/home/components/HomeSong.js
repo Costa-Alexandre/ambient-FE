@@ -25,10 +25,11 @@ export default function HomeSong({ callback=null }) {
         </View>
     )
   };
-
   const playMusic = () => {
     return (
-        <View style={styles.playContainer}>
+        <View style={[styles.playContainer, {backgroundColor: 
+        activeShow.averageColor ? activeShow.averageColor : colorStyles.card
+        }]}>
           <Image style={styles.coverImage} source={activeTrack.imageUri} />
           <View style={styles.textContainer}>
             <Text
@@ -106,7 +107,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: colorStyles.card,
   },
 });
 
