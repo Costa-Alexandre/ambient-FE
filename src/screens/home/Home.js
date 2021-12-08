@@ -5,6 +5,7 @@ import { MenuHome, LiveShow, CreateShowModalize, HomeSong } from "./components";
 import { MainContext } from "store/MainProvider";
 import { getShows } from "api/shows";
 import { fontStyles, colorStyles } from "styles";
+import LinearGradient from "react-native-linear-gradient";
 import Logomark from '../../assets/icons/Logomark';
 
 export default function Home({ navigation }) {
@@ -68,12 +69,17 @@ export default function Home({ navigation }) {
             )}
           />
         </View>
+
+        <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']} style={styles.linearGradientBottom}></LinearGradient>
+        
         {activeTrack.id !== "" && <HomeSong
           callback={() => navigation.navigate("Show", activeShow)}
           onPause={() => SpotifyRemote.pause()}
           onPlay={() => SpotifyRemote.playUri("")}
         />}
+
       </View>
+
       <Portal>
         {modal}
       </Portal>
@@ -102,7 +108,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  linearGradientBottom: {
+    position: 'absolute',
+    bottom: -48,
+    height: 172,
+    width: '100%',
   }
 });
-
-const dummyShowImageUri = "https://f4.bcbits.com/img/a1024330960_10.jpg";
