@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { PermissionsAndroid } from "react-native";
 import { mediaDevices } from "react-native-webrtc";
 import socketio from "socket.io-client";
+
 import {
   SOCKET_SERVER,
   PEER_SERVER_HOST,
@@ -62,95 +64,125 @@ const MainContextProvider = ({ children }) => {
   const [isMuted, setIsMuted] = useState(initialValues.isMuted);
   const [activeCalls, setActiveCalls] = useState(initialValues.activeCalls);
 
-  const initialize = async () => {
+  const checkPermissions = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        {
+          title: "Microphone Permission",
+          message: "We need access to your microphone so you can join the stage",
+          buttonNeutral: "Ask Me Later",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK",
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("You can use the microphone");
+        initialize();
+      } else {
+        console.log("Microphone permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  const initialize = () => {
     const constraints = {
       audio: true,
       video: false,
     };
-
-    const newStream = await mediaDevices.getUserMedia(constraints);
-
-    setLocalStream(newStream);
-
-    const io = socketio(SOCKET_SERVER);
-
-    io.on("connect", () => {
-      setSocket(io);
-
-    const peerServer = new Peer(undefined, {
-      host: PEER_SERVER_HOST,
-      path: PEER_SERVER_PATH,
-      secure: true,
-      port: PEER_SERVER_PORT,
-      config: {
-        iceServers: [
-          {
-            urls: [
-              "stun:stun1.l.google.com:19302",
-              "stun:stun2.l.google.com:19302",
-            ],
-          },
-        ],
-      },
+      
+    mediaDevices.getUserMedia(constraints).then(newStream => {
+      setLocalStream(newStream);
+    }).catch(err => {
+      console.log(err);
     });
-
+      
+    const io = socketio.connect(SOCKET_SERVER, {
+      reconnection: true,
+      autoConnect: true,
+    });
+    console.log(`Connecting to ${SOCKET_SERVER}. Connected?`, io.connected)
+      
+    io.on("connect", () => {
+      console.log('CONNECTED');
+      setSocket(io);
+      
+      const peerServer = new Peer(undefined, {
+        host: PEER_SERVER_HOST,
+        path: PEER_SERVER_PATH,
+        secure: true,
+        port: PEER_SERVER_PORT,
+        config: {
+          iceServers: [
+            {
+              urls: [
+            "stun:stun1.l.google.com:19302",
+            "stun:stun2.l.google.com:19302",
+              ],
+            },
+          ],
+        },
+      });
+    
     // set
     peerServer.on("error", (err) => console.log("Peer server error", err));
-
+    
     peerServer.on("open", (peerId) => {
       setPeerServer(peerServer);
       setUser(user.peerId);
     });
-
-      io.emit("register", user); // register user
-    });
-
     
-
-
-    // when a new user joins the room, all users start a call with the new user
-    io.on("user-joined-show", (user) => {
-      socket.emit("call", user.userId);
-      setRemoteUsers([...remoteUsers, user]);
-
-      try {
-        const call = peerServer.call(user.peerId, localStream);
-
-        call.on(
-          "stream",
-          (stream) => {
-            setActiveCalls([...activeCalls, call]);
-            setRemoteStreams([...remoteStreams, stream]);
-          },
-          (err) => {
-            console.error("Failed to get call stream", err);
-          }
+    io.emit("register", user); // register user
+  });
+  
+  
+  
+  
+  // when a new user joins the room, all users start a call with the new user
+  io.on("user-joined-show", (user) => {
+    socket.emit("call", user.userId);
+    setRemoteUsers([...remoteUsers, user]);
+    
+    try {
+      const call = peerServer.call(user.peerId, localStream);
+      
+      call.on(
+        "stream",
+        (stream) => {
+          setActiveCalls([...activeCalls, call]);
+          setRemoteStreams([...remoteStreams, stream]);
+        },
+        (err) => {
+          console.error("Failed to get call stream", err);
+        }
         );
       } catch (error) {
         console.log("Calling error", error);
       }
     });
-
+    
     // answering a call
     io.on("call", (user) => {
       peerServer.on("call", (call) => {
         setRemoteUsers([...remoteUsers, user]);
         call.answer(localStream);
         setActiveCalls([...activeCalls, call]);
-
+        
         call.on("stream", (stream) => {
           setRemoteStreams([...remoteStreams, stream]);
         });
-
+        
         call.on("close", () => {
           closeCall();
         });
-
+        
         call.on("error", () => {});
       });
     });
-  };
-
+  }
+  
   const joinShow = (show) => {
     if (!show.showId) {
       console.log("Show not found");
@@ -215,6 +247,7 @@ const MainContextProvider = ({ children }) => {
         setRemoteStreams,
         remoteUsers,
         setRemoteUsers,
+        checkPermissions,
         initialize,
         joinShow,
         toggleMute,

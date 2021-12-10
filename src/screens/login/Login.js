@@ -23,7 +23,8 @@ export default function Login({ navigation }) {
 
   const { 
     setUser,
-    setSpotifyData
+    setSpotifyData,
+    checkPermissions,
   } = useContext(MainContext);
 
 
@@ -70,6 +71,7 @@ export default function Login({ navigation }) {
       setUser(userData);
 
       await setWasSignedIn(true)
+      checkPermissions();
       navigation.navigate("Home")
     } catch (error) {
       setAwaitingAutoSignIn(false)
