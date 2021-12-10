@@ -103,7 +103,6 @@ const MainContextProvider = ({ children }) => {
       reconnection: true,
       autoConnect: true,
     });
-    console.log(`Connecting to ${SOCKET_SERVER}. Connected?`, io.connected)
       
     io.on("connect", () => {
       console.log('CONNECTED');
@@ -131,7 +130,12 @@ const MainContextProvider = ({ children }) => {
     
     peerServer.on("open", (peerId) => {
       setPeerServer(peerServer);
-      setUser(user.peerId);
+      user_with_peerId = {
+        ...user,
+        peerId,
+      };
+      setUser(user_with_peerId);
+      console.log("PEER ID", peerId);
     });
     
     io.emit("register", user); // register user

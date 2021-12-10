@@ -74,3 +74,5 @@ web-build/
 
 # REST Clien
 *.http
+.cache/*
+.lesshst

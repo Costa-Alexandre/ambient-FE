@@ -9,7 +9,7 @@ import LinearGradient from "react-native-linear-gradient";
 import Logomark from 'assets/icons/Logomark';
 
 export default function Home({ navigation }) {
-  const { user, activeShow, activeTrack } = useContext(MainContext);
+  const { user, activeShow, checkPermissions } = useContext(MainContext);
   const [liveShows, setliveShows] = useState([]);
   const [modal, setModal] = useState(null);
 
@@ -41,6 +41,10 @@ export default function Home({ navigation }) {
       </View>
     )
   }
+
+  useEffect(() => {
+    checkPermissions();
+  }, []);
 
   return (
     <>
