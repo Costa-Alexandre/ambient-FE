@@ -78,9 +78,9 @@ export default function Home({ navigation }) {
 
         <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']} style={styles.linearGradientBottom}></LinearGradient>
         
-        {activeShow._id !== "" && <HomeSong
+        {activeShow._id !== "" ? <HomeSong
           callback={() => navigation.navigate("Show", activeShow)}
-        />}
+        /> : <View style={{ height: 50 }} />}
 
       </View>
 
