@@ -173,31 +173,29 @@ const MainContextProvider = ({ children }) => {
   useEffect(() => {
     if (peerId) {
       // console.log(peerId);
-      socket.emit("register", user, peerId); // register user
+      socket.emit("register", user, peerId); // register user <- no idea what this does, this is not used on the server???
 
       // answering a call
       console.log("here")
       socket.on("call", (participant) => {
-        if (participant.userId !== user._id) {
-          console.log(participant.userId, user._id)
-          console.log("call")
-          peerServer.on("call", (incomingCall) => {
-            console.log("incoming")
-            setRemoteUsers(currentUsers => [...currentUsers, participant]);
-            incomingCall.answer(localStream);
-            setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
-            
-            incomingCall.on("stream", (stream) => {
-              setRemoteStreams(currentStreams => [...currentStreams, stream]);
-            });
-            
-            incomingCall.on("close", () => { 
-              closeCall();
-            });
-            
-            incomingCall.on("error", () => {});
+        console.log(participant.userId, user._id)
+        console.log("call")
+        peerServer.on("call", (incomingCall) => {
+          console.log("incoming")
+          setRemoteUsers(currentUsers => [...currentUsers, participant]);
+          incomingCall.answer(localStream);
+          setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
+          
+          incomingCall.on("stream", (stream) => {
+            setRemoteStreams(currentStreams => [...currentStreams, stream]);
           });
-        }
+          
+          incomingCall.on("close", () => { 
+            closeCall();
+          });
+          
+          incomingCall.on("error", () => {});
+        });
       });
 
       // when a new user joins the room, all users start a call with the new user
