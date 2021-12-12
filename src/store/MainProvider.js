@@ -231,7 +231,7 @@ const MainContextProvider = ({ children }) => {
           console.log("Calling error", error);
         }
 
-        socket.emit("call", user._id, activeShow._id);
+        socket.emit("call", participant.userId, activeShow._id);
         setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
       });
     }
