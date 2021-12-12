@@ -35,6 +35,7 @@ const initialValues = {
     imageUri: null,
     artists: [] 
   },
+  peerId: "",
   localStream: null,
   remoteStreams: [],
   remoteUsers: [],
@@ -53,7 +54,8 @@ const MainContextProvider = ({ children }) => {
   const [user, setUser] = useState(initialValues.user);
   const [spotifyData, setSpotifyData] = useState(initialValues.spotifyData)
   const [activeShow, setActiveShow] = useState(initialValues.activeShow);
-  const [activeTrack, setActiveTrack] = useState(initialValues.activeTrack)
+  const [activeTrack, setActiveTrack] = useState(initialValues.activeTrack);
+  const [peerId, setPeerId] = useState(initialValues.peerId);
   const [localStream, setLocalStream] = useState(initialValues.localStream);
   const [remoteStreams, setRemoteStreams] = useState(
     initialValues.remoteStreams
@@ -81,25 +83,24 @@ const MainContextProvider = ({ children }) => {
         initialize();
       } else {
         console.log("Microphone permission denied");
+        // TODO: deal with permission denial
       }
     } catch (err) {
       console.warn(err);
     }
   };
 
-  const initialize = () => {
+  const initialize = async () => {
     const constraints = {
       audio: true,
       video: false,
     };
       
-    mediaDevices.getUserMedia(constraints).then(newStream => {
-      setLocalStream(newStream);
-    }).catch(err => {
-      console.log(err);
-    });
+    const newStream = await mediaDevices.getUserMedia(constraints)
+
+    setLocalStream(newStream);
       
-    const io = socketio.connect(SOCKET_SERVER, {
+    const io = await socketio.connect(SOCKET_SERVER, {
       reconnection: true,
       autoConnect: true,
     });
@@ -108,7 +109,7 @@ const MainContextProvider = ({ children }) => {
       console.log('CONNECTED');
       setSocket(io);
       
-      const peerServer = new Peer(undefined, {
+      const peer = new Peer(undefined, {
         host: PEER_SERVER_HOST,
         path: PEER_SERVER_PATH,
         secure: true,
@@ -124,78 +125,99 @@ const MainContextProvider = ({ children }) => {
           ],
         },
       });
+      // console.log('socket', socket);
+
+      setPeerServer(peer);
+      // console.log(peerServer);
     
-    // set
-    peerServer.on("error", (err) => console.log("Peer server error", err));
+      // set
+      peer.on("error", (err) => console.log("Peer server error", err));
     
-    peerServer.on("open", (peerId) => {
-      setPeerServer(peerServer);
-      user_with_peerId = {
-        ...user,
-        peerId,
-      };
-      setUser(user_with_peerId);
-      console.log("PEER ID", peerId);
-    });
+      peer.on("open", (peerId) => {
+        setPeerId(peerId)
+      })
+
+      // console.log(peerId);
     
-    io.emit("register", user); // register user
-  });
-  
-  
-  
-  
-  // when a new user joins the room, all users start a call with the new user
-  io.on("user-joined-show", (user) => {
-    socket.emit("call", user.userId);
-    setRemoteUsers([...remoteUsers, user]);
-    
-    try {
-      const call = peerServer.call(user.peerId, localStream);
+      io.emit("register", user, peerId); // register user
+
       
-      call.on(
-        "stream",
-        (stream) => {
-          setActiveCalls([...activeCalls, call]);
-          setRemoteStreams([...remoteStreams, stream]);
-        },
-        (err) => {
-          console.error("Failed to get call stream", err);
-        }
-        );
-      } catch (error) {
-        console.log("Calling error", error);
-      }
-    });
-    
-    // answering a call
-    io.on("call", (user) => {
-      peerServer.on("call", (call) => {
-        setRemoteUsers([...remoteUsers, user]);
-        call.answer(localStream);
-        setActiveCalls([...activeCalls, call]);
-        
-        call.on("stream", (stream) => {
-          setRemoteStreams([...remoteStreams, stream]);
-        });
-        
-        call.on("close", () => {
-          closeCall();
-        });
-        
-        call.on("error", () => {});
-      });
-    });
-  }
   
-  const joinShow = (show) => {
-    if (!show.showId) {
+      // when a new user joins the room, all users start a call with the new user
+      io.on("user-joined-show", (participant) => {
+        // console.log(user, activeShow, newStream, peer)
+        io.emit("call", user._id, activeShow._id);
+        setRemoteUsers([...remoteUsers, participant.userId]);
+
+        if (!peer) {
+          console.log('Peer server or socket connection not found');
+          return;
+        } else {
+          console.log('there is a peerServer')
+        }
+
+        try {
+          console.log('calling: ', participant.peerId, 'my local stream: ', newStream.active)
+          const call = peer.call(participant.peerId, newStream);
+          console.log('call', call);
+          
+          call.on(
+            "stream",
+            (stream) => {
+              setActiveCalls([...activeCalls, call]);
+              setRemoteStreams([...remoteStreams, stream]);
+            },
+            (err) => {
+              console.error("Failed to get call stream", err);
+            }
+            );
+        } catch (error) {
+          console.log("Calling error", error);
+        }
+      });
+
+      // answering a call
+      io.on("call", (userId) => {
+        peerServer.on("call", (call) => {
+          setRemoteUsers([...remoteUsers, userId]);
+          call.answer(localStream);
+          setActiveCalls([...activeCalls, call]);
+          
+          call.on("stream", (stream) => {
+            setRemoteStreams([...remoteStreams, stream]);
+          });
+          
+          call.on("close", () => { 
+            closeCall();
+          });
+          
+          call.on("error", () => {});
+        });
+      });
+    })
+  }
+
+  const joinShow = (activeShow) => {
+    if (!activeShow._id) {
       console.log("Show not found");
       return;
     }
 
-    setActiveShow(show);
+    const eventInfo = {
+      showId: activeShow._id,
+      user: user,
+      userId: user._id,
+      peerId
+    }
+    
+    socket.emit("user-join-show", eventInfo, ({showId, userId, peerId, role}) => {
+      console.log(`
+    Participant: 
+    showId: ${showId}
+    userId: ${userId}
+    peerId: ${peerId}
+    is now set to the ${role} role.`)});
 
-    socket.emit("user-join-show", user.userId, activeShow.showId);
   };
 
   const toggleMute = () => {
@@ -245,6 +267,8 @@ const MainContextProvider = ({ children }) => {
         setActiveShow,
         activeTrack,
         setActiveTrack,
+        peerId,
+        setPeerId,
         localStream,
         setLocalStream,
         remoteStreams,
@@ -262,6 +286,8 @@ const MainContextProvider = ({ children }) => {
         resetTrack,
         activeCalls,
         setActiveCalls,
+        socket,
+        peerServer
       }}
     >
       {children}
