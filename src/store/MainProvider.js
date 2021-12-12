@@ -202,42 +202,39 @@ const MainContextProvider = ({ children }) => {
 
       // when a new user joins the room, all users start a call with the new user
       socket.on("user-joined-show", (participant) => {
-        console.log("join evt")
-        if (participant.userId !== user._id) {
-          console.log("user joined")
-          console.log(participant.userId, user._id)
-          // console.log(user, activeShow, newStream, peer)
-  
-          if (!peerServer) {
-            console.log('Peer server or socket connection not found');
-            return;
-          } else {
-            console.log('there is a peerServer')
-          }
-  
-          try {
-            // console.log('calling: ', participant.peerId, 'my local stream: ', localStream.active)
-            const call = peerServer.call(participant.peerId, localStream);
-            // console.log('call', call);
-            
-            call.on(
-              "stream",
-              (stream) => {
-                setActiveCalls(currentCalls => [...currentCalls, call]);
-                setRemoteStreams(currentStreams => [...currentStreams, stream]);
-              },
-              (err) => {
-                console.error("Failed to get call stream", err);
-              }
-            );
-  
-          } catch (error) {
-            console.log("Calling error", error);
-          }
-  
-          socket.emit("call", user._id, activeShow._id);
-          setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
+        console.log("user joined")
+        console.log(participant.userId, user._id)
+        // console.log(user, activeShow, newStream, peer)
+
+        if (!peerServer) {
+          console.log('Peer server or socket connection not found');
+          return;
+        } else {
+          console.log('there is a peerServer')
         }
+
+        try {
+          // console.log('calling: ', participant.peerId, 'my local stream: ', localStream.active)
+          const call = peerServer.call(participant.peerId, localStream);
+          // console.log('call', call);
+          
+          call.on(
+            "stream",
+            (stream) => {
+              setActiveCalls(currentCalls => [...currentCalls, call]);
+              setRemoteStreams(currentStreams => [...currentStreams, stream]);
+            },
+            (err) => {
+              console.error("Failed to get call stream", err);
+            }
+          );
+
+        } catch (error) {
+          console.log("Calling error", error);
+        }
+
+        socket.emit("call", user._id, activeShow._id);
+        setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
       });
     }
   }, [peerId])
