@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PermissionsAndroid } from "react-native";
 import { mediaDevices } from "react-native-webrtc";
 import socketio from "socket.io-client";
@@ -90,6 +90,7 @@ const MainContextProvider = ({ children }) => {
     }
   };
 
+
   const initialize = async () => {
     const constraints = {
       audio: true,
@@ -97,59 +98,80 @@ const MainContextProvider = ({ children }) => {
     };
       
     const newStream = await mediaDevices.getUserMedia(constraints)
-
     setLocalStream(newStream);
-      
+  }
+
+
+  const connectSocketIo = async () => {
     const io = await socketio.connect(SOCKET_SERVER, {
       reconnection: true,
       autoConnect: true,
     });
-      
-    io.on("connect", () => {
-      console.log('CONNECTED');
-      setSocket(io);
-      
-      const peer = new Peer(undefined, {
-        host: PEER_SERVER_HOST,
-        path: PEER_SERVER_PATH,
-        secure: true,
-        port: PEER_SERVER_PORT,
-        config: {
-          iceServers: [
-            {
-              urls: [
-            "stun:stun1.l.google.com:19302",
-            "stun:stun2.l.google.com:19302",
-              ],
-            },
-          ],
-        },
-      });
-      // console.log('socket', socket);
+    setSocket(io)
+  }
 
-      setPeerServer(peer);
-      // console.log(peerServer);
-    
+
+  useEffect(() => {
+    if (localStream) {
+      connectSocketIo()
+    }
+  }, [localStream])
+
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("connect", () => {
+        console.log('CONNECTED');
+        
+        const peer = new Peer(undefined, {
+          host: PEER_SERVER_HOST,
+          path: PEER_SERVER_PATH,
+          secure: true,
+          port: PEER_SERVER_PORT,
+          config: {
+            iceServers: [
+              {
+                urls: [
+              "stun:stun1.l.google.com:19302",
+              "stun:stun2.l.google.com:19302",
+                ],
+              },
+            ],
+          },
+        });
+        // console.log('socket', socket);
+  
+        setPeerServer(peer);
+        // console.log(peerServer);
+      })
+    }
+  }, [socket])
+
+
+  useEffect(() => {
+    if (peerServer) {
       // set
-      peer.on("error", (err) => console.log("Peer server error", err));
-    
-      peer.on("open", (peerId) => {
+      peerServer.on("error", (err) => console.log("Peer server error", err));
+      
+      peerServer.on("open", (peerId) => {
         setPeerId(peerId)
       })
+    }
+  }, [peerServer])
 
+
+  useEffect(() => {
+    if (peerId) {
       // console.log(peerId);
-    
-      io.emit("register", user, peerId); // register user
+      socket.emit("register", user, peerId); // register user
 
-      
-  
       // when a new user joins the room, all users start a call with the new user
-      io.on("user-joined-show", (participant) => {
+      socket.on("user-joined-show", (participant) => {
         // console.log(user, activeShow, newStream, peer)
-        io.emit("call", user._id, activeShow._id);
-        setRemoteUsers([...remoteUsers, participant.userId]);
+        socket.emit("call", user._id, activeShow._id);
+        setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
 
-        if (!peer) {
+        if (!peerServer) {
           console.log('Peer server or socket connection not found');
           return;
         } else {
@@ -157,45 +179,47 @@ const MainContextProvider = ({ children }) => {
         }
 
         try {
-          console.log('calling: ', participant.peerId, 'my local stream: ', newStream.active)
-          const call = peer.call(participant.peerId, newStream);
+          console.log('calling: ', participant.peerId, 'my local stream: ', localStream.active)
+          const call = peerServer.call(participant.peerId, localStream);
           console.log('call', call);
           
           call.on(
             "stream",
             (stream) => {
-              setActiveCalls([...activeCalls, call]);
-              setRemoteStreams([...remoteStreams, stream]);
+              setActiveCalls(currentCalls => [...currentCalls, call]);
+              setRemoteStreams(currentStreams => [...currentStreams, stream]);
             },
             (err) => {
               console.error("Failed to get call stream", err);
             }
-            );
+          );
+
+          // answering a call
+          socket.on("call", (userId) => {
+            peerServer.on("call", (call) => {
+              setRemoteUsers(currentUseres => [...currentUseres, userId]);
+              call.answer(localStream);
+              setActiveCalls(currentCalls => [...currentCalls, call]);
+              
+              call.on("stream", (stream) => {
+                setRemoteStreams(currentStreams => [...currentStreams, stream]);
+              });
+              
+              call.on("close", () => { 
+                closeCall();
+              });
+              
+              call.on("error", () => {});
+            });
+          });
+
         } catch (error) {
           console.log("Calling error", error);
         }
       });
+    }
+  }, [peerId])
 
-      // answering a call
-      io.on("call", (userId) => {
-        peerServer.on("call", (call) => {
-          setRemoteUsers([...remoteUsers, userId]);
-          call.answer(localStream);
-          setActiveCalls([...activeCalls, call]);
-          
-          call.on("stream", (stream) => {
-            setRemoteStreams([...remoteStreams, stream]);
-          });
-          
-          call.on("close", () => { 
-            closeCall();
-          });
-          
-          call.on("error", () => {});
-        });
-      });
-    })
-  }
 
   const joinShow = (activeShow) => {
     if (!activeShow._id) {
@@ -220,6 +244,7 @@ const MainContextProvider = ({ children }) => {
 
   };
 
+
   const toggleMute = () => {
     if (localStream)
       localStream.getAudioTracks().forEach((track) => {
@@ -227,6 +252,7 @@ const MainContextProvider = ({ children }) => {
         setIsMuted(!track.enabled);
       });
   };
+
 
   const leaveShow = () => {
     activeCalls?.forEach((call) => {
@@ -236,6 +262,7 @@ const MainContextProvider = ({ children }) => {
     setRemoteUsers([]);
   };
 
+
   const resetShow = () => {
     return (
       {
@@ -244,6 +271,7 @@ const MainContextProvider = ({ children }) => {
         description: "",
       }
     )};
+
 
     const resetTrack = () => {
     return (
@@ -255,6 +283,7 @@ const MainContextProvider = ({ children }) => {
         artists: []
       }
     )};
+
 
   return (
     <MainContext.Provider
