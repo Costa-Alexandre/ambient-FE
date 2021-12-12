@@ -202,7 +202,9 @@ const MainContextProvider = ({ children }) => {
 
       // when a new user joins the room, all users start a call with the new user
       socket.on("user-joined-show", (participant) => {
+        console.log("join evt")
         if (participant.userId !== user._id) {
+          console.log("user joined")
           console.log(participant.userId, user._id)
           // console.log(user, activeShow, newStream, peer)
   
