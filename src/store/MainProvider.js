@@ -196,20 +196,20 @@ const MainContextProvider = ({ children }) => {
 
           // answering a call
           socket.on("call", (userId) => {
-            peerServer.on("call", (call) => {
+            peerServer.on("call", (incomingCall) => {
               setRemoteUsers(currentUseres => [...currentUseres, userId]);
-              call.answer(localStream);
-              setActiveCalls(currentCalls => [...currentCalls, call]);
+              incomingCall.answer(localStream);
+              setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
               
-              call.on("stream", (stream) => {
+              incomingCall.on("stream", (stream) => {
                 setRemoteStreams(currentStreams => [...currentStreams, stream]);
               });
               
-              call.on("close", () => { 
+              incomingCall.on("close", () => { 
                 closeCall();
               });
               
-              call.on("error", () => {});
+              incomingCall.on("error", () => {});
             });
           });
 
