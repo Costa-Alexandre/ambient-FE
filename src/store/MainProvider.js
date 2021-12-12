@@ -176,59 +176,66 @@ const MainContextProvider = ({ children }) => {
       socket.emit("register", user, peerId); // register user
 
       // answering a call
-      socket.on("call", (userId) => {
-        console.log("call")
-        peerServer.on("call", (incomingCall) => {
-          console.log("incoming")
-          setRemoteUsers(currentUsers => [...currentUsers, userId]);
-          incomingCall.answer(localStream);
-          setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
-          
-          incomingCall.on("stream", (stream) => {
-            setRemoteStreams(currentStreams => [...currentStreams, stream]);
+      console.log("here")
+      socket.on("call", (participant) => {
+        if (participant.userId !== user._id) {
+          console.log(participant.userId, user._id)
+          console.log("call")
+          peerServer.on("call", (incomingCall) => {
+            console.log("incoming")
+            setRemoteUsers(currentUsers => [...currentUsers, participant]);
+            incomingCall.answer(localStream);
+            setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
+            
+            incomingCall.on("stream", (stream) => {
+              setRemoteStreams(currentStreams => [...currentStreams, stream]);
+            });
+            
+            incomingCall.on("close", () => { 
+              closeCall();
+            });
+            
+            incomingCall.on("error", () => {});
           });
-          
-          incomingCall.on("close", () => { 
-            closeCall();
-          });
-          
-          incomingCall.on("error", () => {});
-        });
+        }
       });
 
       // when a new user joins the room, all users start a call with the new user
       socket.on("user-joined-show", (participant) => {
-        // console.log(user, activeShow, newStream, peer)
-
-        if (!peerServer) {
-          console.log('Peer server or socket connection not found');
-          return;
-        } else {
-          console.log('there is a peerServer')
+        if (participant.userId !== user._id) {
+          console.log(participant.userId, user._id)
+          // console.log(user, activeShow, newStream, peer)
+  
+          if (!peerServer) {
+            console.log('Peer server or socket connection not found');
+            return;
+          } else {
+            console.log('there is a peerServer')
+          }
+  
+          try {
+            // console.log('calling: ', participant.peerId, 'my local stream: ', localStream.active)
+            const call = peerServer.call(participant.peerId, localStream);
+            // console.log('call', call);
+            
+            call.on(
+              "stream",
+              (stream) => {
+                setActiveCalls(currentCalls => [...currentCalls, call]);
+                setRemoteStreams(currentStreams => [...currentStreams, stream]);
+              },
+              (err) => {
+                console.error("Failed to get call stream", err);
+              }
+            );
+  
+          } catch (error) {
+            console.log("Calling error", error);
+          }
+  
+          socket.emit("call", user._id, activeShow._id);
+          setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
         }
-
-        try {
-          // console.log('calling: ', participant.peerId, 'my local stream: ', localStream.active)
-          const call = peerServer.call(participant.peerId, localStream);
-          // console.log('call', call);
-          
-          call.on(
-            "stream",
-            (stream) => {
-              setActiveCalls(currentCalls => [...currentCalls, call]);
-              setRemoteStreams(currentStreams => [...currentStreams, stream]);
-            },
-            (err) => {
-              console.error("Failed to get call stream", err);
-            }
-          );
-
-        } catch (error) {
-          console.log("Calling error", error);
-        }
-
-        socket.emit("call", user._id, activeShow._id);
-        setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
       });
     }
   }, [peerId])
