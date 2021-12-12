@@ -177,8 +177,10 @@ const MainContextProvider = ({ children }) => {
 
       // answering a call
       socket.on("call", (userId) => {
+        console.log("call")
         peerServer.on("call", (incomingCall) => {
-          setRemoteUsers(currentUseres => [...currentUseres, userId]);
+          console.log("incoming")
+          setRemoteUsers(currentUsers => [...currentUsers, userId]);
           incomingCall.answer(localStream);
           setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
           
