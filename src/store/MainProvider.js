@@ -175,11 +175,28 @@ const MainContextProvider = ({ children }) => {
       // console.log(peerId);
       socket.emit("register", user, peerId); // register user
 
+      // answering a call
+      socket.on("call", (userId) => {
+        peerServer.on("call", (incomingCall) => {
+          setRemoteUsers(currentUseres => [...currentUseres, userId]);
+          incomingCall.answer(localStream);
+          setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
+          
+          incomingCall.on("stream", (stream) => {
+            setRemoteStreams(currentStreams => [...currentStreams, stream]);
+          });
+          
+          incomingCall.on("close", () => { 
+            closeCall();
+          });
+          
+          incomingCall.on("error", () => {});
+        });
+      });
+
       // when a new user joins the room, all users start a call with the new user
       socket.on("user-joined-show", (participant) => {
         // console.log(user, activeShow, newStream, peer)
-        socket.emit("call", user._id, activeShow._id);
-        setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
 
         if (!peerServer) {
           console.log('Peer server or socket connection not found');
@@ -189,9 +206,9 @@ const MainContextProvider = ({ children }) => {
         }
 
         try {
-          console.log('calling: ', participant.peerId, 'my local stream: ', localStream.active)
+          // console.log('calling: ', participant.peerId, 'my local stream: ', localStream.active)
           const call = peerServer.call(participant.peerId, localStream);
-          console.log('call', call);
+          // console.log('call', call);
           
           call.on(
             "stream",
@@ -204,28 +221,12 @@ const MainContextProvider = ({ children }) => {
             }
           );
 
-          // answering a call
-          socket.on("call", (userId) => {
-            peerServer.on("call", (incomingCall) => {
-              setRemoteUsers(currentUseres => [...currentUseres, userId]);
-              incomingCall.answer(localStream);
-              setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
-              
-              incomingCall.on("stream", (stream) => {
-                setRemoteStreams(currentStreams => [...currentStreams, stream]);
-              });
-              
-              incomingCall.on("close", () => { 
-                closeCall();
-              });
-              
-              incomingCall.on("error", () => {});
-            });
-          });
-
         } catch (error) {
           console.log("Calling error", error);
         }
+
+        socket.emit("call", user._id, activeShow._id);
+        setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
       });
     }
   }, [peerId])
