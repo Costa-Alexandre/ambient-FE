@@ -20,6 +20,9 @@ export default function ShowModalize() {
     <Modalize
         ref={ref}
         alwaysOpen={140}
+        avoidKeyboardLikeIOS={true}
+        keyboardAvoidingBehavior={'height'}
+        keyboardAvoidingOffset={0}
         withHandle={false}
         HeaderComponent={() => (
           <ChatHeader isOpen={chatOpen} callback={isOpen} />
