@@ -81,6 +81,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: "#000",
     height: 60,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
   },
   chatHeaderText: {
     marginLeft: 20
