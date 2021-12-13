@@ -17,7 +17,7 @@ export const signUpUser = async (spotifyData) => {
         displayName: spotifyData.display_name,
         username: spotifyData.id,
         email: spotifyData.email,
-        avatar: spotifyData.images ? spotifyData.images[0].url : null
+        avatar: spotifyData.images.length>0 ? spotifyData.images[0].url : null
     }
 
     try {
