@@ -1,4 +1,4 @@
-import React, {useRef, useState } from "react";
+import React, {useRef, useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { useModalize } from 'react-native-modalize/lib/utils/use-modalize';
@@ -8,13 +8,15 @@ export default function ShowModalize() {
 
   const { ref, open, close } = useModalize();
 
-  const isOpen = (state) => {
-    state && open("top");
-    !state && close("alwaysOpen");
-    setChatOpen(state);
-  };
-
   const [chatOpen, setChatOpen] = useState(false);
+
+  useEffect(() => {
+    if (chatOpen) {
+      open("top")
+    } else {
+      close("alwaysOpen")
+    }
+  }, [chatOpen])
 
   return (
     <Modalize
@@ -25,7 +27,7 @@ export default function ShowModalize() {
         keyboardAvoidingOffset={0}
         withHandle={false}
         HeaderComponent={() => (
-          <ChatHeader isOpen={chatOpen} callback={isOpen} />
+          <ChatHeader isOpen={chatOpen} callback={() => setChatOpen(current => !current)} />
         )}
         FooterComponent={() => <ChatInput />}
         modalHeight={400}

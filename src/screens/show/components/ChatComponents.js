@@ -36,7 +36,7 @@ export function ChatInput() {
         value={text}
         style={composeInput}
         placeholder="Comment..."
-        placeholderTextColor="#ffffff50"
+        placeholderTextColor={colorStyles.textSecondary}
         inlineImageLeft="emoji16"
         inlineImagePadding={40}
       />
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#1B1B1F",
     borderRadius: 46,
-    color: "#ffffff50",
+    color: colorStyles.text,
     paddingHorizontal: 20,
   },
   header: {
