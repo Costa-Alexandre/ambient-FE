@@ -28,6 +28,7 @@ export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
       </View>
     )
   };
+  
 
   const playMusic = () => {
     return (
@@ -49,7 +50,7 @@ export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
               style={[fontStyles.subtitleSecondary, styles.artistText]}
               numberOfLines={1}
             >
-              {activeTrack.artist}
+              {activeTrack.artists}
             </Text>
           </View>
           <View style={{marginLeft: 20}}>

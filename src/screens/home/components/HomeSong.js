@@ -57,7 +57,7 @@ export default function HomeSong({ callback=null }) {
               style={[fontStyles.subtitleSecondary, styles.artistText]}
               numberOfLines={1}
             >
-              {`${activeTrack.name} - ${activeTrack.artist}`}
+              {`${activeTrack.name} - ${activeTrack.artists}`}
             </Text>
           </View>
           <CustomButton title="Leave" color="button" size="slimShort" callback={leaveShow} />
