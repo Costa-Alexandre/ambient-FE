@@ -7,6 +7,12 @@ import { MenuShow, LiveUsers, ShowSong } from "./components";
 import { spotifyGetTrack } from "api/spotify";
 import { MainContext } from "store/MainProvider";
 import useAverageColor from 'hooks/averageColor';
+import {
+  RTCView,
+  RTCPeerConnection,
+  RTCIceCandidate,
+  mediaDevices,
+} from 'react-native-webrtc';
 
 
 
@@ -16,7 +22,7 @@ LogBox.ignoreLogs([
 ]);
 
 export default function ShowInfo({ callback, goBack }) {
-  const {activeTrack, setActiveTrack, activeShow, setActiveShow } = useContext(MainContext);
+  const {activeTrack, setActiveTrack, activeShow, setActiveShow, localStream, remoteStreams } = useContext(MainContext);
   const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri?.uri, "#1B1B1F")
 
   const dummyOnPressHandler = () => {
@@ -49,6 +55,14 @@ export default function ShowInfo({ callback, goBack }) {
           {activeShow.name}
         </Text>
       </View>
+
+      {/* <View style={{width: 200, height: 200}}>
+        <RTCView streamURL={localStream?.toURL()} style={{flex: 1}} />
+      </View>
+      <View style={{width: 200, height: 200}}>
+        {<Text style={{color:'white'}}>{remoteStreams.length}</Text>}
+        {remoteStreams.map((rstream, i) => <RTCView key={i} streamURL={rstream?.toURL()} style={{flex: 1}} />)}
+      </View> */}
 
       <View style={styles.songContainer}>
         <ShowSong

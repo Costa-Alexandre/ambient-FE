@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PermissionsAndroid } from "react-native";
 import { mediaDevices } from "react-native-webrtc";
+import InCallManager from 'react-native-incall-manager';
 import socketio from "socket.io-client";
 
 import {
@@ -66,6 +67,14 @@ const MainContextProvider = ({ children }) => {
   const [isMuted, setIsMuted] = useState(initialValues.isMuted);
   const [activeCalls, setActiveCalls] = useState(initialValues.activeCalls);
 
+
+  useEffect(() => {
+    return () => {
+      InCallManager.stop()
+    }
+  }, [])
+
+
   const checkPermissions = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -94,10 +103,13 @@ const MainContextProvider = ({ children }) => {
   const initialize = async () => {
     const constraints = {
       audio: true,
-      video: false,
+      video: false
     };
       
+    InCallManager.start({media: 'audio'})
     const newStream = await mediaDevices.getUserMedia(constraints)
+    console.log(newStream)
+    
     setLocalStream(newStream);
   }
 
@@ -163,13 +175,36 @@ const MainContextProvider = ({ children }) => {
   useEffect(() => {
     if (peerId) {
       // console.log(peerId);
-      socket.emit("register", user, peerId); // register user
+      socket.emit("register", user, peerId); // register user <- no idea what this does, this is not used on the server???
+
+      // answering a call
+      console.log("here")
+      socket.on("call", (participant) => {
+        console.log(participant.userId, user._id)
+        console.log("call")
+        peerServer.on("call", (incomingCall) => {
+          console.log("incoming")
+          setRemoteUsers(currentUsers => [...currentUsers, participant]);
+          incomingCall.answer(localStream);
+          setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
+          
+          incomingCall.on("stream", (stream) => {
+            setRemoteStreams(currentStreams => [...currentStreams, stream]);
+          });
+          
+          incomingCall.on("close", () => { 
+            // closeCall();
+          });
+          
+          incomingCall.on("error", () => {});
+        });
+      });
 
       // when a new user joins the room, all users start a call with the new user
       socket.on("user-joined-show", (participant) => {
+        console.log("user joined")
+        console.log(participant.userId, user._id)
         // console.log(user, activeShow, newStream, peer)
-        socket.emit("call", user._id, activeShow._id);
-        setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
 
         if (!peerServer) {
           console.log('Peer server or socket connection not found');
@@ -179,9 +214,9 @@ const MainContextProvider = ({ children }) => {
         }
 
         try {
-          console.log('calling: ', participant.peerId, 'my local stream: ', localStream.active)
+          // console.log('calling: ', participant.peerId, 'my local stream: ', localStream.active)
           const call = peerServer.call(participant.peerId, localStream);
-          console.log('call', call);
+          // console.log('call', call);
           
           call.on(
             "stream",
@@ -194,28 +229,13 @@ const MainContextProvider = ({ children }) => {
             }
           );
 
-          // answering a call
-          socket.on("call", (userId) => {
-            peerServer.on("call", (incomingCall) => {
-              setRemoteUsers(currentUseres => [...currentUseres, userId]);
-              incomingCall.answer(localStream);
-              setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
-              
-              incomingCall.on("stream", (stream) => {
-                setRemoteStreams(currentStreams => [...currentStreams, stream]);
-              });
-              
-              incomingCall.on("close", () => { 
-                closeCall();
-              });
-              
-              incomingCall.on("error", () => {});
-            });
-          });
-
         } catch (error) {
           console.log("Calling error", error);
         }
+
+        // call the user that just joined
+        socket.emit("call", participant.socketId, activeShow._id);
+        setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
       });
     }
   }, [peerId])
