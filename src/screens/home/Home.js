@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { View, StyleSheet, FlatList, Text } from "react-native";
+import { View, StyleSheet, FlatList, Text, ToastAndroid } from "react-native";
 import { Portal } from "react-native-portalize";
 import { MenuHome, LiveShow, CreateShowModalize, HomeSong } from "./components";
 import { MainContext } from "store/MainProvider";
@@ -25,6 +25,14 @@ export default function Home({ navigation }) {
 
   const openModal = () => {
     setModal((<CreateShowModalize openModal={true} onClose={closeModal} callback={(newShow) => navigation.navigate('Show', newShow)} />));
+  }
+
+  const startShow = () => {
+    if (["dashpig", "zymmac"].includes(user.username)) {
+      openModal()
+    } else {
+      ToastAndroid.show("This option is disabled for this demo", ToastAndroid.SHORT);
+    }
   }
 
   const closeModal = () => {
@@ -73,7 +81,7 @@ export default function Home({ navigation }) {
 
         <MenuHome 
           user={user} 
-          callback={openModal}
+          callback={startShow}
         />
 
         <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']} style={styles.linearGradientBottom}></LinearGradient>
