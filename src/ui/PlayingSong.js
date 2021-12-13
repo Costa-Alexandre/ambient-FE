@@ -4,9 +4,9 @@ import { colorStyles } from "styles";
 import useAverageColor from 'hooks/averageColor';
 import { MainContext } from "store/MainProvider";
 
-export default function PlayingSong({ children, callback=null, bottomFlat=false }) {
+export default function PlayingSong({ children, callback=null, bottomFlat=false, defaultBg=colorStyles.buttonSolid }) {
   const { activeTrack } = useContext(MainContext);
-  const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri?.uri, colorStyles.buttonSolid);
+  const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri?.uri, defaultBg);
 
   useEffect(() => {
     setImageUri(activeTrack.imageUri?.uri)
@@ -18,6 +18,7 @@ export default function PlayingSong({ children, callback=null, bottomFlat=false 
         style={[bottomFlat ? styles.outerContainerFlat : styles.outerContainer, 
         { backgroundColor: averageColor}]}
         onPress={callback}
+        activeOpacity={0.9}
       >
         {children}
       </TouchableOpacity>

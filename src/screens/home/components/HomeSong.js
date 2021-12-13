@@ -11,20 +11,35 @@ import { MainContext } from "store/MainProvider";
 
 export default function HomeSong({ callback=null }) {
 
-  const { activeTrack, activeShow, setActiveShow, setActiveTrack, resetShow, resetTrack } = useContext(MainContext);
+  const { activeTrack, activeShow, setActiveShow, setActiveTrack, resetShow, resetTrack, remoteUsers } = useContext(MainContext);
+
+  const leaveShow = () => {
+    setActiveShow(resetShow());
+    setActiveTrack(resetTrack())
+  }
   
   const noMusic = () => {
     return (
       <View style={styles.noMusicContainer}>
+        <View style={styles.textContainer}>
           <Text
-            style={[fontStyles.subtitleSecondary, styles.noMusicText]}
+            style={[fontStyles.subtitleSecondary, styles.songText]}
             numberOfLines={1}
           >
-            No song playing
+            {activeShow.name}
+          </Text>
+          <Text
+            style={[fontStyles.subtitleSecondary, styles.artistText]}
+            numberOfLines={1}
+          >
+            {remoteUsers.length+1} {remoteUsers.length ? 'users' : 'user'} speaking
           </Text>
         </View>
+        <CustomButton title="Leave" color="button" size="slimShort" callback={leaveShow} />
+      </View>
     )
   };
+
   const playMusic = () => {
     return (
         <View style={[styles.playContainer, {backgroundColor: 
@@ -45,19 +60,13 @@ export default function HomeSong({ callback=null }) {
               {`${activeTrack.name} - ${activeTrack.artist}`}
             </Text>
           </View>
-          <CustomButton title="Leave" color="button" size="slimShort" callback={
-            () => {
-              setActiveShow(resetShow());
-              setActiveTrack(resetTrack())
-            }
-          } />
-
+          <CustomButton title="Leave" color="button" size="slimShort" callback={leaveShow} />
         </View>
     );
   };
 
   return (
-    <PlayingSong callback={callback} bottomFlat={true} >
+    <PlayingSong callback={callback} bottomFlat={true} defaultBg={colorStyles.card} >
       {activeTrack.uri !== "" && playMusic()}
       {activeTrack.uri == "" && noMusic()}
     </PlayingSong>
@@ -73,6 +82,7 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
+    marginRight: 16
   },
   songText: {
     color: colorStyles.text,
