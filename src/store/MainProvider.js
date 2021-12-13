@@ -231,7 +231,8 @@ const MainContextProvider = ({ children }) => {
           console.log("Calling error", error);
         }
 
-        socket.emit("call", participant.userId, activeShow._id);
+        // call the user that just joined
+        socket.emit("call", participant.socketId, activeShow._id);
         setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
       });
     }
