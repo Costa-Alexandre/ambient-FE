@@ -56,14 +56,6 @@ export default function ShowInfo({ callback, goBack }) {
         </Text>
       </View>
 
-      {/* <View style={{width: 200, height: 200}}>
-        <RTCView streamURL={localStream?.toURL()} style={{flex: 1}} />
-      </View>
-      <View style={{width: 200, height: 200}}>
-        {<Text style={{color:'white'}}>{remoteStreams.length}</Text>}
-        {remoteStreams.map((rstream, i) => <RTCView key={i} streamURL={rstream?.toURL()} style={{flex: 1}} />)}
-      </View> */}
-
       <View style={styles.songContainer}>
         <ShowSong
           callback={dummyOnPressHandler}
@@ -123,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const dummyTrackId = "4cY1UR4UCWzXqGm9lMvnQC";
+const dummyTrackId = "5OkYfk72CNL8XLqa3gp9q7";
