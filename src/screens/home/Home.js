@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import { View, StyleSheet, FlatList, Text, ToastAndroid } from "react-native";
+import React, { useContext, useState, useEffect, useCallback } from "react";
+import { View, StyleSheet, FlatList, Text, ToastAndroid, RefreshControl } from "react-native";
 import { Portal } from "react-native-portalize";
 import { MenuHome, LiveShow, CreateShowModalize, HomeSong } from "./components";
 import { MainContext } from "store/MainProvider";
@@ -13,15 +13,35 @@ export default function Home({ navigation }) {
   const [liveShows, setliveShows] = useState([]);
   const [modal, setModal] = useState(null);
 
+  const [refreshing, setRefreshing] = useState(false);
+
   useEffect(() => {
-    getShows()
-      .then((res) => {
-        setliveShows(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (refreshing) {
+      getShows()
+        .then((res) => {
+          setliveShows(res)
+          setRefreshing(false)
+        })
+        .catch((err) => {
+          console.log(err)
+          setRefreshing(false)
+        });
+    }
+  }, [refreshing])
+
+  const updateShows = async () => {
+    setRefreshing(true)
+  }
+
+
+  const onRefresh = () => {
+    updateShows()
+  };
+
+  useEffect(() => {
+    updateShows()
   }, [activeShow]);
+
 
   const openModal = () => {
     setModal((<CreateShowModalize openModal={true} onClose={closeModal} callback={(newShow) => navigation.navigate('Show', newShow)} />));
@@ -61,6 +81,12 @@ export default function Home({ navigation }) {
         <View style={styles.liveShow}>
           <FlatList
             data={liveShows}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
             keyExtractor={(item) => item._id}
             ListEmptyComponent={emptyShowList()}
             renderItem={({ item, index }) => (
