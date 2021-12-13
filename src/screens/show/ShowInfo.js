@@ -56,13 +56,13 @@ export default function ShowInfo({ callback, goBack }) {
         </Text>
       </View>
 
-      <View style={{width: 200, height: 200}}>
+      {/* <View style={{width: 200, height: 200}}>
         <RTCView streamURL={localStream?.toURL()} style={{flex: 1}} />
       </View>
       <View style={{width: 200, height: 200}}>
         {<Text style={{color:'white'}}>{remoteStreams.length}</Text>}
         {remoteStreams.map((rstream, i) => <RTCView key={i} streamURL={rstream?.toURL()} style={{flex: 1}} />)}
-      </View>
+      </View> */}
 
       <View style={styles.songContainer}>
         <ShowSong

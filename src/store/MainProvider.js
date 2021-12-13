@@ -94,15 +94,16 @@ const MainContextProvider = ({ children }) => {
   const initialize = async () => {
     const constraints = {
       audio: true,
-      video: {
-        mandatory: {
-          // Provide your own width, height and frame rate here
-          minWidth: 500,
-          minHeight: 300,
-          minFrameRate: 30,
-        },
-        facingMode: 'user',
-      },
+      video: false
+      // video: {
+      //   mandatory: {
+      //     // Provide your own width, height and frame rate here
+      //     minWidth: 500,
+      //     minHeight: 300,
+      //     minFrameRate: 30,
+      //   },
+      //   facingMode: 'user',
+      // },
     };
       
     const newStream = await mediaDevices.getUserMedia(constraints)
@@ -191,7 +192,7 @@ const MainContextProvider = ({ children }) => {
           });
           
           incomingCall.on("close", () => { 
-            closeCall();
+            // closeCall();
           });
           
           incomingCall.on("error", () => {});
