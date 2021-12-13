@@ -17,7 +17,6 @@ export default function UserPicture({uri=null, name="-", callback=null, size=20}
     setColor(stc(name))
   }, [])
 
-  // uri = "https://play-lh.googleusercontent.com/IeNJWoKYx1waOhfWF6TiuSiWBLfqLb18lmZYXSgsH1fvb8v1IYiZr5aYWe0Gxu-pVZX3"
   return (
     <TouchableOpacity
       style={[
