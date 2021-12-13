@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PermissionsAndroid } from "react-native";
 import { mediaDevices } from "react-native-webrtc";
+import InCallManager from 'react-native-incall-manager';
 import socketio from "socket.io-client";
 
 import {
@@ -66,6 +67,14 @@ const MainContextProvider = ({ children }) => {
   const [isMuted, setIsMuted] = useState(initialValues.isMuted);
   const [activeCalls, setActiveCalls] = useState(initialValues.activeCalls);
 
+
+  useEffect(() => {
+    return () => {
+      InCallManager.stop()
+    }
+  }, [])
+
+
   const checkPermissions = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -95,17 +104,9 @@ const MainContextProvider = ({ children }) => {
     const constraints = {
       audio: true,
       video: false
-      // video: {
-      //   mandatory: {
-      //     // Provide your own width, height and frame rate here
-      //     minWidth: 500,
-      //     minHeight: 300,
-      //     minFrameRate: 30,
-      //   },
-      //   facingMode: 'user',
-      // },
     };
       
+    InCallManager.start({media: 'audio'})
     const newStream = await mediaDevices.getUserMedia(constraints)
     console.log(newStream)
     
