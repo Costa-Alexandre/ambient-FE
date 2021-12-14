@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import { colorStyles, fontStyles } from "styles";
 import { CustomIcon, UserPicture } from "ui";
+import { MainContext } from "store/MainProvider";
 
 export function ChatHeader({ isOpen, callback }) {
   return (
@@ -27,12 +28,19 @@ export function ChatHeader({ isOpen, callback }) {
 }
 
 export function ChatInput() {
-  const [text, onChangeText] = useState("");
+  const { sendChatMessage } = useContext(MainContext)
+  const [text, setText] = useState("");
+
+  const submitMessage = () => {
+    sendChatMessage(text)
+    setText("")
+  }
 
   return (
     <View style={styles.container}>
       <TextInput
-        onChangeText={(text) => onChangeText(text)}
+        onChangeText={(text) => setText(text)}
+        onSubmitEditing={() => submitMessage()}
         value={text}
         style={composeInput}
         placeholder="Comment..."

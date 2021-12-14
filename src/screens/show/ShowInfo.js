@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { remote as SpotifyRemote } from "react-native-spotify-remote";
 import { StyleSheet, Text, View, ImageBackground, LogBox } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -16,8 +16,18 @@ LogBox.ignoreLogs([
 ]);
 
 export default function ShowInfo({ callback, goBack }) {
-  const {activeTrack, setActiveTrack, activeShow, setActiveShow, localStream, remoteStreams } = useContext(MainContext);
+  const {activeTrack, setActiveTrack, activeShow, setActiveShow, user, isMuted, remoteUsers, remoteStreams } = useContext(MainContext);
   const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri?.uri, "#1B1B1F")
+
+  const [stageUsers, setStageUsers] = useState([])
+
+  const dummyOnPressHandler = () => {
+    spotifyGetTrack(dummyTrackId).then(track => {
+      setActiveTrack(track);
+      SpotifyRemote.playUri(track.uri);
+      console.log(`Set track ${track.name}, uri: ${track.uri} and start playing!`)
+    })
+  };
 
   useEffect(() => {
     setImageUri(activeTrack.imageUri?.uri);
@@ -30,6 +40,13 @@ export default function ShowInfo({ callback, goBack }) {
     }
     setActiveShow({...newActiveShow});
   }, [averageColor])
+
+  useEffect(() => {
+    console.log(remoteUsers)
+    let newStageUsers = [{...user, isMuted: isMuted, key: user.username},
+      ...remoteUsers.map((userItem, i) => {return {...userItem.user, isMuted: false, key: userItem.user.username}})]
+    setStageUsers(newStageUsers)
+  }, [user, remoteUsers, isMuted, remoteStreams])
 
   const showContent = () => {
     return (
@@ -51,7 +68,7 @@ export default function ShowInfo({ callback, goBack }) {
       </View>
 
       <View style={styles.usersContainer}>
-        <LiveUsers />
+        <LiveUsers stage={stageUsers} />
       </View>
     </View>);
   }
