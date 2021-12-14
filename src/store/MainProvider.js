@@ -253,13 +253,6 @@ const MainContextProvider = ({ children }) => {
   }, [isMuted])
 
 
-  useEffect(() => {
-    if (activeShow._id) {
-      // updatePlayback() // send initial playback state when joining a show as host
-    }
-  }, [activeShow])
-
-
   const joinShow = (activeShow) => {
     if (!activeShow._id) {
       console.log("Show not found");
@@ -286,7 +279,8 @@ const MainContextProvider = ({ children }) => {
 
 
   const updatePlayback = async (playerState=null) => {
-    console.log(user.username, activeShow)
+    console.log("playback update")
+    // syncToPlaybackState(playerState)
     if (user.username === "dashpig" && activeShow._id) {
       try {
         // get current player state if not given from update
@@ -316,8 +310,39 @@ const MainContextProvider = ({ children }) => {
   }
 
 
-  const syncToPlaybackState = (playerState) => {
-    console.log("syncing") // TODO
+  const setPlaybackPause = async (isPaused) => {
+    if (isPaused) {
+      await SpotifyRemote.pause()
+    } else {
+      await SpotifyRemote.resume()
+    }
+  }
+
+
+  const syncToPlaybackState = async (playerState) => {
+    try {
+      let {isPaused, playbackPosition, track} = await SpotifyRemote.getPlayerState()
+      // sync if there's a different playing track
+      if (!playerState.track || (playerState.track && track.uri != playerState.track.uri)) {
+        // sync playing track
+        if (playerState.track) {
+          await SpotifyRemote.playUri("spotify:track:4jYt1pQqg2mIZmY4FWCZEM")
+          await SpotifyRemote.seek(playbackPosition)
+          await setPlaybackPause(playerState.isPaused)
+        // no track playing
+        } else {
+          await setPlaybackPause(false)
+        }
+      }
+      // set pause or play
+      else if (isPaused != playerState.isPaused) {
+        await setPlaybackPause(playerState.isPaused)
+      }
+      console.log("synced")
+    }
+    catch (error) {
+      console.log("failed to sync", error)
+    }
   }
 
 

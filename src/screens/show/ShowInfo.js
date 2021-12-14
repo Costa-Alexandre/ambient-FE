@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, ImageBackground, LogBox } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { colorStyles, fontStyles } from "styles";
 import { MenuShow, LiveUsers, ShowSong } from "./components";
-import { spotifyGetTrack } from "api/spotify";
+import { spotifyPlayTrack } from "api/spotify";
 import { MainContext } from "store/MainProvider";
 import useAverageColor from 'hooks/averageColor';
 
