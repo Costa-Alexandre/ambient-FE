@@ -228,7 +228,7 @@ const MainContextProvider = ({ children }) => {
 
         // call the user that just joined
         socket.emit("call", participant.socketId, activeShow._id);
-        setRemoteUsers(currentUsers => [...currentUsers, participant.user._id]);
+        setRemoteUsers(currentUsers => [...currentUsers, participant]);
       });
 
       // receiving a message
