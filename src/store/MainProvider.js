@@ -71,10 +71,8 @@ const MainContextProvider = ({ children }) => {
 
 
   useEffect(() => {
-    SpotifyRemote.addListener("playerStateChanged", updatePlayback)
     return () => {
       InCallManager.stop()
-      SpotifyRemote.removeAllListeners("playerStateChanged")
     }
   }, [])
 
@@ -253,6 +251,17 @@ const MainContextProvider = ({ children }) => {
   }, [isMuted])
 
 
+  useEffect(() => {
+    SpotifyRemote.addListener("playerStateChanged", updatePlayback)
+    if (!activeTrack.uri && activeShow._id) {
+      updatePlayback()
+    }
+    return () => {
+      SpotifyRemote.removeAllListeners("playerStateChanged")
+    }
+  }, [activeShow])
+
+
   const joinShow = (activeShow) => {
     if (!activeShow._id) {
       console.log("Show not found");
@@ -265,6 +274,8 @@ const MainContextProvider = ({ children }) => {
       userId: user._id,
       peerId
     }
+
+    setActiveShow(activeShow)
     
     socket.emit("user-join-show", eventInfo, ({showId, userId, peerId, role}) => {
       console.log(`
@@ -273,8 +284,8 @@ const MainContextProvider = ({ children }) => {
     userId: ${userId}
     peerId: ${peerId}
     is now set to the ${role} role.`)
-    });
-
+  });
+  
   };
 
 
@@ -358,6 +369,8 @@ const MainContextProvider = ({ children }) => {
     activeCalls?.forEach((call) => {
       call.close();
     });
+    setActiveShow(resetShow())
+    setActiveTrack(resetTrack())
     setActiveCalls([]);
     setRemoteUsers([]);
   };
