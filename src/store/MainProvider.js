@@ -14,6 +14,8 @@ import {
 } from "server";
 import Peer from "react-native-peerjs";
 
+const DEMO_HOSTS = ["dashpig"]
+
 const initialValues = {
   user: {
     _id: "",
@@ -38,6 +40,7 @@ const initialValues = {
     imageUri: null,
     artists: [] 
   },
+  trackPaused: false,
   peerId: "",
   localStream: null,
   remoteStreams: [],
@@ -48,7 +51,7 @@ const initialValues = {
   isMuted: false,
   leaveShow: () => {}, //leaveShow
   reset: () => {},
-  activeCalls: [], // activeShow
+  activeCalls: [], // activeShow,
 };
 
 export const MainContext = React.createContext(initialValues);
@@ -58,6 +61,7 @@ const MainContextProvider = ({ children }) => {
   const [spotifyData, setSpotifyData] = useState(initialValues.spotifyData)
   const [activeShow, setActiveShow] = useState(initialValues.activeShow);
   const [activeTrack, setActiveTrack] = useState(initialValues.activeTrack);
+  const [trackPaused, setTrackPaused] = useState(initialValues.trackPaused);
   const [peerId, setPeerId] = useState(initialValues.peerId);
   const [localStream, setLocalStream] = useState(initialValues.localStream);
   const [remoteStreams, setRemoteStreams] = useState(
@@ -228,6 +232,15 @@ const MainContextProvider = ({ children }) => {
         // call the user that just joined
         socket.emit("call", participant.socketId, activeShow._id);
         setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
+
+        // give the user the current playback state if you're in control of the music
+        if (DEMO_HOSTS.includes(user.username)) {
+          SpotifyRemote.getPlayerState()
+          .then(playerState => {
+            socket.emit("playback-initial-sync", {toUserId: participant.socketId, playerState})
+          })
+          .catch(err => console.log("initial sync failed", err))
+        }
       });
 
       // receiving a playback update
@@ -292,12 +305,14 @@ const MainContextProvider = ({ children }) => {
   const updatePlayback = async (playerState=null) => {
     console.log("playback update")
     // syncToPlaybackState(playerState)
-    if (user.username === "dashpig" && activeShow._id) {
+    if (DEMO_HOSTS.includes(user.username) && activeShow._id) {
       try {
         // get current player state if not given from update
         if (playerState === null) {
           playerState = await SpotifyRemote.getPlayerState()
         }
+
+        setTrackPaused(playerState.isPaused)
 
         // get track details
         let track = resetTrack()
@@ -324,8 +339,10 @@ const MainContextProvider = ({ children }) => {
   const setPlaybackPause = async (isPaused) => {
     if (isPaused) {
       await SpotifyRemote.pause()
+      setTrackPaused(true)
     } else {
       await SpotifyRemote.resume()
+      setTrackPaused(false)
     }
   }
 
@@ -408,6 +425,7 @@ const MainContextProvider = ({ children }) => {
         activeShow,
         setActiveShow,
         activeTrack,
+        trackPaused,
         setActiveTrack,
         peerId,
         setPeerId,

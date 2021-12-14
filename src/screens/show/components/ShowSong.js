@@ -12,8 +12,7 @@ import { MainContext } from "store/MainProvider";
 
 export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
 
-  const { activeTrack } = useContext(MainContext);
-  const [pause, setPause] = useState(false);
+  const { trackPaused, activeTrack } = useContext(MainContext);
   
   const noMusic = () => {
     return (
@@ -54,13 +53,11 @@ export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
             </Text>
           </View>
           <View style={{marginLeft: 20}}>
-            {!pause && <CustomButton icon="pause" size={40} callback={() => {
+            {!trackPaused && <CustomButton icon="pause" size={40} callback={() => {
               onPause();
-              setPause(true);
             }} />}
-            {pause && <CustomButton icon="play" size={40} callback={() => {
+            {trackPaused && <CustomButton icon="play" size={40} callback={() => {
               onPlay();
-              setPause(false);
             }} />}
           </View>
             <View style={{marginLeft: 20}}>
