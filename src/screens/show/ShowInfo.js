@@ -7,12 +7,6 @@ import { MenuShow, LiveUsers, ShowSong } from "./components";
 import { spotifyGetTrack } from "api/spotify";
 import { MainContext } from "store/MainProvider";
 import useAverageColor from 'hooks/averageColor';
-import {
-  RTCView,
-  RTCPeerConnection,
-  RTCIceCandidate,
-  mediaDevices,
-} from 'react-native-webrtc';
 
 
 
@@ -24,14 +18,6 @@ LogBox.ignoreLogs([
 export default function ShowInfo({ callback, goBack }) {
   const {activeTrack, setActiveTrack, activeShow, setActiveShow, localStream, remoteStreams } = useContext(MainContext);
   const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri?.uri, "#1B1B1F")
-
-  const dummyOnPressHandler = () => {
-    spotifyGetTrack(dummyTrackId).then(track => {
-      setActiveTrack(track);
-      SpotifyRemote.playUri(track.uri);
-      console.log(`Set track ${track.name}, uri: ${track.uri} and start playing!`)
-    })
-  };
 
   useEffect(() => {
     setImageUri(activeTrack.imageUri?.uri);
@@ -58,7 +44,7 @@ export default function ShowInfo({ callback, goBack }) {
 
       <View style={styles.songContainer}>
         <ShowSong
-          callback={dummyOnPressHandler}
+          callback={()=>{}}
           onPause={() => SpotifyRemote.pause()}
           onPlay={() => SpotifyRemote.playUri("")}
         />
@@ -114,5 +100,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-const dummyTrackId = "5OkYfk72CNL8XLqa3gp9q7";

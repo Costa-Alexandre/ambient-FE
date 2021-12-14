@@ -3,6 +3,8 @@ import { PermissionsAndroid } from "react-native";
 import { mediaDevices } from "react-native-webrtc";
 import InCallManager from 'react-native-incall-manager';
 import socketio from "socket.io-client";
+import { remote as SpotifyRemote } from "react-native-spotify-remote";
+import { spotifyGetTrack } from "api/spotify";
 
 import {
   SOCKET_SERVER,
@@ -69,8 +71,10 @@ const MainContextProvider = ({ children }) => {
 
 
   useEffect(() => {
+    SpotifyRemote.addListener("playerStateChanged", updatePlayback)
     return () => {
       InCallManager.stop()
+      SpotifyRemote.removeAllListeners("playerStateChanged")
     }
   }, [])
 
@@ -227,8 +231,19 @@ const MainContextProvider = ({ children }) => {
         socket.emit("call", participant.socketId, activeShow._id);
         setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
       });
+
+      // receiving a playback update
+      socket.on("playback-updated", (playerState) => {
+        console.log("received playback update")
+        if (playerState.track !== activeTrack) {
+          setActiveTrack(playerState.track)
+        }
+        syncToPlaybackState(playerState)
+      });
+
     }
   }, [peerId])
+
 
   useEffect(() => {
     toggleMute();
@@ -236,6 +251,13 @@ const MainContextProvider = ({ children }) => {
       console.log(`Muted: ${localStream._tracks[0].muted}`);
     }
   }, [isMuted])
+
+
+  useEffect(() => {
+    if (activeShow._id) {
+      // updatePlayback() // send initial playback state when joining a show as host
+    }
+  }, [activeShow])
 
 
   const joinShow = (activeShow) => {
@@ -257,9 +279,46 @@ const MainContextProvider = ({ children }) => {
     showId: ${showId}
     userId: ${userId}
     peerId: ${peerId}
-    is now set to the ${role} role.`)});
+    is now set to the ${role} role.`)
+    });
 
   };
+
+
+  const updatePlayback = async (playerState=null) => {
+    console.log(user.username, activeShow)
+    if (user.username === "dashpig" && activeShow._id) {
+      try {
+        // get current player state if not given from update
+        if (playerState === null) {
+          playerState = await SpotifyRemote.getPlayerState()
+        }
+
+        // get track details
+        let track = resetTrack()
+        if (playerState.track) {
+          track = await spotifyGetTrack(playerState.track.uri.split(":")[2])
+        }
+        playerState.track = track
+
+        // emit playback update and set active track
+        socket.emit("playback-update", {playerState, showId: activeShow._id})
+        if (playerState.track !== activeTrack) {
+          setActiveTrack(playerState.track)
+          // TODO update current track on server
+        }
+        console.log("updated playback for", activeShow._id)
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+
+  const syncToPlaybackState = (playerState) => {
+    console.log("syncing") // TODO
+  }
 
 
   const toggleMute = () => {
