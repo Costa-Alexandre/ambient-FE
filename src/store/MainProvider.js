@@ -46,7 +46,8 @@ const initialValues = {
   isMuted: false,
   leaveShow: () => {}, //leaveShow
   reset: () => {},
-  activeCalls: [], // activeShow
+  activeCalls: [], // activeShow,
+  chatMessages: [],
 };
 
 export const MainContext = React.createContext(initialValues);
@@ -66,6 +67,8 @@ const MainContextProvider = ({ children }) => {
   const [peerServer, setPeerServer] = useState(null);
   const [isMuted, setIsMuted] = useState(initialValues.isMuted);
   const [activeCalls, setActiveCalls] = useState(initialValues.activeCalls);
+
+  const [chatMessages, setChatMessages] = useState(initialValues.chatMessages);
 
 
   useEffect(() => {
@@ -227,6 +230,12 @@ const MainContextProvider = ({ children }) => {
         socket.emit("call", participant.socketId, activeShow._id);
         setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
       });
+
+      // receiving a message
+      socket.on("message-receive", (message, user) => {
+        setChatMessages(currentMessages => [...currentMessages, {user, message}])
+      });
+
     }
   }, [peerId])
 
@@ -270,12 +279,19 @@ const MainContextProvider = ({ children }) => {
   };
 
 
+  const sendChatMessage = (message) => {
+    if (socket && activeShow._id)
+      socket.emit("message-send", {showId: activeShow._id, message, user})
+  };
+
+
   const leaveShow = () => {
     activeCalls?.forEach((call) => {
       call.close();
     });
-    setActiveCalls([]);
-    setRemoteUsers([]);
+    setActiveCalls([])
+    setRemoteUsers([])
+    setChatMessages([])
   };
 
 
@@ -332,7 +348,9 @@ const MainContextProvider = ({ children }) => {
         activeCalls,
         setActiveCalls,
         socket,
-        peerServer
+        peerServer,
+        chatMessages,
+        sendChatMessage
       }}
     >
       {children}

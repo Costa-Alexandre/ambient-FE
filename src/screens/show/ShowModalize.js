@@ -7,7 +7,7 @@ import { MainContext } from "store/MainProvider";
 
 export default function ShowModalize() {
 
-  const { isMuted, setIsMuted } = useContext(MainContext)
+  const { isMuted, setIsMuted, chatMessages } = useContext(MainContext)
 
   const { ref, open, close } = useModalize();
 
@@ -40,12 +40,12 @@ export default function ShowModalize() {
         withOverlay={false}
         modalStyle={styles.rootModalize}
         flatListProps={{
-          data: dummyMessages,
+          data: chatMessages,
           renderItem: ({ item }) => (
             <ChatComment
-              imageUri={item.imageUri}
-              username={item.username}
-              payload={item.payload}
+              imageUri={item.user.avatar}
+              username={item.user.displayName}
+              payload={item.message}
             /> 
           ),
         }}
@@ -74,5 +74,11 @@ export default function ShowModalize() {
       imageUri: "https://randomuser.me/api/portraits/women/1.jpg",
       username: "Username",
       payload: "Comment text",
+    },
+    {
+      key: "3",
+      imageUri: "https://randomuser.me/api/portraits/women/1.jpg",
+      username: "Username",
+      payload: "Comment text 3",
     },
   ];
