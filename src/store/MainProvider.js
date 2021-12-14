@@ -92,7 +92,6 @@ const MainContextProvider = ({ children }) => {
         initialize();
       } else {
         console.log("Microphone permission denied");
-        // TODO: deal with permission denial
       }
     } catch (err) {
       console.warn(err);
@@ -108,7 +107,6 @@ const MainContextProvider = ({ children }) => {
       
     InCallManager.start({media: 'audio'})
     const newStream = await mediaDevices.getUserMedia(constraints)
-    console.log(newStream)
     
     setLocalStream(newStream);
   }
@@ -151,10 +149,8 @@ const MainContextProvider = ({ children }) => {
             ],
           },
         });
-        // console.log('socket', socket);
   
         setPeerServer(peer);
-        // console.log(peerServer);
       })
     }
   }, [socket])
@@ -162,7 +158,7 @@ const MainContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (peerServer) {
-      // set
+
       peerServer.on("error", (err) => console.log("Peer server error", err));
       
       peerServer.on("open", (peerId) => {
@@ -174,11 +170,8 @@ const MainContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (peerId) {
-      // console.log(peerId);
-      socket.emit("register", user, peerId); // register user <- no idea what this does, this is not used on the server???
 
       // answering a call
-      console.log("here")
       socket.on("call", (participant) => {
         console.log(participant.userId, user._id)
         console.log("call")
@@ -204,7 +197,6 @@ const MainContextProvider = ({ children }) => {
       socket.on("user-joined-show", (participant) => {
         console.log("user joined")
         console.log(participant.userId, user._id)
-        // console.log(user, activeShow, newStream, peer)
 
         if (!peerServer) {
           console.log('Peer server or socket connection not found');
@@ -214,9 +206,7 @@ const MainContextProvider = ({ children }) => {
         }
 
         try {
-          // console.log('calling: ', participant.peerId, 'my local stream: ', localStream.active)
           const call = peerServer.call(participant.peerId, localStream);
-          // console.log('call', call);
           
           call.on(
             "stream",
@@ -239,6 +229,13 @@ const MainContextProvider = ({ children }) => {
       });
     }
   }, [peerId])
+
+  useEffect(() => {
+    toggleMute();
+    if(localStream){
+      console.log(`Muted: ${localStream._tracks[0].muted}`);
+    }
+  }, [isMuted])
 
 
   const joinShow = (activeShow) => {
@@ -269,7 +266,6 @@ const MainContextProvider = ({ children }) => {
     if (localStream)
       localStream.getAudioTracks().forEach((track) => {
         track.enabled = !track.enabled;
-        setIsMuted(!track.enabled);
       });
   };
 
