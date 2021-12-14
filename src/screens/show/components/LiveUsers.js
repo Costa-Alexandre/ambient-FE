@@ -8,28 +8,28 @@ export default function LiveUsers({ stage, requesting, listening }) {
     <View style={styles.outerContainer}>
       <View style={styles.container}>
         <FlatList
-          data={dummyStage}
+          data={stage}
           numColumns={4}
           horizontal={false}
           renderItem={({ item }) => (
             <View style={styles.itemBig}>
               <UserStage
-                uri={item.uri}
+                uri={item.avatar}
                 callback={null}
-                username="Username"
+                username={item.displayName}
                 isMuted={item.isMuted}
-                isTalking={item.isTalking}
+                isTalking={false}
               />
             </View>
           )}
         />
       </View>
 
-      <View style={styles.gap} />
+      {/* <View style={styles.gap} /> */}
 
-      <Text style={composeSubtitle}>Wanting to speak (6)</Text>
+      {/* <Text style={composeSubtitle}>Wanting to speak (6)</Text> */}
 
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <FlatList
           data={dummyRequesting}
           numColumns={4}
@@ -45,12 +45,12 @@ export default function LiveUsers({ stage, requesting, listening }) {
             </View>
           )}
         />
-      </View>
+      </View> */}
 
-      <View style={styles.gap} />
+      {/* <View style={styles.gap} /> */}
 
-      <Text style={composeSubtitle}>Listening (7)</Text>
-      <FlatList
+      {/* <Text style={composeSubtitle}>Listening (7)</Text> */}
+      {/* <FlatList
         data={dummyListening}
         numColumns={7}
         renderItem={({ item }) => (
@@ -58,7 +58,7 @@ export default function LiveUsers({ stage, requesting, listening }) {
             <UserPicture uri={item.uri} callback={null} name={"-"} size={40} />
           </View>
         )}
-      />
+      /> */}
     </View>
   );
 }

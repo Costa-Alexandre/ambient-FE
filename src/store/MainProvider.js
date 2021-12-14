@@ -46,7 +46,8 @@ const initialValues = {
   isMuted: false,
   leaveShow: () => {}, //leaveShow
   reset: () => {},
-  activeCalls: [], // activeShow
+  activeCalls: [], // activeShow,
+  chatMessages: [],
 };
 
 export const MainContext = React.createContext(initialValues);
@@ -66,6 +67,8 @@ const MainContextProvider = ({ children }) => {
   const [peerServer, setPeerServer] = useState(null);
   const [isMuted, setIsMuted] = useState(initialValues.isMuted);
   const [activeCalls, setActiveCalls] = useState(initialValues.activeCalls);
+
+  const [chatMessages, setChatMessages] = useState(initialValues.chatMessages);
 
 
   useEffect(() => {
@@ -173,7 +176,7 @@ const MainContextProvider = ({ children }) => {
 
       // answering a call
       socket.on("call", (participant) => {
-        console.log(participant.userId, user._id)
+        console.log(participant.user._id, user._id)
         console.log("call")
         peerServer.on("call", (incomingCall) => {
           console.log("incoming")
@@ -196,7 +199,7 @@ const MainContextProvider = ({ children }) => {
       // when a new user joins the room, all users start a call with the new user
       socket.on("user-joined-show", (participant) => {
         console.log("user joined")
-        console.log(participant.userId, user._id)
+        console.log(participant.user._id, user._id)
 
         if (!peerServer) {
           console.log('Peer server or socket connection not found');
@@ -225,8 +228,14 @@ const MainContextProvider = ({ children }) => {
 
         // call the user that just joined
         socket.emit("call", participant.socketId, activeShow._id);
-        setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
+        setRemoteUsers(currentUsers => [...currentUsers, participant]);
       });
+
+      // receiving a message
+      socket.on("message-receive", (message, user) => {
+        setChatMessages(currentMessages => [...currentMessages, {user, message}])
+      });
+
     }
   }, [peerId])
 
@@ -247,15 +256,14 @@ const MainContextProvider = ({ children }) => {
     const eventInfo = {
       showId: activeShow._id,
       user: user,
-      userId: user._id,
       peerId
     }
     
-    socket.emit("user-join-show", eventInfo, ({showId, userId, peerId, role}) => {
+    socket.emit("user-join-show", eventInfo, ({showId, user, peerId, role}) => {
       console.log(`
     Participant: 
     showId: ${showId}
-    userId: ${userId}
+    userId: ${user._id}
     peerId: ${peerId}
     is now set to the ${role} role.`)});
 
@@ -270,12 +278,19 @@ const MainContextProvider = ({ children }) => {
   };
 
 
+  const sendChatMessage = (message) => {
+    if (socket && activeShow._id)
+      socket.emit("message-send", {showId: activeShow._id, message, user})
+  };
+
+
   const leaveShow = () => {
     activeCalls?.forEach((call) => {
       call.close();
     });
-    setActiveCalls([]);
-    setRemoteUsers([]);
+    setActiveCalls([])
+    setRemoteUsers([])
+    setChatMessages([])
   };
 
 
@@ -332,7 +347,9 @@ const MainContextProvider = ({ children }) => {
         activeCalls,
         setActiveCalls,
         socket,
-        peerServer
+        peerServer,
+        chatMessages,
+        sendChatMessage
       }}
     >
       {children}
