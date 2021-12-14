@@ -1,8 +1,9 @@
 import React, {useRef, useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { useModalize } from 'react-native-modalize/lib/utils/use-modalize';
 import { ChatInput, ChatHeader, ChatComment } from "./components";
+import { CustomButton } from "ui";
 
 export default function ShowModalize() {
 
@@ -18,6 +19,17 @@ export default function ShowModalize() {
     }
   }, [chatOpen])
 
+  const renderFloatingComponent = () => (
+    <View style={styles.floating}>
+      <CustomButton
+        icon="mute"
+        size="squareBig"
+        color="warning"
+        callback={() => {}}
+      />
+    </View>
+  );
+  
   return (
     <Modalize
         ref={ref}
@@ -27,7 +39,10 @@ export default function ShowModalize() {
         keyboardAvoidingOffset={0}
         withHandle={false}
         HeaderComponent={() => (
+          <>
+          {renderFloatingComponent()}
           <ChatHeader isOpen={chatOpen} callback={() => setChatOpen(current => !current)} />
+          </>
         )}
         FooterComponent={() => <ChatInput />}
         modalHeight={400}
@@ -53,6 +68,12 @@ export default function ShowModalize() {
     rootModalize: {
       backgroundColor: "#000",
       flex: 1,
+    },
+    floating: {
+      elevation: 9999,
+      position: "absolute",
+      top: -70,
+      right: 20,
     },
   });
 
