@@ -1,11 +1,13 @@
-import React, {useRef, useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import React, {useContext, useState, useEffect } from "react";
+import { StyleSheet } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { useModalize } from 'react-native-modalize/lib/utils/use-modalize';
-import { ChatInput, ChatHeader, ChatComment } from "./components";
-import { CustomButton } from "ui";
+import { ChatInput, ChatHeader, ChatComment, FloatingButton } from "./components";
+import { MainContext } from "store/MainProvider";
 
 export default function ShowModalize() {
+
+  const { isMuted, setIsMuted } = useContext(MainContext)
 
   const { ref, open, close } = useModalize();
 
@@ -18,17 +20,6 @@ export default function ShowModalize() {
       close("alwaysOpen")
     }
   }, [chatOpen])
-
-  const renderFloatingComponent = () => (
-    <View style={styles.floating}>
-      <CustomButton
-        icon="mute"
-        size="squareBig"
-        color="warning"
-        callback={() => {}}
-      />
-    </View>
-  );
   
   return (
     <Modalize
@@ -40,7 +31,7 @@ export default function ShowModalize() {
         withHandle={false}
         HeaderComponent={() => (
           <>
-          {renderFloatingComponent()}
+          <FloatingButton active={isMuted} callback={() => setIsMuted(!isMuted)} />
           <ChatHeader isOpen={chatOpen} callback={() => setChatOpen(current => !current)} />
           </>
         )}
@@ -55,7 +46,7 @@ export default function ShowModalize() {
               imageUri={item.imageUri}
               username={item.username}
               payload={item.payload}
-            />
+            /> 
           ),
         }}
       >
@@ -68,12 +59,6 @@ export default function ShowModalize() {
     rootModalize: {
       backgroundColor: "#000",
       flex: 1,
-    },
-    floating: {
-      elevation: 9999,
-      position: "absolute",
-      top: -70,
-      right: 20,
     },
   });
 
