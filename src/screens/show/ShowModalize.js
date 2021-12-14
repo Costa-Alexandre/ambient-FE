@@ -1,10 +1,13 @@
-import React, {useRef, useState, useEffect } from "react";
+import React, {useContext, useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { useModalize } from 'react-native-modalize/lib/utils/use-modalize';
-import { ChatInput, ChatHeader, ChatComment } from "./components";
+import { ChatInput, ChatHeader, ChatComment, FloatingButton } from "./components";
+import { MainContext } from "store/MainProvider";
 
 export default function ShowModalize() {
+
+  const { isMuted, setIsMuted } = useContext(MainContext)
 
   const { ref, open, close } = useModalize();
 
@@ -17,7 +20,7 @@ export default function ShowModalize() {
       close("alwaysOpen")
     }
   }, [chatOpen])
-
+  
   return (
     <Modalize
         ref={ref}
@@ -27,7 +30,10 @@ export default function ShowModalize() {
         keyboardAvoidingOffset={0}
         withHandle={false}
         HeaderComponent={() => (
+          <>
+          <FloatingButton active={isMuted} callback={() => setIsMuted(!isMuted)} />
           <ChatHeader isOpen={chatOpen} callback={() => setChatOpen(current => !current)} />
+          </>
         )}
         FooterComponent={() => <ChatInput />}
         modalHeight={400}
@@ -40,7 +46,7 @@ export default function ShowModalize() {
               imageUri={item.imageUri}
               username={item.username}
               payload={item.payload}
-            />
+            /> 
           ),
         }}
       >

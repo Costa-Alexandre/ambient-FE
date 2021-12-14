@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, ActivityIndicator, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, ActivityIndicator } from 'react-native';
 import { buttonStyles, colorStyles, fontStyles } from 'styles';
 import CustomIcon from './CustomIcon';
+import { TouchableOpacity} from 'react-native-gesture-handler'
+
 
 export default function CustomButton({ title, color, size, icon, iconSize=20, callback=null, disabled=false, loading=false }) {
 
@@ -24,7 +26,6 @@ export default function CustomButton({ title, color, size, icon, iconSize=20, ca
 
   
   return (
-    // <View style={styles.buttonContainer}>
       <TouchableOpacity
         style={buttonStyle}
         activeOpacity={callback!==null && !loading ? 0.8 : 1}
@@ -32,7 +33,6 @@ export default function CustomButton({ title, color, size, icon, iconSize=20, ca
       >
         {loading ? <ActivityIndicator color="white" size="small"/> : titleOrIcon(title, icon)}
       </TouchableOpacity>
-    // </View>
   );
 }
 
