@@ -190,6 +190,7 @@ const MainContextProvider = ({ children }) => {
           
           incomingCall.on("close", () => { 
             // closeCall();
+            console.log('close')
           });
           
           incomingCall.on("error", () => {});
@@ -285,12 +286,18 @@ const MainContextProvider = ({ children }) => {
 
 
   const leaveShow = () => {
-    activeCalls?.forEach((call) => {
-      call.close();
-    });
-    setActiveCalls([])
-    setRemoteUsers([])
-    setChatMessages([])
+    if(activeShow){
+      socket.emit('leave-show', activeShow._id)
+      activeCalls?.forEach((call) => {
+        call.close();
+      });
+      setActiveCalls([])
+      setRemoteStreams([])
+      setRemoteUsers([])
+      setChatMessages([])
+      setActiveShow(resetShow());
+      setActiveTrack(resetTrack())
+    }
   };
 
 
