@@ -21,9 +21,9 @@ export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
           style={[fontStyles.subtitleSecondary, styles.noMusicText]}
           numberOfLines={1}
         >
-          Tap to pick music
+          Tap to sync music
         </Text>
-        <CustomButton icon="spotify" size={40} callback={callback} />
+        <CustomButton icon="spotify" size={40} callback={()=>{}} />
       </View>
     )
   };
@@ -61,7 +61,7 @@ export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
             }} />}
           </View>
             <View style={{marginLeft: 20}}>
-              <CustomButton icon="spotify" size={40} callback={callback} />
+              <CustomButton icon="spotify" size={40} callback={()=>{}} />
             </View>
         </View>
       </ImageBackground>

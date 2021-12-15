@@ -16,18 +16,10 @@ LogBox.ignoreLogs([
 ]);
 
 export default function ShowInfo({ callback, goBack }) {
-  const {activeTrack, setActiveTrack, activeShow, setActiveShow, user, isMuted, remoteUsers } = useContext(MainContext);
+  const {activeTrack, updatePlayback, activeShow, setActiveShow, user, isMuted, remoteUsers } = useContext(MainContext);
   const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri?.uri, "#1B1B1F")
 
   const [stageUsers, setStageUsers] = useState([])
-
-  const dummyOnPressHandler = () => {
-    spotifyGetTrack(dummyTrackId).then(track => {
-      setActiveTrack(track);
-      SpotifyRemote.playUri(track.uri);
-      console.log(`Set track ${track.name}, uri: ${track.uri} and start playing!`)
-    })
-  };
 
   useEffect(() => {
     setImageUri(activeTrack.imageUri?.uri);
@@ -60,9 +52,9 @@ export default function ShowInfo({ callback, goBack }) {
 
       <View style={styles.songContainer}>
         <ShowSong
-          callback={()=>{}}
+          callback={activeTrack.uri ? null : ()=>{SpotifyRemote.resume()}}
           onPause={() => SpotifyRemote.pause()}
-          onPlay={() => SpotifyRemote.playUri("")}
+          onPlay={() => SpotifyRemote.resume()}
         />
       </View>
 
