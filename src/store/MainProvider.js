@@ -76,6 +76,13 @@ const MainContextProvider = ({ children }) => {
 
 
   useEffect(() => {
+    return () => {
+      InCallManager.stop()
+    }
+  }, [])
+
+
+  useEffect(() => {
     // answering a call
     socket.on("call", handleCall);
       
@@ -93,15 +100,13 @@ const MainContextProvider = ({ children }) => {
     socket.on("message-receive", handleMessageReceived);
 
     return () => {
-      InCallManager.stop()
-
       socket.off("call", handleCall)
       socket.off("user-joined-show", handleUserJoined)
       socket.off("user-left-show", handleUserLeft)
       socket.off("toggle-mute", handleToggleMute)
       socket.off("message-receive", handleMessageReceived)
     }
-  }, [])
+  }, [user, peerId, localStream, remoteStreams, remoteUsers, peerServer, isMuted, activeCalls, chatMessages])
 
 
   const checkPermissions = async () => {
