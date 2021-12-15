@@ -186,6 +186,7 @@ const MainContextProvider = ({ children }) => {
 
   const handleCall = (participant) => {
     console.log("called by socket")
+    console.log('users', remoteUsers.length)
     setRemoteUsers(currentUsers => [...currentUsers, participant]);
   }
 
@@ -327,7 +328,7 @@ const MainContextProvider = ({ children }) => {
 
 
   const leaveShow = () => {
-    if(activeShow){
+    if (activeShow){
       socket.emit('leave-show', activeShow._id)
       activeCalls?.forEach((call) => {
         call.close();
