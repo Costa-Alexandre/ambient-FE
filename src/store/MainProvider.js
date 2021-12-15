@@ -256,8 +256,8 @@ const MainContextProvider = ({ children }) => {
       });
 
       // receiving a message
-      socket.on("message-receive", (message, user) => {
-        setChatMessages(currentMessages => [...currentMessages, {user, message}])
+      socket.on("message-receive", ({message, user}) => {
+        setChatMessages(currentMessages => [...currentMessages, {user, message, key: Date.now()}])
       });
 
     }
