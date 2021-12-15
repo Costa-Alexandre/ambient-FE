@@ -78,6 +78,7 @@ const MainContextProvider = ({ children }) => {
   useEffect(() => {
     return () => {
       InCallManager.stop()
+      socket.disconnect()
     }
   }, [])
 
@@ -208,8 +209,7 @@ const MainContextProvider = ({ children }) => {
 
 
   const handleUserJoined = (participant) => {
-    console.log("user joined")
-    console.log(participant.user._id, user._id)
+    console.log("user joined", participant.user._id)
 
     if (!peerServer) {
       console.log('Peer server or socket connection not found');
@@ -243,13 +243,12 @@ const MainContextProvider = ({ children }) => {
 
 
   const handleUserLeft = (socketId) => {
-    console.log("close call", socketId, remoteUsers.length)
+    console.log("close call", socketId)
     let index = remoteUsers.map(rUser => rUser.socketId).indexOf(socketId)
     let currentUsers = [...remoteUsers]
     currentUsers.splice(index, 1)
     setRemoteUsers(currentUsers)
     let currentCalls = [...activeCalls]
-    console.log("current", currentCalls)
     let incomingCall = currentCalls.splice(index, 1)
     incomingCall[0].close()
     setActiveCalls(currentCalls)
@@ -257,17 +256,18 @@ const MainContextProvider = ({ children }) => {
 
 
   const handleToggleMute = (peerId, isMuted) => {
-    remoteUsers.forEach((participant, i) => {
+    let currentUsers = [...remoteUsers]
+    currentUsers.forEach((participant, i) => {
       if(participant.peerId == peerId){
         const updatedParticipant = {
           ...participant,
           isMuted: isMuted
         }
-        const updatedRemoteUsers = remoteUsers.splice(i, 1);
-        setRemoteUsers([...updatedRemoteUsers, updatedParticipant])
+        currentUsers[i] = updatedParticipant
         console.log(`${participant.user.username} is muted: ${isMuted}`)
       }
     })
+    setRemoteUsers(currentUsers)
   }
 
 
