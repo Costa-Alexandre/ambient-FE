@@ -297,9 +297,10 @@ const MainContextProvider = ({ children }) => {
 
 
   const get_user_participant = () => {
-    let basic_participant = create_participant(activeShow)
-    basic_participant.socketId = socket.id
-    basic_participant.roomId = activeShow._id
+    let participant = create_participant(activeShow)
+    participant.socketId = socket.id
+    participant.roomId = activeShow._id
+    return participant
   }
 
 
