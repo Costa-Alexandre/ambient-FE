@@ -240,7 +240,7 @@ const MainContextProvider = ({ children }) => {
                 ...participant,
                 isMuted: isMuted
               }
-              const updatedRemoteUsers = remoteUsers.pop(i);
+              const updatedRemoteUsers = remoteUsers.splice(i, 1);
               setRemoteUsers([...updatedRemoteUsers, updatedParticipant])
               console.log(`${participant.user.username} is muted: ${isMuted}`)
             }
