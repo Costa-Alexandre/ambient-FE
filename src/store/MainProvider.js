@@ -361,7 +361,7 @@ const MainContextProvider = ({ children }) => {
       if (!playerState.track || (playerState.track && track.uri != playerState.track.uri)) {
         // sync playing track
         if (playerState.track) {
-          await SpotifyRemote.playUri("spotify:track:4jYt1pQqg2mIZmY4FWCZEM")
+          await SpotifyRemote.playUri(playerState.track.uri)
           await SpotifyRemote.seek(playbackPosition)
           await setPlaybackPause(playerState.isPaused)
         // no track playing
