@@ -176,7 +176,7 @@ const MainContextProvider = ({ children }) => {
 
       // answering a call
       socket.on("call", (participant) => {
-        console.log(participant.user._id, user._id)
+        console.log(participant.user._id, user._id, participant)
         console.log("call")
         peerServer.on("call", (incomingCall) => {
           console.log("incoming")
@@ -228,7 +228,7 @@ const MainContextProvider = ({ children }) => {
         }
 
         // call the user that just joined
-        socket.emit("call", participant.socketId, participant.roomId);
+        socket.emit("call", {socketId: participant.socketId, roomId: participant.roomId});
         setRemoteUsers(currentUsers => [...currentUsers, participant]);
 
         // get a mute/unmute event
