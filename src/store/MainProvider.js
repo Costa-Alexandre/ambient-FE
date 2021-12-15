@@ -250,7 +250,7 @@ const MainContextProvider = ({ children }) => {
     setRemoteUsers(currentUsers)
     let currentCalls = [...activeCalls]
     let incomingCall = currentCalls.splice(index, 1)
-    incomingCall.close()
+    incomingCall[0].close()
     setActiveCalls(currentCalls)
   }
 
