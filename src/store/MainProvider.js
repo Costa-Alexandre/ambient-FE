@@ -185,12 +185,14 @@ const MainContextProvider = ({ children }) => {
           setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
           
           incomingCall.on("stream", (stream) => {
-            setRemoteStreams(currentStreams => [...currentStreams, stream]);
+            // setRemoteStreams(currentStreams => [...currentStreams, stream]);
           });
           
           incomingCall.on("close", () => { 
-            // closeCall();
-            console.log('close')
+            setRemoteUsers(currentUsers => currentUsers.filter(rUser => rUser !== participant))
+            setActiveCalls(currentCalls => currentCalls.filter(rCall => rCall !== incomingCall))
+            // setRemoteStreams(currentStreams => currentStreams.filter(rStream => rStream !== stream))
+            incomingCall.close()
           });
           
           incomingCall.on("error", () => {});

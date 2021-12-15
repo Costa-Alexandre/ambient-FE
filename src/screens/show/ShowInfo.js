@@ -22,7 +22,7 @@ LogBox.ignoreLogs([
 ]);
 
 export default function ShowInfo({ callback, goBack }) {
-  const {activeTrack, setActiveTrack, activeShow, setActiveShow, user, isMuted, remoteUsers, remoteStreams } = useContext(MainContext);
+  const {activeTrack, setActiveTrack, activeShow, setActiveShow, user, isMuted, remoteUsers } = useContext(MainContext);
   const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri?.uri, "#1B1B1F")
 
   const [stageUsers, setStageUsers] = useState([])
