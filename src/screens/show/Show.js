@@ -11,7 +11,7 @@ export default function Show({ route: { params: activeShow },  navigation }) {
 
   useEffect(() => {
     leaveShow();
-    setActiveShow(activeShow);
+    console.log(activeShow)
     joinShow(activeShow);
     console.log(`Welcome to show ${activeShow.name}!`);
   }, []);

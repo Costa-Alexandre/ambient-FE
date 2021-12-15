@@ -222,23 +222,24 @@ const MainContextProvider = ({ children }) => {
       const call = peerServer.call(participant.peerId, localStream);
       setActiveCalls(currentCalls => [...currentCalls, call]);
       
-      call.on(
-        "stream",
-        (stream) => {
-          // setRemoteStreams(currentStreams => [...currentStreams, stream]);
-        },
-        (err) => {
-          console.error("Failed to get call stream", err);
-        }
-      );
+      // call.on(
+      //   "stream",
+      //   (stream) => {
+      //     // setRemoteStreams(currentStreams => [...currentStreams, stream]);
+      //   },
+      //   (err) => {
+      //     console.error("Failed to get call stream", err);
+      //   }
+      // );
 
     } catch (error) {
       console.log("Calling error", error);
     }
 
     // call the user that just joined
-    socket.emit("call", {socketId: participant.socketId, roomId: participant.roomId});
     setRemoteUsers(currentUsers => [...currentUsers, participant]);
+    console.log(get_user_participant())
+    socket.emit("call", get_user_participant());
   }
 
 
@@ -281,14 +282,9 @@ const MainContextProvider = ({ children }) => {
   }, [isMuted])
 
 
-  const joinShow = (activeShow) => {
-    if (!activeShow._id) {
-      console.log("Show not found");
-      return;
-    }
-
-    const participant = {
-      activeShow,
+  const create_participant = (show) => {
+    return {
+      activeShow: newShow,
       user,
       peerId,
       isMuted,
@@ -297,9 +293,25 @@ const MainContextProvider = ({ children }) => {
       socketId: "",
       roomId: ""
     }
-    
-    socket.emit("user-join-show", participant);
+  }
 
+
+  const get_user_participant = () => {
+    let basic_participant = create_participant(activeShow)
+    basic_participant.socketId = socket.id
+    basic_participant.roomId = activeShow._id
+  }
+
+
+  const joinShow = (newShow) => {
+    leaveShow()
+    if (!newShow._id) {
+      console.log("Show not found");
+      return;
+    }
+    
+    setActiveShow(newShow);
+    socket.emit("user-join-show", create_participant(newShow));
   };
 
 
