@@ -12,6 +12,11 @@ import {
 } from "server";
 import Peer from "react-native-peerjs";
 
+export const socket = socketio.connect(SOCKET_SERVER, {
+  reconnection: true,
+  autoConnect: true,
+});
+
 const initialValues = {
   user: {
     _id: "",
@@ -63,7 +68,6 @@ const MainContextProvider = ({ children }) => {
     initialValues.remoteStreams
   );
   const [remoteUsers, setRemoteUsers] = useState(initialValues.remoteUsers);
-  const [socket, setSocket] = useState(null);
   const [peerServer, setPeerServer] = useState(null);
   const [isMuted, setIsMuted] = useState(initialValues.isMuted);
   const [activeCalls, setActiveCalls] = useState(initialValues.activeCalls);
@@ -72,8 +76,30 @@ const MainContextProvider = ({ children }) => {
 
 
   useEffect(() => {
+    // answering a call
+    socket.on("call", handleCall);
+      
+    // when a new user joins the room, all users start a call with the new user
+    socket.on("user-joined-show", handleUserJoined)
+
+    // when a user leaves the room
+    socket.on("user-left-show", handleUserLeft)
+
+    // get a mute/unmute event
+    // must force a re-render in show info
+    socket.on("toggle-mute", handleToggleMute);
+
+    // receiving a message
+    socket.on("message-receive", handleMessageReceived);
+
     return () => {
       InCallManager.stop()
+
+      socket.off("call", handleCall)
+      socket.off("user-joined-show", handleUserJoined)
+      socket.off("user-left-show", handleUserLeft)
+      socket.off("toggle-mute", handleToggleMute)
+      socket.off("message-receive", handleMessageReceived)
     }
   }, [])
 
@@ -112,159 +138,136 @@ const MainContextProvider = ({ children }) => {
     const newStream = await mediaDevices.getUserMedia(constraints)
     
     setLocalStream(newStream);
-  }
 
-
-  const connectSocketIo = async () => {
-    const io = await socketio.connect(SOCKET_SERVER, {
-      reconnection: true,
-      autoConnect: true,
-    });
-    setSocket(io)
-  }
-
-
-  useEffect(() => {
-    if (localStream) {
-      connectSocketIo()
-    }
-  }, [localStream])
-
-
-  useEffect(() => {
-    if (socket) {
-      socket.on("connect", () => {
-        console.log('CONNECTED');
-        
-        const peer = new Peer(undefined, {
-          host: PEER_SERVER_HOST,
-          path: PEER_SERVER_PATH,
-          secure: true,
-          port: PEER_SERVER_PORT,
-          config: {
-            iceServers: [
-              {
-                urls: [
-              "stun:stun1.l.google.com:19302",
-              "stun:stun2.l.google.com:19302",
-                ],
-              },
+    const peer = new Peer(undefined, {
+      host: PEER_SERVER_HOST,
+      path: PEER_SERVER_PATH,
+      secure: true,
+      port: PEER_SERVER_PORT,
+      config: {
+        iceServers: [
+          {
+            urls: [
+          "stun:stun1.l.google.com:19302",
+          "stun:stun2.l.google.com:19302",
             ],
           },
-        });
-  
-        setPeerServer(peer);
-      })
+        ],
+      },
+    });
+    
+    setPeerServer(peer);
+
+    peer.on("error", handlePeerError);
+    peer.on("open", handlePeerOpen)
+    peer.on("call", handlePeerCall);
+
+    return () => {
+      peer.off("error", handlePeerError)
+      peer.off("open", handlePeerOpen)
     }
-  }, [socket])
+  }
 
 
-  useEffect(() => {
-    if (peerServer) {
+  const handlePeerError = (err) => {
+    console.log("Peer server error", err)
+  }
 
-      peerServer.on("error", (err) => console.log("Peer server error", err));
+
+  const handlePeerOpen = (peerId) => {
+    setPeerId(peerId)
+  }
+
+
+  const handleCall = (participant) => {
+    console.log("called by socket")
+    setRemoteUsers(currentUsers => [...currentUsers, participant]);
+  }
+
+
+  const handlePeerCall = (incomingCall) => {
+    console.log("called by peer")
+    incomingCall.answer(localStream);
+    setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
+    
+    incomingCall.on("stream", (stream) => {
+      // setRemoteStreams(currentStreams => [...currentStreams, stream]);
+    });
+    
+    incomingCall.on("close", () => {
+      // Error in peer js preventing this from working with call
+    });
+    
+    incomingCall.on("error", () => {});
+  }
+
+
+  const handleUserJoined = (participant) => {
+    console.log("user joined")
+    console.log(participant.user._id, user._id)
+
+    if (!peerServer) {
+      console.log('Peer server or socket connection not found');
+      return;
+    } else {
+      console.log('there is a peerServer')
+    }
+
+    try {
+      const call = peerServer.call(participant.peerId, localStream);
       
-      peerServer.on("open", (peerId) => {
-        setPeerId(peerId)
-      })
-    }
-  }, [peerServer])
-
-  
-  useEffect(() => {
-    if (socket && peerId) {
-      // answering a call
-      socket.on("call", (participant) => {
-        console.log(participant.user._id, user._id, participant)
-        console.log("call")
-        peerServer.on("call", (incomingCall) => {
-          console.log("incoming")
-          setRemoteUsers(currentUsers => [...currentUsers, participant]);
-          incomingCall.answer(localStream);
-          setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
-          
-          incomingCall.on("stream", (stream) => {
-            // setRemoteStreams(currentStreams => [...currentStreams, stream]);
-          });
-          
-          incomingCall.on("close", () => {
-            // Error in peer js preventing this from working with call
-          });
-          
-          incomingCall.on("error", () => {});
-        });
-      });
-      
-      // when a new user joins the room, all users start a call with the new user
-      socket.on("user-joined-show", (participant) => {
-        console.log("user joined")
-        console.log(participant.user._id, user._id)
-
-        if (!peerServer) {
-          console.log('Peer server or socket connection not found');
-          return;
-        } else {
-          console.log('there is a peerServer')
+      call.on(
+        "stream",
+        (stream) => {
+          setActiveCalls(currentCalls => [...currentCalls, call]);
+          // setRemoteStreams(currentStreams => [...currentStreams, stream]);
+        },
+        (err) => {
+          console.error("Failed to get call stream", err);
         }
+      );
 
-        try {
-          const call = peerServer.call(participant.peerId, localStream);
-          
-          call.on(
-            "stream",
-            (stream) => {
-              setActiveCalls(currentCalls => [...currentCalls, call]);
-              // setRemoteStreams(currentStreams => [...currentStreams, stream]);
-            },
-            (err) => {
-              console.error("Failed to get call stream", err);
-            }
-          );
-
-        } catch (error) {
-          console.log("Calling error", error);
-        }
-
-        // call the user that just joined
-        socket.emit("call", {socketId: participant.socketId, roomId: participant.roomId});
-        setRemoteUsers(currentUsers => [...currentUsers, participant]);
-
-        // get a mute/unmute event
-        // must force a re-render in show info
-        socket.on("toggle-mute", (peerId, isMuted) => {
-          remoteUsers.forEach((participant, i) => {
-            if(participant.peerId == peerId){
-              const updatedParticipant = {
-                ...participant,
-                isMuted: isMuted
-              }
-              const updatedRemoteUsers = remoteUsers.splice(i, 1);
-              setRemoteUsers([...updatedRemoteUsers, updatedParticipant])
-              console.log(`${participant.user.username} is muted: ${isMuted}`)
-            }
-          })
-        });
-
-        // receiving a message
-        socket.on("message-receive", (message, user) => {
-          setChatMessages(currentMessages => [...currentMessages, {user, message}])}
-        );
-      });
-
-      // when a user leaves the room
-      socket.on("user-left-show", (socketId) => {
-        console.log("close call", socketId, remoteUsers.length)
-        let index = remoteUsers.map(rUser => rUser.socketId).indexOf(socketId)
-        let currentUsers = [...remoteUsers]
-        currentUsers.splice(index, 1)
-        setRemoteUsers(currentUsers)
-        let currentCalls = [...activeCalls]
-        currentCalls.splice(index, 1)
-        setActiveCalls(currentCalls)
-        // incomingCall.close()
-      })
+    } catch (error) {
+      console.log("Calling error", error);
     }
-  }, [remoteUsers, activeCalls, localStream, peerServer, user, peerId])
+
+    // call the user that just joined
+    socket.emit("call", {socketId: participant.socketId, roomId: participant.roomId});
+    setRemoteUsers(currentUsers => [...currentUsers, participant]);
+  }
+
+
+  const handleUserLeft = (socketId) => {
+    console.log("close call", socketId, remoteUsers.length)
+    let index = remoteUsers.map(rUser => rUser.socketId).indexOf(socketId)
+    let currentUsers = [...remoteUsers]
+    currentUsers.splice(index, 1)
+    setRemoteUsers(currentUsers)
+    let currentCalls = [...activeCalls]
+    currentCalls.splice(index, 1)
+    setActiveCalls(currentCalls)
+    // incomingCall.close()
+  }
+
+
+  const handleToggleMute = (peerId, isMuted) => {
+    remoteUsers.forEach((participant, i) => {
+      if(participant.peerId == peerId){
+        const updatedParticipant = {
+          ...participant,
+          isMuted: isMuted
+        }
+        const updatedRemoteUsers = remoteUsers.splice(i, 1);
+        setRemoteUsers([...updatedRemoteUsers, updatedParticipant])
+        console.log(`${participant.user.username} is muted: ${isMuted}`)
+      }
+    })
+  }
+
+
+  const handleMessageReceived = (message, user) => {
+    setChatMessages(currentMessages => [...currentMessages, {user, message}])
+  }
 
   
   useEffect(() => {
@@ -385,7 +388,6 @@ const MainContextProvider = ({ children }) => {
         resetTrack,
         activeCalls,
         setActiveCalls,
-        socket,
         peerServer,
         chatMessages,
         sendChatMessage
