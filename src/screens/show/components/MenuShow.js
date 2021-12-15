@@ -6,7 +6,7 @@ import { MainContext } from "store/MainProvider";
 
 export default function MenuShow({ callback, goBack }){
 
-  const { setActiveShow, setActiveTrack, resetShow, resetTrack } = useContext(MainContext);
+  const { leaveShow } = useContext(MainContext);
 
   return (
     <View style={styles.container}>
@@ -20,8 +20,7 @@ export default function MenuShow({ callback, goBack }){
       </TouchableOpacity>
       <View style={styles.rightMenu}>
         <CustomButton title="Leave" color="button" size="slimShort" callback={() => {
-          setActiveShow(resetShow());
-          setActiveTrack(resetTrack());
+          leaveShow();
           callback("Home");
         }}/>
         <TouchableOpacity style={styles.moreIcon}>
