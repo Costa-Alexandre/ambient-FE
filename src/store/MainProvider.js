@@ -235,6 +235,10 @@ const MainContextProvider = ({ children }) => {
       // receiving a message
       socket.on("message-receive", (message, user) => {
         setChatMessages(currentMessages => [...currentMessages, {user, message}])
+
+      // get a mute/unmute event
+      // must force a re-render in show info
+      socket.on("toggle-mute", () => setRemoteStreams(remoteStreams))
       });
 
     }
@@ -242,9 +246,6 @@ const MainContextProvider = ({ children }) => {
 
   useEffect(() => {
     toggleMute();
-    if(localStream){
-      console.log(`Muted: ${localStream._tracks[0].muted}`);
-    }
   }, [isMuted])
 
 
@@ -267,15 +268,20 @@ const MainContextProvider = ({ children }) => {
     userId: ${user._id}
     peerId: ${peerId}
     is now set to the ${role} role.`)});
-
   };
 
 
   const toggleMute = () => {
-    if (localStream)
+    if (localStream) {
       localStream.getAudioTracks().forEach((track) => {
         track.enabled = !track.enabled;
       });
+      console.log(`Muted: ${isMuted}`)
+      // send event to refresh the muted icon on avatar in the show screen
+      // for all participants of the active show
+      socket.emit("toggle-mute", activeShow._id);
+    }
+      
   };
 
 
