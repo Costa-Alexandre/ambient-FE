@@ -253,7 +253,6 @@ const MainContextProvider = ({ children }) => {
           setActiveTrack(playerState.track)
         }
         syncToPlaybackState(playerState)
-        setRemoteUsers(currentUsers => [...currentUsers, participant]);
       });
 
       // receiving a message
