@@ -188,17 +188,20 @@ const MainContextProvider = ({ children }) => {
             // setRemoteStreams(currentStreams => [...currentStreams, stream]);
           });
           
-          incomingCall.on("close", () => { 
-            // setRemoteUsers(currentUsers => currentUsers.filter(rUser => rUser !== participant))
-            // setActiveCalls(currentCalls => currentCalls.filter(rCall => rCall !== incomingCall))
-            // setRemoteStreams(currentStreams => currentStreams.filter(rStream => rStream !== stream))
-            // incomingCall.close()
+          incomingCall.on("close", () => {
+            // Error in peer js preventing this from working with call
           });
           
           incomingCall.on("error", () => {});
         });
       });
 
+      
+    }
+  }, [peerId])
+  
+  useEffect(() => {
+    if (socket) {
       // when a new user joins the room, all users start a call with the new user
       socket.on("user-joined-show", (participant) => {
         console.log("user joined")
@@ -255,12 +258,8 @@ const MainContextProvider = ({ children }) => {
         );
       });
     }
-  }, [peerId])
-
-  useEffect(() => {
-    toggleMute();
-  }, [isMuted])
-
+  }, [remoteUsers, activeCalls, localStream, peerServer, user])
+  
   useEffect(() => {
     console.log(remoteUsers.length)
     if (socket) {
@@ -278,6 +277,11 @@ const MainContextProvider = ({ children }) => {
       })
     }
   }, [remoteUsers])
+
+  
+  useEffect(() => {
+    toggleMute();
+  }, [isMuted])
 
 
   const joinShow = (activeShow) => {
