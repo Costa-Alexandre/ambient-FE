@@ -234,15 +234,15 @@ const MainContextProvider = ({ children }) => {
         // get a mute/unmute event
         // must force a re-render in show info
         socket.on("toggle-mute", (peerId, isMuted) => {
-          remoteUsers.forEach((user, i) => {
-            if(user.peerId == peerId){
-              const updatedUser = {
-                ...user,
+          remoteUsers.forEach((participant, i) => {
+            if(participant.peerId == peerId){
+              const updatedParticipant = {
+                ...participant,
                 isMuted: isMuted
               }
               const updatedRemoteUsers = remoteUsers.pop(i);
-              setRemoteUsers(...updatedRemoteUsers, updatedUser)
-              console.log(`${user.username} is muted: ${isMuted}`)
+              setRemoteUsers(...updatedRemoteUsers, updatedParticipant)
+              console.log(`${updatedParticipant.user.username} is muted: ${isMuted}`)
             }
           })
         });
