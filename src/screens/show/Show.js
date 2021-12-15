@@ -18,28 +18,11 @@ export default function Show({ route: { params: activeShow },  navigation }) {
 
   return (
     <View style={styles.container}>
-      <ShowInfo {...dummyShowInfo} callback={(screen) => navigation.navigate(screen)} goBack={() => navigation.goBack()} />
+      <ShowInfo callback={(screen) => navigation.navigate(screen)} goBack={() => navigation.goBack()} />
       <ShowModalize />
     </View>
   );
 }
-
-// Dummy variables - DELETE
-
-const dummyBGImage = { uri: "https://f4.bcbits.com/img/a1024330960_10.jpg" };
-
-const dummyShowInfo = {
-  showId: "1",
-  showTitle: "SHOW NAME",
-  showName: "Some show",
-  showDescription: "this is a description",
-  amountSpeakers: "10",
-  amountListeners: "20",
-  imageUri: dummyBGImage.uri,
-  users: [],
-  listenCallback: null,
-};
-
 
 const styles = StyleSheet.create({
   container: {
