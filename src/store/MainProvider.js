@@ -189,10 +189,10 @@ const MainContextProvider = ({ children }) => {
           });
           
           incomingCall.on("close", () => { 
-            setRemoteUsers(currentUsers => currentUsers.filter(rUser => rUser !== participant))
-            setActiveCalls(currentCalls => currentCalls.filter(rCall => rCall !== incomingCall))
+            // setRemoteUsers(currentUsers => currentUsers.filter(rUser => rUser !== participant))
+            // setActiveCalls(currentCalls => currentCalls.filter(rCall => rCall !== incomingCall))
             // setRemoteStreams(currentStreams => currentStreams.filter(rStream => rStream !== stream))
-            incomingCall.close()
+            // incomingCall.close()
           });
           
           incomingCall.on("error", () => {});
@@ -260,6 +260,24 @@ const MainContextProvider = ({ children }) => {
   useEffect(() => {
     toggleMute();
   }, [isMuted])
+
+  useEffect(() => {
+    console.log(remoteUsers.length)
+    if (socket) {
+      // when a user leaves the room
+      socket.on("user-left-show", (socketId) => {
+        console.log("close call", socketId, remoteUsers.length)
+        let index = remoteUsers.map(rUser => rUser.socketId).indexOf(socketId)
+        let currentUsers = [...remoteUsers]
+        currentUsers.splice(index, 1)
+        setRemoteUsers(currentUsers)
+        let currentCalls = [...activeCalls]
+        currentCalls.splice(index, 1)
+        setActiveCalls(currentCalls)
+        // incomingCall.close()
+      })
+    }
+  }, [remoteUsers])
 
 
   const joinShow = (activeShow) => {
