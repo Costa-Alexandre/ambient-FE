@@ -170,10 +170,9 @@ const MainContextProvider = ({ children }) => {
     }
   }, [peerServer])
 
-
+  
   useEffect(() => {
-    if (peerId) {
-
+    if (socket && peerId) {
       // answering a call
       socket.on("call", (participant) => {
         console.log(participant.user._id, user._id, participant)
@@ -195,13 +194,7 @@ const MainContextProvider = ({ children }) => {
           incomingCall.on("error", () => {});
         });
       });
-
       
-    }
-  }, [peerId])
-  
-  useEffect(() => {
-    if (socket) {
       // when a new user joins the room, all users start a call with the new user
       socket.on("user-joined-show", (participant) => {
         console.log("user joined")
@@ -257,12 +250,7 @@ const MainContextProvider = ({ children }) => {
           setChatMessages(currentMessages => [...currentMessages, {user, message}])}
         );
       });
-    }
-  }, [remoteUsers, activeCalls, localStream, peerServer, user])
-  
-  useEffect(() => {
-    console.log(remoteUsers.length)
-    if (socket) {
+
       // when a user leaves the room
       socket.on("user-left-show", (socketId) => {
         console.log("close call", socketId, remoteUsers.length)
@@ -276,7 +264,7 @@ const MainContextProvider = ({ children }) => {
         // incomingCall.close()
       })
     }
-  }, [remoteUsers])
+  }, [remoteUsers, activeCalls, localStream, peerServer, user, peerId])
 
   
   useEffect(() => {
