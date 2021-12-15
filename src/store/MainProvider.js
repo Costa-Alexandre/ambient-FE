@@ -84,7 +84,7 @@ const MainContextProvider = ({ children }) => {
 
   useEffect(() => {
     // answering a call
-    socket.on("call", handleCall);
+    socket.on("called", handleCall);
       
     // when a new user joins the room, all users start a call with the new user
     socket.on("user-joined-show", handleUserJoined)
@@ -100,7 +100,7 @@ const MainContextProvider = ({ children }) => {
     socket.on("message-receive", handleMessageReceived);
 
     return () => {
-      socket.off("call", handleCall)
+      socket.off("called", handleCall)
       socket.off("user-joined-show", handleUserJoined)
       socket.off("user-left-show", handleUserLeft)
       socket.off("toggle-mute", handleToggleMute)
@@ -186,7 +186,6 @@ const MainContextProvider = ({ children }) => {
 
   const handleCall = (participant) => {
     console.log("called by socket")
-    console.log('users', remoteUsers.length)
     setRemoteUsers(currentUsers => [...currentUsers, participant]);
   }
 
