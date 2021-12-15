@@ -230,17 +230,28 @@ const MainContextProvider = ({ children }) => {
         // call the user that just joined
         socket.emit("call", participant.socketId, participant.roomId);
         setRemoteUsers(currentUsers => [...currentUsers, participant]);
+
+        // get a mute/unmute event
+        // must force a re-render in show info
+        socket.on("toggle-mute", (peerId, isMuted) => {
+          remoteUsers.forEach((user, i) => {
+            if(user.peerId == peerId){
+              const updatedUser = {
+                ...user,
+                isMuted: isMuted
+              }
+              const updatedRemoteUsers = remoteUsers.pop(i);
+              setRemoteUsers(...updatedRemoteUsers, updatedUser)
+              console.log(`${user.username} is muted: ${isMuted}`)
+            }
+          })
+        });
+
+        // receiving a message
+        socket.on("message-receive", (message, user) => {
+          setChatMessages(currentMessages => [...currentMessages, {user, message}])}
+        );
       });
-
-      // receiving a message
-      socket.on("message-receive", (message, user) => {
-        setChatMessages(currentMessages => [...currentMessages, {user, message}])
-
-      // get a mute/unmute event
-      // must force a re-render in show info
-      socket.on("toggle-mute", () => setRemoteStreams(remoteStreams))
-      });
-
     }
   }, [peerId])
 
@@ -275,20 +286,23 @@ const MainContextProvider = ({ children }) => {
     if (localStream) {
       localStream.getAudioTracks().forEach((track) => {
         track.enabled = !track.enabled;
+        // send event to refresh the muted icon on avatar in the show screen
+        // for all participants of the active show
+        socket.emit("toggle-mute", activeShow._id, peerId, isMuted);
+        console.log(`Muted: ${isMuted}`)
       });
-      console.log(`Muted: ${isMuted}`)
-      // send event to refresh the muted icon on avatar in the show screen
-      // for all participants of the active show
-      socket.emit("toggle-mute", activeShow._id);
     }
       
   };
+
 
 
   const sendChatMessage = (message) => {
     if (socket && activeShow._id)
       socket.emit("message-send", {showId: activeShow._id, message, user})
   };
+
+
 
 
   const leaveShow = () => {

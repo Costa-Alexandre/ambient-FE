@@ -48,13 +48,13 @@ export default function ShowInfo({ callback, goBack }) {
   }, [averageColor])
 
   useEffect(() => {
-    if(remoteStreams){
-      console.log(remoteStreams)
+    if(remoteUsers){
+      console.log(remoteUsers)
     }
     let newStageUsers = [{...user, isMuted: isMuted, key: user.username},
-      ...remoteUsers.map((userItem, i) => {return {...userItem.user, isMuted: false, key: userItem.user.username}})]
+      ...remoteUsers.map((participant, i) => {return {...participant.user, isMuted: participant.isMuted, key: participant.user.username}})]
     setStageUsers(newStageUsers)
-  }, [user, remoteUsers, isMuted, remoteStreams])
+  }, [user, remoteUsers, isMuted])
 
   const showContent = () => {
     return (
