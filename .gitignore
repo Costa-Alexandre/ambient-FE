@@ -76,3 +76,6 @@ web-build/
 *.http
 .cache/*
 .lesshst
+
+.viminfo
+.gitconfig

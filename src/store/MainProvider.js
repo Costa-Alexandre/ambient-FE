@@ -16,6 +16,11 @@ import Peer from "react-native-peerjs";
 
 const DEMO_HOSTS = ["dashpig"]
 
+export const socket = socketio.connect(SOCKET_SERVER, {
+  reconnection: true,
+  autoConnect: true,
+});
+
 const initialValues = {
   user: {
     _id: "",
@@ -69,7 +74,6 @@ const MainContextProvider = ({ children }) => {
     initialValues.remoteStreams
   );
   const [remoteUsers, setRemoteUsers] = useState(initialValues.remoteUsers);
-  const [socket, setSocket] = useState(null);
   const [peerServer, setPeerServer] = useState(null);
   const [isMuted, setIsMuted] = useState(initialValues.isMuted);
   const [activeCalls, setActiveCalls] = useState(initialValues.activeCalls);
@@ -78,10 +82,56 @@ const MainContextProvider = ({ children }) => {
 
 
   useEffect(() => {
+    SpotifyRemote.addListener("playerStateChanged", updatePlayback)
+
     return () => {
+      SpotifyRemote.removeAllListeners("playerStateChanged")
       InCallManager.stop()
+      socket.disconnect()
     }
   }, [])
+
+
+  useEffect(() => {
+    // answering a call
+    socket.on("called", handleCall);
+      
+    // when a new user joins the room, all users start a call with the new user
+    socket.on("user-joined-show", handleUserJoined)
+
+    // when a user leaves the room
+    socket.on("user-left-show", handleUserLeft)
+
+    // get a mute/unmute event
+    // must force a re-render in show info
+    socket.on("toggle-mute", handleToggleMute);
+
+    // receiving a message
+    socket.on("message-receive", handleMessageReceived);
+
+    // receiving a playback update
+    socket.on("playback-updated", handlePlaybackUpdate);
+
+    if (peerServer) {
+      peerServer.on("error", handlePeerError);
+      peerServer.on("open", handlePeerOpen)
+      peerServer.on("call", handlePeerCall);
+    }
+
+    return () => {
+      socket.off("called", handleCall)
+      socket.off("user-joined-show", handleUserJoined)
+      socket.off("user-left-show", handleUserLeft)
+      socket.off("toggle-mute", handleToggleMute)
+      socket.off("message-receive", handleMessageReceived)
+      socket.off("playback-updated", handlePlaybackUpdate)
+
+      if (peerServer) {
+        peerServer.off("error", handlePeerError)
+        peerServer.off("open", handlePeerOpen)
+      }
+    }
+  }, [user, peerId, localStream, remoteStreams, remoteUsers, peerServer, isMuted, activeCalls, chatMessages, activeTrack])
 
 
   const checkPermissions = async () => {
@@ -118,200 +168,176 @@ const MainContextProvider = ({ children }) => {
     const newStream = await mediaDevices.getUserMedia(constraints)
     
     setLocalStream(newStream);
-  }
 
-
-  const connectSocketIo = async () => {
-    const io = await socketio.connect(SOCKET_SERVER, {
-      reconnection: true,
-      autoConnect: true,
-    });
-    setSocket(io)
-  }
-
-
-  useEffect(() => {
-    if (localStream) {
-      connectSocketIo()
-    }
-  }, [localStream])
-
-
-  useEffect(() => {
-    if (socket) {
-      socket.on("connect", () => {
-        console.log('CONNECTED');
-        
-        const peer = new Peer(undefined, {
-          host: PEER_SERVER_HOST,
-          path: PEER_SERVER_PATH,
-          secure: true,
-          port: PEER_SERVER_PORT,
-          config: {
-            iceServers: [
-              {
-                urls: [
-              "stun:stun1.l.google.com:19302",
-              "stun:stun2.l.google.com:19302",
-                ],
-              },
+    const peer = new Peer(undefined, {
+      host: PEER_SERVER_HOST,
+      path: PEER_SERVER_PATH,
+      secure: true,
+      port: PEER_SERVER_PORT,
+      config: {
+        iceServers: [
+          {
+            urls: [
+          "stun:stun1.l.google.com:19302",
+          "stun:stun2.l.google.com:19302",
             ],
           },
-        });
-  
-        setPeerServer(peer);
-      })
+        ],
+      },
+    });
+    
+    setPeerServer(peer);
+  }
+
+
+  const handlePeerError = (err) => {
+    console.log("Peer server error", err)
+  }
+
+
+  const handlePeerOpen = (peerId) => {
+    setPeerId(peerId)
+  }
+
+
+  const handleCall = (participant) => {
+    console.log("called by socket")
+    setRemoteUsers(currentUsers => [...currentUsers, participant]);
+  }
+
+
+  const handlePeerCall = (incomingCall) => {
+    console.log("called by peer", localStream)
+    incomingCall.answer(localStream);
+    setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
+    
+    incomingCall.on("stream", (stream) => {
+      // setRemoteStreams(currentStreams => [...currentStreams, stream]);
+    });
+    
+    incomingCall.on("close", () => {
+      // Error in peer js preventing this from working with call
+    });
+    
+    incomingCall.on("error", () => {});
+  }
+
+
+  const handleUserJoined = (participant) => {
+    console.log("user joined", participant.user._id)
+
+    if (!peerServer) {
+      console.log('Peer server or socket connection not found');
+      return;
+    } else {
+      console.log('there is a peerServer')
     }
-  }, [socket])
 
-
-  useEffect(() => {
-    if (peerServer) {
-
-      peerServer.on("error", (err) => console.log("Peer server error", err));
+    try {
+      const call = peerServer.call(participant.peerId, localStream);
+      setActiveCalls(currentCalls => [...currentCalls, call]);
       
-      peerServer.on("open", (peerId) => {
-        setPeerId(peerId)
-      })
+      // call.on(
+      //   "stream",
+      //   (stream) => {
+      //     setRemoteStreams(currentStreams => [...currentStreams, stream]);
+      //   },
+      //   (err) => {
+      //     console.error("Failed to get call stream", err);
+      //   }
+      // );
+
+    } catch (error) {
+      console.log("Calling error", error);
     }
-  }, [peerServer])
+
+    // call the user that just joined
+    setRemoteUsers(currentUsers => [...currentUsers, participant]);
+    socket.emit("call", {participant: get_user_participant(), socketId: participant.socketId});
+  }
 
 
-  useEffect(() => {
-    if (peerId) {
+  const handleUserLeft = (socketId) => {
+    console.log("close call", socketId)
+    let index = remoteUsers.map(rUser => rUser.socketId).indexOf(socketId)
+    let currentUsers = [...remoteUsers]
+    currentUsers.splice(index, 1)
+    setRemoteUsers(currentUsers)
+    let currentCalls = [...activeCalls]
+    let incomingCall = currentCalls.splice(index, 1)
+    incomingCall[0].close()
+    setActiveCalls(currentCalls)
+  }
 
-      // answering a call
-      socket.on("call", (participant) => {
-        console.log(participant.user._id, user._id)
-        console.log("call")
-        peerServer.on("call", (incomingCall) => {
-          console.log("incoming")
-          setRemoteUsers(currentUsers => [...currentUsers, participant]);
-          incomingCall.answer(localStream);
-          setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
-          
-          incomingCall.on("stream", (stream) => {
-            setRemoteStreams(currentStreams => [...currentStreams, stream]);
-          });
-          
-          incomingCall.on("close", () => { 
-            // closeCall();
-          });
-          
-          incomingCall.on("error", () => {});
-        });
-      });
 
-      // when a new user joins the room, all users start a call with the new user
-      socket.on("user-joined-show", (participant) => {
-        console.log("user joined")
-        console.log(participant.user._id, user._id)
-
-        if (!peerServer) {
-          console.log('Peer server or socket connection not found');
-          return;
-        } else {
-          console.log('there is a peerServer')
+  const handleToggleMute = (peerId, isMuted) => {
+    let currentUsers = [...remoteUsers]
+    currentUsers.forEach((participant, i) => {
+      if(participant.peerId == peerId){
+        const updatedParticipant = {
+          ...participant,
+          isMuted: isMuted
         }
-
-        try {
-          const call = peerServer.call(participant.peerId, localStream);
-          
-          call.on(
-            "stream",
-            (stream) => {
-              setActiveCalls(currentCalls => [...currentCalls, call]);
-              setRemoteStreams(currentStreams => [...currentStreams, stream]);
-            },
-            (err) => {
-              console.error("Failed to get call stream", err);
-            }
-          );
-
-        } catch (error) {
-          console.log("Calling error", error);
-        }
-
-        // call the user that just joined
-        socket.emit("call", participant.socketId, activeShow._id);
-        setRemoteUsers(currentUsers => [...currentUsers, participant]);
-
-        // give the user the current playback state if you're in control of the music
-        if (DEMO_HOSTS.includes(user.username)) {
-          SpotifyRemote.getPlayerState()
-          .then(playerState => {
-            socket.emit("playback-initial-sync", {toUserId: participant.socketId, playerState})
-          })
-          .catch(err => console.log("initial sync failed", err))
-        }
-      });
-
-      // receiving a playback update
-      socket.on("playback-updated", (playerState) => {
-        console.log("received playback update")
-        if (playerState.track !== activeTrack) {
-          setActiveTrack(playerState.track)
-        }
-        syncToPlaybackState(playerState)
-      });
-
-      // receiving a message
-      socket.on("message-receive", ({message, user}) => {
-        setChatMessages(currentMessages => [...currentMessages, {user, message, key: Date.now()}])
-      });
-
-    }
-  }, [peerId])
+        currentUsers[i] = updatedParticipant
+        console.log(`${participant.user.username} is muted: ${isMuted}`)
+      }
+    })
+    setRemoteUsers(currentUsers)
+  }
 
 
+  const handlePlaybackUpdate = (playerState) => {
+    console.log("received playback update")
+    syncToPlaybackState(playerState)
+  }
+
+
+  const handleMessageReceived = (message, user) => {
+    setChatMessages(currentMessages => [...currentMessages, {user, message}])
+  }
+  
+  
   useEffect(() => {
     toggleMute();
-    if(localStream){
-      console.log(`Muted: ${localStream._tracks[0].muted}`);
-    }
   }, [isMuted])
 
 
-  useEffect(() => {
-    SpotifyRemote.addListener("playerStateChanged", updatePlayback)
-    if (!activeTrack.uri && activeShow._id) {
-      updatePlayback()
+  const create_participant = (show) => {
+    return {
+      activeShow: show,
+      user,
+      peerId,
+      isMuted,
+      localStream,
+      activeTrack,
+      socketId: "",
+      roomId: ""
     }
-    return () => {
-      SpotifyRemote.removeAllListeners("playerStateChanged")
-    }
-  }, [activeShow])
+  }
 
 
-  const joinShow = (activeShow) => {
-    if (!activeShow._id) {
+  const get_user_participant = () => {
+    let participant = create_participant(activeShow)
+    participant.socketId = socket.id
+    participant.roomId = activeShow._id
+    return participant
+  }
+
+
+  const joinShow = (newShow) => {
+    leaveShow()
+    if (!newShow._id) {
       console.log("Show not found");
       return;
     }
-
-    const eventInfo = {
-      showId: activeShow._id,
-      user: user,
-      peerId
-    }
-
-    setActiveShow(activeShow)
     
-    socket.emit("user-join-show", eventInfo, ({showId, user, peerId, role}) => {
-      console.log(`
-    Participant: 
-    showId: ${showId}
-    userId: ${user._id}
-    peerId: ${peerId}
-    is now set to the ${role} role.`)
-  });
-  
+    setActiveShow(newShow);
+    socket.emit("user-join-show", create_participant(newShow));
   };
 
 
   const updatePlayback = async (playerState=null) => {
     if (DEMO_HOSTS.includes(user.username) && activeShow._id) {
-      console.log("playback update")
       try {
         // get current player state if not given from update
         if (playerState === null) {
@@ -357,14 +383,29 @@ const MainContextProvider = ({ children }) => {
     try {
       // sync playing track
       if (playerState.track) {
-        await SpotifyRemote.playUri(playerState.track.uri)
-        await SpotifyRemote.seek(playerState.playbackPosition)
-        await setPlaybackPause(playerState.isPaused)
+        // no current track
+        if (!activeTrack) {
+          // new tracks is playing
+          if (!playerState.track.isPaused) {
+            await SpotifyRemote.playUri(playerState.track.uri)
+            await SpotifyRemote.seek(playerState.playbackPosition)
+          }
+        // has current track
+        } else {
+          if (!playerState.track.isPaused) {
+            await SpotifyRemote.playUri(playerState.track.uri)
+            await SpotifyRemote.seek(playerState.playbackPosition)
+          } else {
+            await setPlaybackPause(true)
+          }
+        }
+        setActiveTrack(playerState.track)
       // no track playing
       } else {
-        await setPlaybackPause(false)
+        await setPlaybackPause(true)
+        setActiveTrack(resetTrack())
       }
-      console.log("synced")
+      console.log("synced playback")
     }
     catch (error) {
       console.log("failed to sync", error)
@@ -373,11 +414,18 @@ const MainContextProvider = ({ children }) => {
 
 
   const toggleMute = () => {
-    if (localStream)
+    if (localStream) {
       localStream.getAudioTracks().forEach((track) => {
         track.enabled = !track.enabled;
+        // send event to refresh the muted icon on avatar in the show screen
+        // for all participants of the active show
+        socket.emit("toggle-mute", activeShow._id, peerId, isMuted);
+        console.log(`Muted: ${isMuted}`)
       });
+    }
+      
   };
+
 
 
   const sendChatMessage = (message) => {
@@ -386,15 +434,21 @@ const MainContextProvider = ({ children }) => {
   };
 
 
+
+
   const leaveShow = () => {
-    activeCalls?.forEach((call) => {
-      call.close();
-    });
-    setActiveShow(resetShow())
-    setActiveTrack(resetTrack())
-    setActiveCalls([])
-    setRemoteUsers([])
-    setChatMessages([])
+    if (activeShow){
+      socket.emit('leave-show', activeShow._id)
+      activeCalls?.forEach((call) => {
+        call.close();
+      });
+      setActiveCalls([])
+      setRemoteStreams([])
+      setRemoteUsers([])
+      setChatMessages([])
+      setActiveShow(resetShow());
+      setActiveTrack(resetTrack())
+    }
   };
 
 
@@ -451,7 +505,6 @@ const MainContextProvider = ({ children }) => {
         resetTrack,
         activeCalls,
         setActiveCalls,
-        socket,
         peerServer,
         chatMessages,
         sendChatMessage

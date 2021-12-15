@@ -16,7 +16,7 @@ LogBox.ignoreLogs([
 ]);
 
 export default function ShowInfo({ callback, goBack }) {
-  const {activeTrack, setActiveTrack, activeShow, setActiveShow, user, isMuted, remoteUsers, remoteStreams } = useContext(MainContext);
+  const {activeTrack, setActiveTrack, activeShow, setActiveShow, user, isMuted, remoteUsers } = useContext(MainContext);
   const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri?.uri, "#1B1B1F")
 
   const [stageUsers, setStageUsers] = useState([])
@@ -42,11 +42,10 @@ export default function ShowInfo({ callback, goBack }) {
   }, [averageColor])
 
   useEffect(() => {
-    console.log(remoteUsers)
     let newStageUsers = [{...user, isMuted: isMuted, key: user.username},
-      ...remoteUsers.map((userItem, i) => {return {...userItem.user, isMuted: false, key: userItem.user.username}})]
+      ...remoteUsers.map((participant, i) => {return {...participant.user, isMuted: participant.isMuted, key: participant.user.username}})]
     setStageUsers(newStageUsers)
-  }, [user, remoteUsers, isMuted, remoteStreams])
+  }, [user, remoteUsers, isMuted])
 
   const showContent = () => {
     return (

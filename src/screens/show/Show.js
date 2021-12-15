@@ -7,37 +7,21 @@ import { colorStyles } from "styles";
 
 export default function Show({ route: { params: activeShow },  navigation }) {
   
-  const { joinShow } = useContext(MainContext);
+  const { joinShow, leaveShow } = useContext(MainContext);
 
   useEffect(() => {
-    joinShow(activeShow)
-    console.log(`Welcome to show ${activeShow.name}!`)
+    leaveShow();
+    joinShow(activeShow);
+    console.log(`Welcome to show ${activeShow.name}!`);
   }, []);
 
   return (
     <View style={styles.container}>
-      <ShowInfo {...dummyShowInfo} callback={(screen) => navigation.navigate(screen)} goBack={() => navigation.goBack()} />
+      <ShowInfo callback={(screen) => navigation.navigate(screen)} goBack={() => navigation.goBack()} />
       <ShowModalize />
     </View>
   );
 }
-
-// Dummy variables - DELETE
-
-const dummyBGImage = { uri: "https://f4.bcbits.com/img/a1024330960_10.jpg" };
-
-const dummyShowInfo = {
-  showId: "1",
-  showTitle: "SHOW NAME",
-  showName: "Some show",
-  showDescription: "this is a description",
-  amountSpeakers: "10",
-  amountListeners: "20",
-  imageUri: dummyBGImage.uri,
-  users: [],
-  listenCallback: null,
-};
-
 
 const styles = StyleSheet.create({
   container: {
