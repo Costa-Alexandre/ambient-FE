@@ -216,7 +216,7 @@ const MainContextProvider = ({ children }) => {
             "stream",
             (stream) => {
               setActiveCalls(currentCalls => [...currentCalls, call]);
-              setRemoteStreams(currentStreams => [...currentStreams, stream]);
+              // setRemoteStreams(currentStreams => [...currentStreams, stream]);
             },
             (err) => {
               console.error("Failed to get call stream", err);
@@ -228,7 +228,7 @@ const MainContextProvider = ({ children }) => {
         }
 
         // call the user that just joined
-        socket.emit("call", participant.socketId, activeShow._id);
+        socket.emit("call", participant.socketId, participant.roomId);
         setRemoteUsers(currentUsers => [...currentUsers, participant]);
       });
 
@@ -255,19 +255,19 @@ const MainContextProvider = ({ children }) => {
       return;
     }
 
-    const eventInfo = {
-      showId: activeShow._id,
-      user: user,
-      peerId
+    const participant = {
+      activeShow,
+      user,
+      peerId,
+      isMuted,
+      localStream,
+      activeTrack,
+      socketId: "",
+      roomId: ""
     }
     
-    socket.emit("user-join-show", eventInfo, ({showId, user, peerId, role}) => {
-      console.log(`
-    Participant: 
-    showId: ${showId}
-    userId: ${user._id}
-    peerId: ${peerId}
-    is now set to the ${role} role.`)});
+    socket.emit("user-join-show", participant);
+
   };
 
 
