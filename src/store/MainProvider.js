@@ -284,7 +284,7 @@ const MainContextProvider = ({ children }) => {
 
   const create_participant = (show) => {
     return {
-      activeShow: newShow,
+      activeShow: show,
       user,
       peerId,
       isMuted,
