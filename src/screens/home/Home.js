@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
-import { View, StyleSheet, FlatList, Text, ToastAndroid, RefreshControl } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import { View, StyleSheet, FlatList, Text, ToastAndroid, RefreshControl, BackHandler } from "react-native";
 import { Portal } from "react-native-portalize";
 import { MenuHome, LiveShow, CreateShowModalize, HomeSong } from "./components";
 import { MainContext } from "store/MainProvider";
@@ -14,6 +14,10 @@ export default function Home({ navigation }) {
   const [modal, setModal] = useState(null);
 
   const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', function() {return true})
+  }, [])
 
   useEffect(() => {
     if (refreshing) {
