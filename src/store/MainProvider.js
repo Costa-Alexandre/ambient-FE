@@ -234,7 +234,7 @@ const MainContextProvider = ({ children }) => {
 
         // call the user that just joined
         socket.emit("call", participant.socketId, activeShow._id);
-        setRemoteUsers(currentUsers => [...currentUsers, participant.userId]);
+        setRemoteUsers(currentUsers => [...currentUsers, participant]);
 
         // give the user the current playback state if you're in control of the music
         if (DEMO_HOSTS.includes(user.username)) {
