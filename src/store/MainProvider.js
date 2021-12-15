@@ -310,9 +310,8 @@ const MainContextProvider = ({ children }) => {
 
 
   const updatePlayback = async (playerState=null) => {
-    console.log("playback update")
-    // syncToPlaybackState(playerState)
     if (DEMO_HOSTS.includes(user.username) && activeShow._id) {
+      console.log("playback update")
       try {
         // get current player state if not given from update
         if (playerState === null) {
@@ -356,22 +355,14 @@ const MainContextProvider = ({ children }) => {
 
   const syncToPlaybackState = async (playerState) => {
     try {
-      let {isPaused, playbackPosition, track} = await SpotifyRemote.getPlayerState()
-      // sync if there's a different playing track
-      if (!playerState.track || (playerState.track && track.uri != playerState.track.uri)) {
-        // sync playing track
-        if (playerState.track) {
-          await SpotifyRemote.playUri(playerState.track.uri)
-          await SpotifyRemote.seek(playbackPosition)
-          await setPlaybackPause(playerState.isPaused)
-        // no track playing
-        } else {
-          await setPlaybackPause(false)
-        }
-      }
-      // set pause or play
-      else if (isPaused != playerState.isPaused) {
+      // sync playing track
+      if (playerState.track) {
+        await SpotifyRemote.playUri(playerState.track.uri)
+        await SpotifyRemote.seek(playerState.playbackPosition)
         await setPlaybackPause(playerState.isPaused)
+      // no track playing
+      } else {
+        await setPlaybackPause(false)
       }
       console.log("synced")
     }
