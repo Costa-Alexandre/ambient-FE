@@ -100,12 +100,23 @@ const MainContextProvider = ({ children }) => {
     // receiving a message
     socket.on("message-receive", handleMessageReceived);
 
+    if (peerServer) {
+      peerServer.on("error", handlePeerError);
+      peerServer.on("open", handlePeerOpen)
+      peerServer.on("call", handlePeerCall);
+    }
+
     return () => {
       socket.off("called", handleCall)
       socket.off("user-joined-show", handleUserJoined)
       socket.off("user-left-show", handleUserLeft)
       socket.off("toggle-mute", handleToggleMute)
       socket.off("message-receive", handleMessageReceived)
+
+      if (peerServer) {
+        peerServer.off("error", handlePeerError)
+        peerServer.off("open", handlePeerOpen)
+      }
     }
   }, [user, peerId, localStream, remoteStreams, remoteUsers, peerServer, isMuted, activeCalls, chatMessages])
 
@@ -163,15 +174,6 @@ const MainContextProvider = ({ children }) => {
     });
     
     setPeerServer(peer);
-
-    peer.on("error", handlePeerError);
-    peer.on("open", handlePeerOpen)
-    peer.on("call", handlePeerCall);
-
-    return () => {
-      peer.off("error", handlePeerError)
-      peer.off("open", handlePeerOpen)
-    }
   }
 
 
@@ -192,7 +194,7 @@ const MainContextProvider = ({ children }) => {
 
 
   const handlePeerCall = (incomingCall) => {
-    console.log("called by peer")
+    console.log("called by peer", localStream)
     incomingCall.answer(localStream);
     setActiveCalls(currentCalls => [...currentCalls, incomingCall]);
     
@@ -225,7 +227,7 @@ const MainContextProvider = ({ children }) => {
       // call.on(
       //   "stream",
       //   (stream) => {
-      //     // setRemoteStreams(currentStreams => [...currentStreams, stream]);
+      //     setRemoteStreams(currentStreams => [...currentStreams, stream]);
       //   },
       //   (err) => {
       //     console.error("Failed to get call stream", err);
