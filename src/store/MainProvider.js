@@ -220,11 +220,11 @@ const MainContextProvider = ({ children }) => {
 
     try {
       const call = peerServer.call(participant.peerId, localStream);
+      setActiveCalls(currentCalls => [...currentCalls, call]);
       
       call.on(
         "stream",
         (stream) => {
-          setActiveCalls(currentCalls => [...currentCalls, call]);
           // setRemoteStreams(currentStreams => [...currentStreams, stream]);
         },
         (err) => {
@@ -249,6 +249,7 @@ const MainContextProvider = ({ children }) => {
     currentUsers.splice(index, 1)
     setRemoteUsers(currentUsers)
     let currentCalls = [...activeCalls]
+    console.log("current", currentCalls)
     let incomingCall = currentCalls.splice(index, 1)
     incomingCall[0].close()
     setActiveCalls(currentCalls)
