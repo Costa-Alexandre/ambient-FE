@@ -298,8 +298,7 @@ const MainContextProvider = ({ children }) => {
 
 
   const handleMessageReceived = (message, user) => {
-    setChatMessages(currentMessages => [...currentMessages, {user, message}])
-    console.log(chatMessages);
+    setChatMessages(currentMessages => [...currentMessages, {user, message, key: chatMessages.length.toString()}])
   }
   
   

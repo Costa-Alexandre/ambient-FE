@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useRef, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -30,17 +30,23 @@ export function ChatHeader({ isOpen, callback }) {
 export function ChatInput() {
   const { sendChatMessage } = useContext(MainContext)
   const [text, setText] = useState("");
+  const textInputRef = useRef();
 
   const submitMessage = () => {
-    sendChatMessage(text)
-    setText("")
+    if(text){
+      sendChatMessage(text)
+      setText("")
+    }
   }
 
   return (
     <View style={styles.container}>
       <TextInput
+        ref={textInputRef}
         onChangeText={(text) => setText(text)}
-        onSubmitEditing={() => submitMessage()}
+        onSubmitEditing={() => {
+          submitMessage();
+          }}
         value={text}
         style={composeInput}
         placeholder="Comment..."
