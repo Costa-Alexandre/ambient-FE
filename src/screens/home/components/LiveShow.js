@@ -33,13 +33,18 @@ export default function LiveShow({
   return (
     <View style={styles.outerContainer}>
 
-      <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>{showName}</Text>
-
-      <View style={styles.songContainer}>
-        {imageUri !== "" && (<PlayingSong imageUri={imageUri} />)}
+      <View style={styles.titleContainer}>
+        <CustomIcon name={"live"} size={18} color={colorStyles.accent} />
+        <Text style={[fontStyles.subtitle, styles.showTitle]} numberOfLines={2}>AMBIENT</Text>
       </View>
 
-      <Text style={[fontStyles.body, styles.showDescription]}>{showDescription}{". "}{userInfo()}</Text>
+      <Text style={[fontStyles.title, styles.showName]} numberOfLines={2}>{showName}</Text>
+
+      {/* <View style={styles.songContainer}>
+        {imageUri !== "" && (<PlayingSong imageUri={imageUri} />)}
+      </View> */}
+
+      <Text style={[fontStyles.body, styles.showDescription]}>{showDescription}{". "}{false && userInfo()}</Text>
       
 
       <View style={styles.buttonRowContainer}>
@@ -88,8 +93,19 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 16
   },
+  showTitle: {
+    color: colorStyles.accent,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginTop: 4,
+    marginBottom: 8,
+  },
   showDescription: {
     color: colorStyles.textSecondary,
+    lineHeight: 20
   },
   userInfoText: {
     color: colorStyles.textSecondary,
