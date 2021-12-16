@@ -4,7 +4,7 @@ import { mediaDevices } from "react-native-webrtc";
 import InCallManager from 'react-native-incall-manager';
 import socketio from "socket.io-client";
 import { remote as SpotifyRemote } from "react-native-spotify-remote";
-import { spotifyGetTrack } from "api/spotify";
+import { spotifyGetTrack, spotifyPlayTrack } from "api/spotify";
 
 import {
   SOCKET_SERVER,
@@ -388,23 +388,21 @@ const MainContextProvider = ({ children }) => {
     try {
       // sync playing track
       if (playerState.track) {
-        playerState.track = await spotifyGetTrack(playerState.track.uri.split(":")[2])
         // no current track
         if (!activeTrack) {
           // new tracks is playing
-          if (!playerState.track.isPaused) {
-            await SpotifyRemote.playUri(playerState.track.uri)
-            await SpotifyRemote.seek(playerState.playbackPosition)
+          if (!playerState.isPaused) {
+            await spotifyPlayTrack(playerState.track.uri, playerState.playbackPosition)
           }
-        // has current track
+          // has current track
         } else {
-          if (!playerState.track.isPaused) {
-            await SpotifyRemote.playUri(playerState.track.uri)
-            await SpotifyRemote.seek(playerState.playbackPosition)
+          if (!playerState.isPaused) {
+            await spotifyPlayTrack(playerState.track.uri, playerState.playbackPosition)
           } else {
-            await setPlaybackPause(true)
+            await SpotifyRemote.pause()
           }
         }
+        playerState.track = await spotifyGetTrack(playerState.track.uri.split(":")[2])
         setActiveTrack(playerState.track)
       // no track playing
       } else {
