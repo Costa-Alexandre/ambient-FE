@@ -8,11 +8,11 @@ import {
 } from "react-native";
 import { CustomButton, PlayingSong } from "ui";
 import { colorStyles, fontStyles } from "styles";
-import { MainContext } from "store/MainProvider";
+import { MainContext, DEMO_HOSTS } from "store/MainProvider";
 
 export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
 
-  const { trackPaused, activeTrack } = useContext(MainContext);
+  const { trackPaused, activeTrack, user } = useContext(MainContext);
   
   const noMusic = () => {
     return (
@@ -52,17 +52,17 @@ export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
               {activeTrack.artists}
             </Text>
           </View>
-          <View style={{marginLeft: 20}}>
+          {DEMO_HOSTS.includes(user.username) && <View style={{marginLeft: 20}}>
             {!trackPaused && <CustomButton icon="pause" size={40} callback={() => {
               onPause();
             }} />}
             {trackPaused && <CustomButton icon="play" size={40} callback={() => {
               onPlay();
             }} />}
-          </View>
-            <View style={{marginLeft: 20}}>
+          </View>}
+            {DEMO_HOSTS.includes(user.username) && <View style={{marginLeft: 20}}>
               <CustomButton icon="spotify" size={40} callback={()=>{}} />
-            </View>
+            </View>}
         </View>
       </ImageBackground>
     );
