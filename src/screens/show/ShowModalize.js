@@ -7,7 +7,7 @@ import { MainContext } from "store/MainProvider";
 
 export default function ShowModalize() {
 
-  const { isMuted, setIsMuted, chatMessages } = useContext(MainContext)
+  const { isMuted, setIsMuted, chatMessages, user } = useContext(MainContext)
 
   const { ref, open, close } = useModalize();
 
@@ -44,7 +44,7 @@ export default function ShowModalize() {
           renderItem: ({ item }) => (
             <ChatComment
               imageUri={item.user.avatar}
-              username={item.user.displayName}
+              username={item.user.displayName === user.displayName ? "You" : item.user.displayName}
               payload={item.message}
             /> 
           ),
