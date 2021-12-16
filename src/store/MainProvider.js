@@ -250,6 +250,15 @@ const MainContextProvider = ({ children }) => {
     // call the user that just joined
     setRemoteUsers(currentUsers => [...currentUsers, participant]);
     socket.emit("call", {participant: get_user_participant(), socketId: participant.socketId});
+
+    // give the user the current playback state if you're in control of the music
+    if (DEMO_HOSTS.includes(user.username)) {
+      SpotifyRemote.getPlayerState()
+      .then(playerState => {
+        socket.emit("playback-initial-sync", {toUserId: participant.socketId, playerState})
+      })
+      .catch(err => console.log("initial sync failed", err))
+    }
   }
 
 
