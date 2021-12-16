@@ -14,14 +14,17 @@ export default function ShowModalize() {
   const chatRef = useRef()
 
   const [chatOpen, setChatOpen] = useState(false);
+  const [modalHeight, setModalHeight] = useState(400);
 
   useEffect(() => {
     if (chatOpen) {
-      open("top")
+      open("top");
     } else {
-      close("alwaysOpen")
+      close("alwaysOpen");
     }
   }, [chatOpen])
+
+  
   
   return (
     <Modalize
@@ -30,7 +33,7 @@ export default function ShowModalize() {
         alwaysOpen={140}
         avoidKeyboardLikeIOS={true}
         keyboardAvoidingBehavior={'height'}
-        keyboardAvoidingOffset={-80}
+        keyboardAvoidingOffset={-75}
         withHandle={false}
         HeaderComponent={() => (
           <>
@@ -39,10 +42,11 @@ export default function ShowModalize() {
           </>
         )}
         FooterComponent={() => <ChatInput />}
-        modalHeight={400}
+        modalHeight={modalHeight}
         withOverlay={false}
         modalStyle={styles.rootModalize}
         onClose={() => chatRef.current?.scrollToEnd()}
+        onPositionChange={(prop) => prop == 'top' ? setChatOpen(true) : setChatOpen(false)}
         flatListProps={{
           data: chatMessages,
           onContentSizeChange: () => {chatRef.current?.scrollToEnd()},
