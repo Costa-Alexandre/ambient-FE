@@ -299,6 +299,7 @@ const MainContextProvider = ({ children }) => {
 
   const handleMessageReceived = (message, user) => {
     setChatMessages(currentMessages => [...currentMessages, {user, message}])
+    console.log(chatMessages);
   }
   
   
@@ -434,7 +435,10 @@ const MainContextProvider = ({ children }) => {
 
   const sendChatMessage = (message) => {
     if (socket && activeShow._id)
-      socket.emit("message-send", {showId: activeShow._id, message, user})
+      socket.emit("message-send", {showId: activeShow._id, message, user}, ({message, user}) => {
+        setChatMessages(currentMessages => [...currentMessages, {user, message}])
+
+      })
   };
 
 
