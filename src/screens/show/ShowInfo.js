@@ -67,7 +67,7 @@ export default function ShowInfo({ callback, goBack }) {
     <ImageBackground
       source={activeTrack.imageUri ? activeTrack.imageUri : null}
       imageStyle={{ opacity: 0.15, backgroundColor: averageColor }}
-      style={[styles.image, {}]}
+      style={[styles.image, {backgroundColor: activeTrack.uri ? 'transparent' : colorStyles.card}]}
     >
       <ScrollView style={[styles.outerContainer, {}]}>
         {showContent()}
