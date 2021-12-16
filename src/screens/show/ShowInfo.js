@@ -104,5 +104,8 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    overflow: 'hidden'
   },
 });
