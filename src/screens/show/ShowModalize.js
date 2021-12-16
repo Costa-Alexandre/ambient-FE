@@ -41,6 +41,7 @@ export default function ShowModalize() {
         FooterComponent={() => <ChatInput />}
         modalHeight={400}
         withOverlay={false}
+        keyboardAvoidingOffset={140}
         modalStyle={styles.rootModalize}
         onClose={() => chatRef.current?.scrollToEnd()}
         flatListProps={{
@@ -66,24 +67,3 @@ export default function ShowModalize() {
       flex: 1,
     },
   });
-
-  const dummyMessages = [
-    {
-      key: "1",
-      imageUri: "https://randomuser.me/api/portraits/men/1.jpg",
-      username: "Username",
-      payload: "Comment text",
-    },
-    {
-      key: "2",
-      imageUri: "https://randomuser.me/api/portraits/women/1.jpg",
-      username: "Username",
-      payload: "Comment text",
-    },
-    {
-      key: "3",
-      imageUri: "https://randomuser.me/api/portraits/women/1.jpg",
-      username: "Username",
-      payload: "Comment text 3",
-    },
-  ];
