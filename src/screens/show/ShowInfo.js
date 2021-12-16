@@ -4,8 +4,7 @@ import { StyleSheet, Text, View, ImageBackground, LogBox } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { colorStyles, fontStyles } from "styles";
 import { MenuShow, LiveUsers, ShowSong } from "./components";
-import { spotifyPlayTrack } from "api/spotify";
-import { MainContext } from "store/MainProvider";
+import { MainContext, DEMO_HOSTS } from "store/MainProvider";
 import useAverageColor from 'hooks/averageColor';
 
 
@@ -50,13 +49,13 @@ export default function ShowInfo({ callback, goBack }) {
         </Text>
       </View>
 
-      <View style={styles.songContainer}>
+      {DEMO_HOSTS.includes(user.username) || activeTrack.uri ? <View style={styles.songContainer}>
         <ShowSong
           callback={activeTrack.uri ? null : ()=>{SpotifyRemote.resume()}}
           onPause={() => SpotifyRemote.pause()}
           onPlay={() => SpotifyRemote.resume()}
         />
-      </View>
+      </View> : null}
 
       <View style={styles.usersContainer}>
         <LiveUsers stage={stageUsers} />
