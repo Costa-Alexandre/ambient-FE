@@ -30,7 +30,7 @@ export default function ShowModalize() {
         alwaysOpen={140}
         avoidKeyboardLikeIOS={true}
         keyboardAvoidingBehavior={'height'}
-        keyboardAvoidingOffset={0}
+        keyboardAvoidingOffset={-80}
         withHandle={false}
         HeaderComponent={() => (
           <>
@@ -41,7 +41,6 @@ export default function ShowModalize() {
         FooterComponent={() => <ChatInput />}
         modalHeight={400}
         withOverlay={false}
-        keyboardAvoidingOffset={140}
         modalStyle={styles.rootModalize}
         onClose={() => chatRef.current?.scrollToEnd()}
         flatListProps={{
