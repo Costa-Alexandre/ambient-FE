@@ -65,16 +65,15 @@ export default function ShowInfo({ callback, goBack }) {
   }
 
   return (
-    <ScrollView style={[styles.outerContainer, { backgroundColor: averageColor }]}>
-      {activeTrack.imageUri && <ImageBackground
-        source={activeTrack.imageUri}
-        imageStyle={{ opacity: 0.1 }}
-        style={[styles.image, {backgroundColor: "rgba(0, 0, 0, 0.65)"}]}
-      >
+    <ImageBackground
+      source={activeTrack.imageUri ? activeTrack.imageUri : null}
+      imageStyle={{ opacity: 0.15, backgroundColor: averageColor }}
+      style={[styles.image, {}]}
+    >
+      <ScrollView style={[styles.outerContainer, {}]}>
         {showContent()}
-      </ImageBackground>}
-      {!activeTrack.imageUri && showContent()}
-    </ScrollView>
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
