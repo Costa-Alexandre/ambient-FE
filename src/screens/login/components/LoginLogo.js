@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { View, Text, Image, ImageBackground, StyleSheet } from "react-native";
 
-import Logotype from '../../../assets/icons/Logotype';
-import Logomark from '../../../assets/icons/Logomark';
+import Logotype from 'assets/icons/Logotype';
+import Logomark from 'assets/icons/Logomark';
 
 import { colorStyles, fontStyles } from 'styles';
 

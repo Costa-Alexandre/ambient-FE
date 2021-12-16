@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Host } from 'react-native-portalize';
-import { Home } from 'screens';
+import { Home, Placeholder } from 'screens';
 import { CustomIcon } from 'ui';
 import { colorStyles } from 'styles';
 import { MainContext } from 'store/MainProvider';
@@ -33,9 +33,9 @@ export default function TabNavigator() {
         })}
       >
         <Tab.Screen name="home" component={Home} />
-        <Tab.Screen name="clips" component={Home} />
-        <Tab.Screen name="search" component={Home} />
-        <Tab.Screen name="message" component={Home} />
+        <Tab.Screen name="clips" component={Placeholder} />
+        <Tab.Screen name="search" component={Placeholder} />
+        <Tab.Screen name="message" component={Placeholder} />
       </Tab.Navigator>
     </Host>
   );
