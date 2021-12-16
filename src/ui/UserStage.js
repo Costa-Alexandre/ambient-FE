@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import stc from 'string-to-color';
 import CustomIcon from './CustomIcon';
 import { colorStyles, fontStyles } from 'styles';
 
 import Svg, { Path, Mask, Image as SVGImage, Rect } from "react-native-svg"
 
 
-function ProfileShapeRectStage({uri, hasCutout}) {
+function ProfileShapeRectStage({uri, hasCutout, fill=colorStyles.buttonSolid}) {
   // path converted from Figma with https://svg2jsx.com/ and https://react-svgr.com/playground/?native=true
   const size = 60
   return (
@@ -25,7 +26,7 @@ function ProfileShapeRectStage({uri, hasCutout}) {
       </Mask>
       <Rect x="0" y="0"
         width="100%" height="100%"
-        fill={colorStyles.buttonSolid}
+        fill={fill}
         mask={`url(#clip)`} />
       <SVGImage href={{uri:uri}}
         width="100%" height="100%"
@@ -38,11 +39,17 @@ function ProfileShapeRectStage({uri, hasCutout}) {
 
 export default function UserStage({uri=null, callback=null, username="...", isMuted=false, isTalking=false}) {
 
+  const [color, setColor] = useState(colorStyles.buttonSolid)
+
   const onPress = () => {
     if (callback) {
       callback()
     }
   }
+
+  useEffect(() => {
+    setColor(stc(username))
+  }, [])
 
   return (
     <TouchableOpacity
@@ -52,10 +59,11 @@ export default function UserStage({uri=null, callback=null, username="...", isMu
     >
       <View style={[styles.wrapper, {borderColor: isTalking&&!isMuted ? 'rgba(255, 255, 255, 0.75)' : 'transparent'}]}>
         <View style={styles.image}>
-          <ProfileShapeRectStage uri={uri} hasCutout={isMuted}/>
+          <ProfileShapeRectStage uri={uri} hasCutout={isMuted} fill={color}/>
           {isMuted && <View style={styles.muteIcon}>
             <CustomIcon name={"mute"} size={18} color='#fff' />
           </View>}
+          {!uri && <Text style={styles.letter}>{username[0]}</Text>}
         </View>
       </View>
       <Text style={[
@@ -82,7 +90,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 60,
-    height: 60,
+    height: 60
   },
   muteIcon: {
     position: 'absolute',
@@ -92,5 +100,14 @@ const styles = StyleSheet.create({
   username: {
     color: 'white',
     marginTop: 4
+  },
+  letter: {
+    color: 'white',
+    position: 'absolute',
+    width: '100%',
+    textAlign: 'center',
+    lineHeight: 55,
+    fontSize: 22,
+    fontWeight: "700"
   }
 });
