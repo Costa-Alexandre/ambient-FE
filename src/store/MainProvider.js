@@ -3,6 +3,8 @@ import { PermissionsAndroid } from "react-native";
 import { mediaDevices } from "react-native-webrtc";
 import InCallManager from 'react-native-incall-manager';
 import socketio from "socket.io-client";
+import { remote as SpotifyRemote } from "react-native-spotify-remote";
+import { spotifyGetTrack, spotifyPlayTrack } from "api/spotify";
 
 import {
   SOCKET_SERVER,
@@ -11,6 +13,8 @@ import {
   PEER_SERVER_PATH,
 } from "server";
 import Peer from "react-native-peerjs";
+
+export const DEMO_HOSTS = ["dashpig"]
 
 export const socket = socketio.connect(SOCKET_SERVER, {
   reconnection: true,
@@ -41,6 +45,7 @@ const initialValues = {
     imageUri: null,
     artists: [] 
   },
+  trackPaused: false,
   peerId: "",
   localStream: null,
   remoteStreams: [],
@@ -62,6 +67,7 @@ const MainContextProvider = ({ children }) => {
   const [spotifyData, setSpotifyData] = useState(initialValues.spotifyData)
   const [activeShow, setActiveShow] = useState(initialValues.activeShow);
   const [activeTrack, setActiveTrack] = useState(initialValues.activeTrack);
+  const [trackPaused, setTrackPaused] = useState(initialValues.trackPaused);
   const [peerId, setPeerId] = useState(initialValues.peerId);
   const [localStream, setLocalStream] = useState(initialValues.localStream);
   const [remoteStreams, setRemoteStreams] = useState(
@@ -100,11 +106,16 @@ const MainContextProvider = ({ children }) => {
     // receiving a message
     socket.on("message-receive", handleMessageReceived);
 
+    // receiving a playback update
+    socket.on("playback-updated", handlePlaybackUpdate);
+
     if (peerServer) {
       peerServer.on("error", handlePeerError);
       peerServer.on("open", handlePeerOpen)
       peerServer.on("call", handlePeerCall);
     }
+
+    SpotifyRemote.addListener("playerStateChanged", updatePlayback)
 
     return () => {
       socket.off("called", handleCall)
@@ -112,13 +123,16 @@ const MainContextProvider = ({ children }) => {
       socket.off("user-left-show", handleUserLeft)
       socket.off("toggle-mute", handleToggleMute)
       socket.off("message-receive", handleMessageReceived)
+      socket.off("playback-updated", handlePlaybackUpdate)
 
       if (peerServer) {
         peerServer.off("error", handlePeerError)
         peerServer.off("open", handlePeerOpen)
       }
+
+      SpotifyRemote.removeListener("playerStateChanged", updatePlayback)
     }
-  }, [user, peerId, localStream, remoteStreams, remoteUsers, peerServer, isMuted, activeCalls, chatMessages])
+  }, [user, peerId, localStream, remoteStreams, remoteUsers, peerServer, isMuted, activeCalls, chatMessages, activeTrack, activeShow])
 
 
   const checkPermissions = async () => {
@@ -224,14 +238,9 @@ const MainContextProvider = ({ children }) => {
       const call = peerServer.call(participant.peerId, localStream);
       setActiveCalls(currentCalls => [...currentCalls, call]);
       
-      // call.on(
-      //   "stream",
-      //   (stream) => {
-      //     setRemoteStreams(currentStreams => [...currentStreams, stream]);
-      //   },
-      //   (err) => {
-      //     console.error("Failed to get call stream", err);
-      //   }
+      // call.on("stream",
+      //   (stream) => {},
+      //   (err) => { console.error("Failed to get call stream", err);}
       // );
 
     } catch (error) {
@@ -241,6 +250,15 @@ const MainContextProvider = ({ children }) => {
     // call the user that just joined
     setRemoteUsers(currentUsers => [...currentUsers, participant]);
     socket.emit("call", {participant: get_user_participant(), socketId: participant.socketId});
+
+    // give the user the current playback state if you're in control of the music
+    if (DEMO_HOSTS.includes(user.username)) {
+      SpotifyRemote.getPlayerState()
+      .then(playerState => {
+        socket.emit("playback-initial-sync", {toUserId: participant.socketId, playerState})
+      })
+      .catch(err => console.log("initial sync failed", err))
+    }
   }
 
 
@@ -273,10 +291,16 @@ const MainContextProvider = ({ children }) => {
   }
 
 
+  const handlePlaybackUpdate = (playerState) => {
+    console.log("received playback update")
+    syncToPlaybackState(playerState)
+  }
+
+
   const handleMessageReceived = (message, user) => {
     setChatMessages(currentMessages => [...currentMessages, {user, message}])
   }
-
+  
   
   useEffect(() => {
     toggleMute();
@@ -315,6 +339,82 @@ const MainContextProvider = ({ children }) => {
     setActiveShow(newShow);
     socket.emit("user-join-show", create_participant(newShow));
   };
+
+
+  const updatePlayback = async (playerState=null) => {
+    if (DEMO_HOSTS.includes(user.username) && activeShow._id) {
+      try {
+        // get current player state if not given from update
+        if (playerState === null) {
+          playerState = await SpotifyRemote.getPlayerState()
+        }
+        
+        setTrackPaused(playerState.isPaused)
+
+        // get track details
+        let track = playerState.track ? playerState.track : resetTrack()
+        playerState.track = track
+
+        // emit playback update and set active track
+        socket.emit("playback-update", {playerState, showId: activeShow._id})
+        if (playerState.track !== activeTrack) {
+          if (playerState.track) {
+            playerState.track = await spotifyGetTrack(playerState.track.uri.split(":")[2])
+            setActiveTrack(playerState.track)
+            // TODO update current track on server
+          } else {
+            setActiveTrack(resetTrack())
+          }
+        }
+        console.log("updated playback for", activeShow._id)
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+
+  const setPlaybackPause = async (isPaused) => {
+    if (isPaused) {
+      await SpotifyRemote.pause()
+    } else {
+      await SpotifyRemote.resume()
+    }
+  }
+
+
+  const syncToPlaybackState = async (playerState) => {
+    try {
+      // sync playing track
+      if (playerState.track) {
+        // no current track
+        if (!activeTrack) {
+          // new tracks is playing
+          if (!playerState.isPaused) {
+            await spotifyPlayTrack(playerState.track.uri, playerState.playbackPosition)
+          }
+          // has current track
+        } else {
+          if (!playerState.isPaused) {
+            await spotifyPlayTrack(playerState.track.uri, playerState.playbackPosition)
+          } else {
+            await SpotifyRemote.pause()
+          }
+        }
+        playerState.track = await spotifyGetTrack(playerState.track.uri.split(":")[2])
+        setActiveTrack(playerState.track)
+      // no track playing
+      } else {
+        await setPlaybackPause(true)
+        setActiveTrack(resetTrack())
+      }
+      console.log("synced playback")
+    }
+    catch (error) {
+      console.log("failed to sync", error)
+    }
+  }
 
 
   const toggleMute = () => {
@@ -388,6 +488,7 @@ const MainContextProvider = ({ children }) => {
         activeShow,
         setActiveShow,
         activeTrack,
+        trackPaused,
         setActiveTrack,
         peerId,
         setPeerId,
@@ -410,7 +511,8 @@ const MainContextProvider = ({ children }) => {
         setActiveCalls,
         peerServer,
         chatMessages,
-        sendChatMessage
+        sendChatMessage,
+        updatePlayback
       }}
     >
       {children}

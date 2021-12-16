@@ -7,11 +7,10 @@ import { colorStyles } from "styles";
 
 export default function Show({ route: { params: activeShow },  navigation }) {
   
-  const { setActiveShow, joinShow, leaveShow } = useContext(MainContext);
+  const { joinShow, leaveShow } = useContext(MainContext);
 
   useEffect(() => {
     leaveShow();
-    console.log(activeShow)
     joinShow(activeShow);
     console.log(`Welcome to show ${activeShow.name}!`);
   }, []);

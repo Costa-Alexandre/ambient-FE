@@ -4,15 +4,8 @@ import { StyleSheet, Text, View, ImageBackground, LogBox } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { colorStyles, fontStyles } from "styles";
 import { MenuShow, LiveUsers, ShowSong } from "./components";
-import { spotifyGetTrack } from "api/spotify";
-import { MainContext } from "store/MainProvider";
+import { MainContext, DEMO_HOSTS } from "store/MainProvider";
 import useAverageColor from 'hooks/averageColor';
-import {
-  RTCView,
-  RTCPeerConnection,
-  RTCIceCandidate,
-  mediaDevices,
-} from 'react-native-webrtc';
 
 
 
@@ -22,18 +15,10 @@ LogBox.ignoreLogs([
 ]);
 
 export default function ShowInfo({ callback, goBack }) {
-  const {activeTrack, setActiveTrack, activeShow, setActiveShow, user, isMuted, remoteUsers } = useContext(MainContext);
+  const {activeTrack, updatePlayback, activeShow, setActiveShow, user, isMuted, remoteUsers } = useContext(MainContext);
   const [averageColor, setImageUri] = useAverageColor(activeTrack.imageUri?.uri, "#1B1B1F")
 
   const [stageUsers, setStageUsers] = useState([])
-
-  const dummyOnPressHandler = () => {
-    spotifyGetTrack(dummyTrackId).then(track => {
-      setActiveTrack(track);
-      SpotifyRemote.playUri(track.uri);
-      console.log(`Set track ${track.name}, uri: ${track.uri} and start playing!`)
-    })
-  };
 
   useEffect(() => {
     setImageUri(activeTrack.imageUri?.uri);
@@ -64,13 +49,13 @@ export default function ShowInfo({ callback, goBack }) {
         </Text>
       </View>
 
-      <View style={styles.songContainer}>
+      {DEMO_HOSTS.includes(user.username) || activeTrack.uri ? <View style={styles.songContainer}>
         <ShowSong
-          callback={dummyOnPressHandler}
+          callback={activeTrack.uri ? null : ()=>{SpotifyRemote.resume()}}
           onPause={() => SpotifyRemote.pause()}
-          onPlay={() => SpotifyRemote.playUri("")}
+          onPlay={() => SpotifyRemote.resume()}
         />
-      </View>
+      </View> : null}
 
       <View style={styles.usersContainer}>
         <LiveUsers stage={stageUsers} />
@@ -79,16 +64,15 @@ export default function ShowInfo({ callback, goBack }) {
   }
 
   return (
-    <ScrollView style={[styles.outerContainer, { backgroundColor: averageColor }]}>
-      {activeTrack.imageUri && <ImageBackground
-        source={activeTrack.imageUri}
-        imageStyle={{ opacity: 0.1 }}
-        style={[styles.image, {backgroundColor: "rgba(0, 0, 0, 0.65)"}]}
-      >
+    <ImageBackground
+      source={activeTrack.imageUri ? activeTrack.imageUri : null}
+      imageStyle={{ opacity: 0.15, backgroundColor: averageColor }}
+      style={[styles.image, {}]}
+    >
+      <ScrollView style={[styles.outerContainer, {}]}>
         {showContent()}
-      </ImageBackground>}
-      {!activeTrack.imageUri && showContent()}
-    </ScrollView>
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
@@ -122,5 +106,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-const dummyTrackId = "5OkYfk72CNL8XLqa3gp9q7";

@@ -14,5 +14,9 @@ export const spotifyConfig = {
     ApiScope.AppRemoteControlScope,
     ApiScope.UserFollowReadScope,
     ApiScope.UserReadEmailScope,
+	ApiScope.StreamingScope,
+	ApiScope.UserModifyPlaybackStateScope,
+	ApiScope.UserReadPlaybackStateScope,
+	ApiScope.UserReadPlaybackPosition
   ]
 }

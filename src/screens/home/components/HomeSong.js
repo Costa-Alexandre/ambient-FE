@@ -12,7 +12,6 @@ import { MainContext } from "store/MainProvider";
 export default function HomeSong({ callback=null }) {
 
   const { activeTrack, activeShow, leaveShow, remoteUsers } = useContext(MainContext);
-
   
   const noMusic = () => {
     return (

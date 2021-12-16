@@ -56,3 +56,28 @@ export const spotifyGetTrack = async (trackId, token = null) => {
     console.log(error);
   }
 };
+
+export const spotifyPlayTrack = async (trackUri, position=0) => {
+  try {
+    const session = await SpotifyAuth.getSession();
+    token = session.accessToken;
+
+    await fetch(
+      `${spotifyBaseUrl}/me/player/play`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uris: [trackUri],
+          position_ms: position
+        })
+      }
+    );
+
+  } catch (error) {
+    console.log(error);
+  }
+};
