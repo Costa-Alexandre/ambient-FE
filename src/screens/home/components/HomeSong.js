@@ -37,26 +37,26 @@ export default function HomeSong({ callback=null }) {
 
   const playMusic = () => {
     return (
-        <View style={[styles.playContainer, {backgroundColor: 
-        activeShow.averageColor ? activeShow.averageColor : colorStyles.card
-        }]}>
-          <Image style={styles.coverImage} source={activeTrack.imageUri} />
-          <View style={styles.textContainer}>
-            <Text
-              style={[fontStyles.subtitleSecondary, styles.songText]}
-              numberOfLines={1}
-            >
-              {activeShow.name}
-            </Text>
-            <Text
-              style={[fontStyles.subtitleSecondary, styles.artistText]}
-              numberOfLines={1}
-            >
-              {`${activeTrack.name} - ${activeTrack.artists}`}
-            </Text>
-          </View>
-          <CustomButton title="Leave" color="button" size="slimShort" callback={leaveShow} />
+      <View style={{backgroundColor: activeShow.averageColor ? activeShow.averageColor : colorStyles.card, flex: 1}}>
+        <View style={[styles.playContainer, {backgroundColor: 'rgba(0,0,0,0.5)'}]}>
+            <Image style={styles.coverImage} source={activeTrack.imageUri} />
+            <View style={styles.textContainer}>
+              <Text
+                style={[fontStyles.subtitleSecondary, styles.songText]}
+                numberOfLines={1}
+              >
+                {activeShow.name}
+              </Text>
+              <Text
+                style={[fontStyles.subtitleSecondary, styles.artistText]}
+                numberOfLines={1}
+              >
+                {`${activeTrack.name} - ${activeTrack.artists}`}
+              </Text>
+            </View>
+            <CustomButton title="Leave" color="button" size="slimShort" callback={leaveShow} />
         </View>
+      </View>
     );
   };
 
