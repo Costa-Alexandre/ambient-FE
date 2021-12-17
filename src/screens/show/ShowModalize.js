@@ -14,13 +14,16 @@ export default function ShowModalize() {
   const chatRef = useRef();
 
   const [chatOpen, setChatOpen] = useState(false);
+  const [chatOpened, setChatOpened ] = useState(false);
   const [focus, setFocus] = useState(false);
 
   useEffect(() => {
     if (chatOpen) {
       open("top");
+      setChatOpened(true);
     } else {
       close("alwaysOpen");
+      setChatOpened(false);
     }
   }, [chatOpen])
   
@@ -36,7 +39,7 @@ export default function ShowModalize() {
         HeaderComponent={() => (
           <>
           <FloatingButton active={isMuted} callback={() => setIsMuted(!isMuted)} />
-          <ChatHeader isOpen={chatOpen} callback={() => setChatOpen(current => !current)} />
+          <ChatHeader isOpen={chatOpened} callback={() => setChatOpen(current => !current)} />
           </>
         )}
         FooterComponent={() => <ChatInput onFocusCallback={() => setFocus(true)} onBlurCallback={() => setFocus(false)}/>}
@@ -44,7 +47,7 @@ export default function ShowModalize() {
         withOverlay={false}
         modalStyle={styles.rootModalize}
         onClosed={() => chatRef.current?.scrollToEnd()}
-        // onPositionChange={(prop) => prop == 'top' ? setChatOpen(true) : setChatOpen(false)}
+        onPositionChange={(prop) => prop == 'top' ? setChatOpened(true) : setChatOpened(false)}
         flatListProps={{
           data: chatMessages,
           onContentSizeChange: () => {chatRef.current?.scrollToEnd()},
