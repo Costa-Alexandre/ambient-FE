@@ -14,7 +14,7 @@ import {
 } from "server";
 import Peer from "react-native-peerjs";
 
-export const DEMO_HOSTS = ["zymmac"]
+export const DEMO_HOSTS = ["dashpig"]
 
 export const socket = socketio.connect(SOCKET_SERVER, {
   reconnection: true,
