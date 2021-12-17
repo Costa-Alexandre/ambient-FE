@@ -330,14 +330,23 @@ const MainContextProvider = ({ children }) => {
 
 
   const joinShow = (newShow) => {
-    leaveShow()
+
     if (!newShow._id) {
       console.log("Show not found");
       return;
     }
+    if(!activeShow._id){
+      setActiveShow(newShow);
+      socket.emit("user-join-show", create_participant(newShow));
+      return
+    }
+    if(newShow._id !== activeShow._id){
+      leaveShow();
+      setActiveShow(newShow);
+      socket.emit("user-join-show", create_participant(newShow));
+      return
+    }
     
-    setActiveShow(newShow);
-    socket.emit("user-join-show", create_participant(newShow));
   };
 
 
