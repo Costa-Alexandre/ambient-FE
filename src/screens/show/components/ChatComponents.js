@@ -69,6 +69,23 @@ export function ChatComment({ imageUri, username, payload }) {
   );
 }
 
+export function ChatWelcome({ showName, username }) {
+  return (
+    <View style={styles.message}>
+        <Text style={[styles.welcome, composeUsername]}>
+        {`Welcome to ${showName}, ${username}!`}
+        </Text>
+    </View>
+  );
+}
+
+export function ChatFooter( ) {
+  return (
+    <View style={styles.footer}>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     height: 88,
@@ -127,6 +144,15 @@ const styles = StyleSheet.create({
   payload: {
     color: colorStyles.text,
   },
+  welcome: {
+    flex: 1,
+    textAlign: 'center',
+    marginRight: 20
+  },
+  footer: {
+    height: 180,
+    flex: 1
+  }
 });
 
 const composeInput = StyleSheet.compose(styles.input, fontStyles.body);

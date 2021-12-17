@@ -1,20 +1,19 @@
 import React, {useContext, useState, useEffect, useRef } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { useModalize } from 'react-native-modalize/lib/utils/use-modalize';
-import { ChatInput, ChatHeader, ChatComment, FloatingButton } from "./components";
+import { ChatInput, ChatHeader, ChatComment, FloatingButton, ChatWelcome, ChatFooter } from "./components";
 import { MainContext } from "store/MainProvider";
 
 export default function ShowModalize() {
 
-  const { isMuted, setIsMuted, chatMessages, user } = useContext(MainContext)
+  const { isMuted, setIsMuted, chatMessages, user, activeShow } = useContext(MainContext)
 
   const { ref, open, close } = useModalize();
 
   const chatRef = useRef()
 
   const [chatOpen, setChatOpen] = useState(false);
-  const [modalHeight, setModalHeight] = useState(400);
 
   useEffect(() => {
     if (chatOpen) {
@@ -42,14 +41,16 @@ export default function ShowModalize() {
           </>
         )}
         FooterComponent={() => <ChatInput />}
-        modalHeight={modalHeight}
+        modalHeight={400}
         withOverlay={false}
         modalStyle={styles.rootModalize}
-        onClose={() => chatRef.current?.scrollToEnd()}
+        onClosed={() => chatRef.current?.scrollToEnd()}
         onPositionChange={(prop) => prop == 'top' ? setChatOpen(true) : setChatOpen(false)}
         flatListProps={{
           data: chatMessages,
           onContentSizeChange: () => {chatRef.current?.scrollToEnd()},
+          ListHeaderComponent: <ChatWelcome showName={activeShow.name} username={user.displayName} />,
+          ListFooterComponent: chatOpen ? <></> : <ChatFooter />,
           renderItem: ({ item }) => (
             <ChatComment
               imageUri={item.user.avatar}
