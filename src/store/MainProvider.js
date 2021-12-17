@@ -14,7 +14,7 @@ import {
 } from "server";
 import Peer from "react-native-peerjs";
 
-export const DEMO_HOSTS = ["dashpig"]
+export const DEMO_HOSTS = ["zymmac"]
 
 export const socket = socketio.connect(SOCKET_SERVER, {
   reconnection: true,
@@ -338,12 +338,14 @@ const MainContextProvider = ({ children }) => {
     if(!activeShow._id){
       setActiveShow(newShow);
       socket.emit("user-join-show", create_participant(newShow));
+      console.log(`Welcome to show ${newShow.name}!`);
       return
     }
     if(newShow._id !== activeShow._id){
       leaveShow();
       setActiveShow(newShow);
       socket.emit("user-join-show", create_participant(newShow));
+      console.log(`Welcome to show ${newShow.name}!`);
       return
     }
     
