@@ -17,17 +17,12 @@ export default function ShowModalize() {
   const [focus, setFocus] = useState(false);
 
   useEffect(() => {
-    console.log('focus', focus, 'chatOpen', chatOpen)
     if (chatOpen) {
       open("top");
     } else {
       close("alwaysOpen");
     }
   }, [chatOpen])
-
-  useEffect(() => {
-    console.log('focus', focus, 'chatOpen', chatOpen)
-  }, [focus])
   
   return (
     <Modalize

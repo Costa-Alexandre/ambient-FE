@@ -10,7 +10,7 @@ export default function Show({ route: { params: activeShow },  navigation }) {
   const { joinShow, leaveShow } = useContext(MainContext);
 
   useEffect(() => {
-    leaveShow();
+    // leaveShow();
     joinShow(activeShow);
     console.log(`Welcome to show ${activeShow.name}!`);
   }, []);
