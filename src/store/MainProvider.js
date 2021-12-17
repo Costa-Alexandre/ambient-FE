@@ -466,6 +466,7 @@ const MainContextProvider = ({ children }) => {
       setChatMessages([])
       setActiveShow(resetShow());
       setActiveTrack(resetTrack())
+      SpotifyRemote.pause()
     }
   };
 
