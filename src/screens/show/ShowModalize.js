@@ -1,27 +1,33 @@
 import React, {useContext, useState, useEffect, useRef } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { useModalize } from 'react-native-modalize/lib/utils/use-modalize';
-import { ChatInput, ChatHeader, ChatComment, FloatingButton } from "./components";
+import { ChatInput, ChatHeader, ChatComment, FloatingButton, ChatWelcome, ChatFooter } from "./components";
 import { MainContext } from "store/MainProvider";
 
 export default function ShowModalize() {
 
-  const { isMuted, setIsMuted, chatMessages, user } = useContext(MainContext)
+  const { isMuted, setIsMuted, chatMessages, user, activeShow } = useContext(MainContext)
 
   const { ref, open, close } = useModalize();
 
-  const chatRef = useRef()
+  const chatRef = useRef();
 
   const [chatOpen, setChatOpen] = useState(false);
+  const [focus, setFocus] = useState(false);
 
   useEffect(() => {
+    console.log('focus', focus, 'chatOpen', chatOpen)
     if (chatOpen) {
-      open("top")
+      open("top");
     } else {
-      close("alwaysOpen")
+      close("alwaysOpen");
     }
   }, [chatOpen])
+
+  useEffect(() => {
+    console.log('focus', focus, 'chatOpen', chatOpen)
+  }, [focus])
   
   return (
     <Modalize
@@ -30,7 +36,7 @@ export default function ShowModalize() {
         alwaysOpen={140}
         avoidKeyboardLikeIOS={true}
         keyboardAvoidingBehavior={'height'}
-        keyboardAvoidingOffset={0}
+        keyboardAvoidingOffset={-75}
         withHandle={false}
         HeaderComponent={() => (
           <>
@@ -38,15 +44,17 @@ export default function ShowModalize() {
           <ChatHeader isOpen={chatOpen} callback={() => setChatOpen(current => !current)} />
           </>
         )}
-        FooterComponent={() => <ChatInput />}
+        FooterComponent={() => <ChatInput onFocusCallback={() => setFocus(true)} onBlurCallback={() => setFocus(false)}/>}
         modalHeight={400}
         withOverlay={false}
-        keyboardAvoidingOffset={140}
         modalStyle={styles.rootModalize}
-        onClose={() => chatRef.current?.scrollToEnd()}
+        onClosed={() => chatRef.current?.scrollToEnd()}
+        onPositionChange={(prop) => prop == 'top' ? setChatOpen(true) : setChatOpen(false)}
         flatListProps={{
           data: chatMessages,
           onContentSizeChange: () => {chatRef.current?.scrollToEnd()},
+          ListHeaderComponent: <ChatWelcome showName={activeShow.name} username={user.displayName} />,
+          ListFooterComponent: (chatOpen == focus) ? <ChatFooter /> : <></>,
           renderItem: ({ item }) => (
             <ChatComment
               imageUri={item.user.avatar}

@@ -27,10 +27,9 @@ export function ChatHeader({ isOpen, callback }) {
   );
 }
 
-export function ChatInput() {
+export function ChatInput({onFocusCallback, onBlurCallback}) {
   const { sendChatMessage } = useContext(MainContext)
   const [text, setText] = useState("");
-  const textInputRef = useRef();
 
   const submitMessage = () => {
     if(text){
@@ -42,7 +41,8 @@ export function ChatInput() {
   return (
     <View style={styles.container}>
       <TextInput
-        ref={textInputRef}
+        onFocus={() => onFocusCallback()}
+        onBlur={() => onBlurCallback()}
         onChangeText={(text) => setText(text)}
         onSubmitEditing={() => {
           submitMessage();
@@ -65,6 +65,23 @@ export function ChatComment({ imageUri, username, payload }) {
       <Text style={composeUsername}>
         {username}: <Text style={styles.payload}>{payload}</Text>
       </Text>
+    </View>
+  );
+}
+
+export function ChatWelcome({ showName, username }) {
+  return (
+    <View style={styles.message}>
+        <Text style={[styles.welcome, composeUsername]}>
+        {`Welcome to ${showName}, ${username}!`}
+        </Text>
+    </View>
+  );
+}
+
+export function ChatFooter( ) {
+  return (
+    <View style={styles.footer}>
     </View>
   );
 }
@@ -127,6 +144,15 @@ const styles = StyleSheet.create({
   payload: {
     color: colorStyles.text,
   },
+  welcome: {
+    flex: 1,
+    textAlign: 'center',
+    marginRight: 20
+  },
+  footer: {
+    height: 175,
+    flex: 1
+  }
 });
 
 const composeInput = StyleSheet.compose(styles.input, fontStyles.body);
