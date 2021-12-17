@@ -11,11 +11,13 @@ export default function ShowModalize() {
 
   const { ref, open, close } = useModalize();
 
-  const chatRef = useRef()
+  const chatRef = useRef();
 
   const [chatOpen, setChatOpen] = useState(false);
+  const [focus, setFocus] = useState(false);
 
   useEffect(() => {
+    console.log('focus', focus, 'chatOpen', chatOpen)
     if (chatOpen) {
       open("top");
     } else {
@@ -23,7 +25,9 @@ export default function ShowModalize() {
     }
   }, [chatOpen])
 
-  
+  useEffect(() => {
+    console.log('focus', focus, 'chatOpen', chatOpen)
+  }, [focus])
   
   return (
     <Modalize
@@ -40,7 +44,7 @@ export default function ShowModalize() {
           <ChatHeader isOpen={chatOpen} callback={() => setChatOpen(current => !current)} />
           </>
         )}
-        FooterComponent={() => <ChatInput />}
+        FooterComponent={() => <ChatInput onFocusCallback={() => setFocus(true)} onBlurCallback={() => setFocus(false)}/>}
         modalHeight={400}
         withOverlay={false}
         modalStyle={styles.rootModalize}
@@ -50,7 +54,7 @@ export default function ShowModalize() {
           data: chatMessages,
           onContentSizeChange: () => {chatRef.current?.scrollToEnd()},
           ListHeaderComponent: <ChatWelcome showName={activeShow.name} username={user.displayName} />,
-          ListFooterComponent: chatOpen ? <></> : <ChatFooter />,
+          ListFooterComponent: (chatOpen == focus) ? <ChatFooter /> : <></>,
           renderItem: ({ item }) => (
             <ChatComment
               imageUri={item.user.avatar}

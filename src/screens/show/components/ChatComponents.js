@@ -27,10 +27,9 @@ export function ChatHeader({ isOpen, callback }) {
   );
 }
 
-export function ChatInput() {
+export function ChatInput({onFocusCallback, onBlurCallback}) {
   const { sendChatMessage } = useContext(MainContext)
   const [text, setText] = useState("");
-  const textInputRef = useRef();
 
   const submitMessage = () => {
     if(text){
@@ -42,7 +41,8 @@ export function ChatInput() {
   return (
     <View style={styles.container}>
       <TextInput
-        ref={textInputRef}
+        onFocus={() => onFocusCallback()}
+        onBlur={() => onBlurCallback()}
         onChangeText={(text) => setText(text)}
         onSubmitEditing={() => {
           submitMessage();
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     marginRight: 20
   },
   footer: {
-    height: 180,
+    height: 175,
     flex: 1
   }
 });
