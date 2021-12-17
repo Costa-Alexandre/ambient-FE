@@ -44,7 +44,7 @@ export default function ShowModalize() {
         withOverlay={false}
         modalStyle={styles.rootModalize}
         onClosed={() => chatRef.current?.scrollToEnd()}
-        onPositionChange={(prop) => prop == 'top' ? setChatOpen(true) : setChatOpen(false)}
+        // onPositionChange={(prop) => prop == 'top' ? setChatOpen(true) : setChatOpen(false)}
         flatListProps={{
           data: chatMessages,
           onContentSizeChange: () => {chatRef.current?.scrollToEnd()},
