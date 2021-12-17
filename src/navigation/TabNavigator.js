@@ -24,6 +24,8 @@ export default function TabNavigator() {
           },
           tabBarShowLabel: false,
           headerShown: false,
+          tabBarActiveBackgroundColor: averageColor ? 'rgba(0, 0, 0, 0.5)' : colorStyles.card,
+          tabBarInactiveBackgroundColor: averageColor ? 'rgba(0, 0, 0, 0.5)' : colorStyles.card,
           tabBarStyle: activeShow._id ? 
           {
             backgroundColor: averageColor ? averageColor : colorStyles.card,

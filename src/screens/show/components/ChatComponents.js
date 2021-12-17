@@ -71,11 +71,9 @@ export function ChatComment({ imageUri, username, payload }) {
 
 export function ChatWelcome({ showName, username }) {
   return (
-    <View style={styles.message}>
-        <Text style={[styles.welcome, composeUsername]}>
-        {`Welcome to ${showName}, ${username}!`}
-        </Text>
-    </View>
+    <Text style={[styles.welcome, composeUsername]}>
+    {`Welcome to '${showName}', ${username}!`}
+    </Text>
   );
 }
 
@@ -146,8 +144,9 @@ const styles = StyleSheet.create({
   },
   welcome: {
     flex: 1,
-    textAlign: 'center',
-    marginRight: 20
+    textAlign: 'left',
+    paddingLeft: 16,
+    paddingTop: 16
   },
   footer: {
     height: 175,
