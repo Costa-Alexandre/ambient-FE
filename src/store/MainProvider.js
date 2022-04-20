@@ -34,8 +34,14 @@ const initialValues = {
   spotifyData: null,
   activeShow: {
     _id: "",
+    creator_id: "",
     name: "",
     description: "",
+    type: "",
+    date_created: "",
+    date_scheduled: "",
+    date_ended: "",
+    participants_id: [],
     averageColor: "",
   },
   activeTrack: {
