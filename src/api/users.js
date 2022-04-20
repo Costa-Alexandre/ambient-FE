@@ -3,7 +3,7 @@ import { serverBaseUrl } from "./config"
 
 export const userIsSignedUp = async (username) => {
     try {
-        const response = await fetch(`${serverBaseUrl}/api/user/${username}`)
+        const response = await fetch(`${serverBaseUrl}/api/users/${username}`)
         const userData = await response.json()
         return userData !== null
     } catch (error) {
@@ -21,7 +21,7 @@ export const signUpUser = async (spotifyData) => {
     }
 
     try {
-        const response = await fetch(`${serverBaseUrl}/api/user`, {
+        const response = await fetch(`${serverBaseUrl}/api/users`, {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -39,7 +39,7 @@ export const signUpUser = async (spotifyData) => {
 
 export const signInUser = async (username) => {
     try {
-        const response = await fetch(`${serverBaseUrl}/api/user/${username}`)
+        const response = await fetch(`${serverBaseUrl}/api/users/${username}`)
         const userData = await response.json()
         if (!userData.avatar) userData.avatar = null
         return userData
