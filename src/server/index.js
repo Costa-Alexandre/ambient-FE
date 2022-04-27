@@ -5,5 +5,5 @@ export const PEER_SERVER_PORT = 443;
 export const PEER_SERVER_PATH = '/';
 // export const SOCKET_SERVER = 'http://10.0.2.2:3000';
 // export const SOCKET_SERVER = 'http://192.168.178.22:3000';
-export const SOCKET_SERVER = 'https://descriptive-maze-result.glitch.me';
-// export const SOCKET_SERVER = serverBaseUrl;
+// export const SOCKET_SERVER = 'https://descriptive-maze-result.glitch.me';
+export const SOCKET_SERVER = serverBaseUrl;
