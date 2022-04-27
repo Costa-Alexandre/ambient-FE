@@ -1,12 +1,12 @@
 import { serverBaseUrl } from './config';
 
 export const userIsSignedUp = async (username) => {
-  console.log(`is signed up: ${username}`);
+  console.log(`Checking if ${username} exists in our database`);
   try {
     const response = await fetch(`${serverBaseUrl}/api/users/${username}`);
     if (response.status !== 200) throw new Error('User not found');
-    console.log(response);
     const userData = await response.json();
+    console.log('User Found!');
     return userData !== null;
   } catch (error) {
     console.log(error);
@@ -15,7 +15,14 @@ export const userIsSignedUp = async (username) => {
 };
 
 export const signUpUser = async (spotifyData) => {
-  console.log(`sign up : ${spotifyData}}`);
+  console.log(`
+  Signing up new user:
+  ...............................................
+  Username: ${spotifyData.id}
+  Display Name: ${spotifyData.display_name}
+  Email: ${spotifyData.email}
+  Avatar: ${spotifyData.images[0].url}
+  `);
   const signUpData = {
     displayName: spotifyData.display_name,
     username: spotifyData.id,
@@ -40,13 +47,18 @@ export const signUpUser = async (spotifyData) => {
 };
 
 export const signInUser = async (username) => {
-  console.log(`sign in: ${username}`);
+  console.log(`Signing in: ${username}`);
   try {
     const response = await fetch(`${serverBaseUrl}/api/users/${username}`);
+    if (response.status !== 200) throw new Error('User not found');
     const userData = await response.json();
     if (!userData.avatar) userData.avatar = null;
+    console.log(
+      `User signed in! ${userData.username} as ${userData.displayName}`,
+    );
     return userData;
   } catch (error) {
     console.log(error);
+    return false;
   }
 };

@@ -34,33 +34,48 @@ export default function Login({ navigation }) {
 
   const getWasSignedIn = async () => {
     try {
+      console.log(
+        '\n',
+        '\n',
+        '\t',
+        '\t',
+        '\t',
+        '\t',
+        '\t',
+        'WELCOME TO AMBIENT!',
+      );
+      console.log('.........................');
+      console.log('Trying to auto sign in:');
       wasSignedIn = await AsyncStorage.getItem('was_signed_in');
-      console.log('wasSignedIn', wasSignedIn);
       if (wasSignedIn) wasSignedIn = JSON.parse(wasSignedIn);
+      return wasSignedIn;
     } catch (e) {
       console.log(e);
+      console.log('User was not signed in!');
+      return false;
     }
-    return wasSignedIn;
   };
 
   const signIn = async () => {
     try {
+      console.log('Authorizing with Spotify...');
       const session = await SpotifyAuth.authorize(spotifyConfig);
+      console.log('Authorized!');
+      console.log('Connecting to Spotify with access token...');
       await SpotifyRemote.connect(session.accessToken);
-
+      console.log('Connected!');
+      console.log('Getting user data from Spotify...');
       const spotifyData = await spotifyGetMe();
-      console.log('spotifyData', spotifyData);
+      console.log(`Got it! id: ${spotifyData.id}`);
       setSpotifyData(spotifyData);
       const username = spotifyData.id;
 
       const isSignedUp = await userIsSignedUp(username);
-      console.log('isSignedUp', isSignedUp);
 
       let userData = null;
       if (isSignedUp) {
         userData = await signInUser(username);
       } else {
-        console.log('sign up');
         userData = await signUpUser(spotifyData);
       }
       setUser(userData);
@@ -91,6 +106,7 @@ export default function Login({ navigation }) {
           signIn();
         } else {
           setAwaitingAutoSignIn(false);
+          console.log('User was not signed in!');
         }
       });
     }
