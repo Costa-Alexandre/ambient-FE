@@ -1,127 +1,121 @@
-import React, { useContext, useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useContext, useState, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   auth as SpotifyAuth,
   remote as SpotifyRemote,
-} from "react-native-spotify-remote";
+} from 'react-native-spotify-remote';
 
-import { CustomButton } from "ui";
-import { spotifyGetMe } from "api/spotify";
-import { signInUser, signUpUser, userIsSignedUp } from "api/users";
-import { spotifyConfig } from "api/config";
-import { MainContext } from "store/MainProvider";
-import LoadingFullScreen from "./components/LoadingFullScreen";
-import BubbleBackground from "./components/BubbleBackground";
-import LoginLogo from "./components/LoginLogo";
+import { CustomButton } from 'ui';
+import { spotifyGetMe } from 'api/spotify';
+import { signInUser, signUpUser, userIsSignedUp } from 'api/users';
+import { spotifyConfig } from 'api/config';
+import { MainContext } from 'store/MainProvider';
+import LoadingFullScreen from './components/LoadingFullScreen';
+import BubbleBackground from './components/BubbleBackground';
+import LoginLogo from './components/LoginLogo';
 
 export default function Login({ navigation }) {
+  const [awaitingAutoSignIn, setAwaitingAutoSignIn] = useState(true);
+  const [awaitingSignIn, setAwaitingSignIn] = useState(false);
 
-  const [awaitingAutoSignIn, setAwaitingAutoSignIn] = useState(true)
-  const [awaitingSignIn, setAwaitingSignIn] = useState(false)
-
-  const { 
-    setUser,
-    setSpotifyData,
-  } = useContext(MainContext);
-
+  const { setUser, setSpotifyData } = useContext(MainContext);
 
   const setWasSignedIn = async (value) => {
-    let wasSignedIn = false
+    let wasSignedIn = false;
     try {
-      await AsyncStorage.setItem('was_signed_in', JSON.stringify(value))
-    } catch(e) {
-      console.log(e)
+      await AsyncStorage.setItem('was_signed_in', JSON.stringify(value));
+    } catch (e) {
+      console.log(e);
     }
-    return wasSignedIn
-  }
+    return wasSignedIn;
+  };
 
   const getWasSignedIn = async () => {
-    // return false
-    // let wasSignedIn = false
     try {
-      wasSignedIn = await AsyncStorage.getItem('was_signed_in')
-      if (wasSignedIn) wasSignedIn = JSON.parse(wasSignedIn)
-    } catch(e) {
-      console.log(e)
+      wasSignedIn = await AsyncStorage.getItem('was_signed_in');
+      console.log('wasSignedIn', wasSignedIn);
+      if (wasSignedIn) wasSignedIn = JSON.parse(wasSignedIn);
+    } catch (e) {
+      console.log(e);
     }
-    return wasSignedIn
-  }
-
+    return wasSignedIn;
+  };
 
   const signIn = async () => {
     try {
-      const session = await SpotifyAuth.authorize(spotifyConfig)
-      await SpotifyRemote.connect(session.accessToken)
+      const session = await SpotifyAuth.authorize(spotifyConfig);
+      await SpotifyRemote.connect(session.accessToken);
 
-      const spotifyData = await spotifyGetMe()
-      setSpotifyData(spotifyData)
-      const username = spotifyData.id
+      const spotifyData = await spotifyGetMe();
+      console.log('spotifyData', spotifyData);
+      setSpotifyData(spotifyData);
+      const username = spotifyData.id;
 
-      const isSignedUp = await userIsSignedUp(username)
+      const isSignedUp = await userIsSignedUp(username);
+      console.log('isSignedUp', isSignedUp);
 
       let userData = null;
       if (isSignedUp) {
-        userData = await signInUser(username)
+        userData = await signInUser(username);
       } else {
-        userData = await signUpUser(spotifyData)
+        console.log('sign up');
+        userData = await signUpUser(spotifyData);
       }
       setUser(userData);
 
-      await setWasSignedIn(true)
-      navigation.navigate("Home")
+      await setWasSignedIn(true);
+      navigation.navigate('Home');
     } catch (error) {
-      setAwaitingAutoSignIn(false)
-      setAwaitingSignIn(false)
-      console.log(error)
+      setAwaitingAutoSignIn(false);
+      setAwaitingSignIn(false);
+      console.log(error);
     }
-  }
-
-
-  const signInPressed = async (e) => {
-    setAwaitingSignIn(true)
   };
 
+  const signInPressed = async (e) => {
+    setAwaitingSignIn(true);
+  };
 
   useEffect(() => {
     if (awaitingSignIn) {
-      signIn()
+      signIn();
     }
-  }, [awaitingSignIn])
-
+  }, [awaitingSignIn]);
 
   useEffect(() => {
     if (awaitingAutoSignIn) {
-      getWasSignedIn()
-      .then(wasSignedIn => {
+      getWasSignedIn().then((wasSignedIn) => {
         if (wasSignedIn) {
-          signIn()
+          signIn();
         } else {
-          setAwaitingAutoSignIn(false)
+          setAwaitingAutoSignIn(false);
         }
-      })
+      });
     }
-  }, [awaitingAutoSignIn])
-
+  }, [awaitingAutoSignIn]);
 
   return (
-    <View style={styles.container}>          
-      {awaitingAutoSignIn ? <LoadingFullScreen/> :
+    <View style={styles.container}>
+      {awaitingAutoSignIn ? (
+        <LoadingFullScreen />
+      ) : (
         <View style={styles.contentContainer}>
-          <BubbleBackground/>
-          <LoginLogo/>
+          <BubbleBackground />
+          <LoginLogo />
 
           <View style={styles.buttonContainer}>
             <CustomButton
-              title={awaitingSignIn ? "loading" : "Continue with Spotify"}
+              title={awaitingSignIn ? 'loading' : 'Continue with Spotify'}
               color="accent"
               size="loginButton"
               loading={awaitingSignIn}
               callback={signInPressed}
             />
           </View>
-        </View>}
+        </View>
+      )}
     </View>
   );
 }
@@ -129,9 +123,9 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   contentContainer: {
     marginBottom: 100,
@@ -141,6 +135,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     height: 44,
-    marginHorizontal: 20
-  }
+    marginHorizontal: 20,
+  },
 });

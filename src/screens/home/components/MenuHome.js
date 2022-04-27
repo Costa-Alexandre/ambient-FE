@@ -3,17 +3,23 @@ import { StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { CustomButton, UserPicture } from 'ui';
 
-
-export default function MenuHome({ user, size=40, callback=null }) {
-
+export default function MenuHome({ user, size = 40, callback = null }) {
   return (
-    <LinearGradient colors={['rgba(0,0,0,1)', 'rgba(0,0,0,0)']} style={styles.container}>
+    <LinearGradient
+      colors={['rgba(0,0,0,1)', 'rgba(0,0,0,0)']}
+      style={styles.container}
+    >
       <>
-        <UserPicture uri={user.avatar} size={size} name={user.displayName[0]} />
+        <UserPicture uri={user.avatar} size={size} name={user.displayName} />
       </>
       <View style={styles.buttons}>
-        <CustomButton icon='live' color='accent' size='rectangleSmall' callback={callback} />
-        <CustomButton icon='calendar' color='buttonSolid' size='squareSmall' />
+        <CustomButton
+          icon="live"
+          color="accent"
+          size="rectangleSmall"
+          callback={callback}
+        />
+        <CustomButton icon="calendar" color="buttonSolid" size="squareSmall" />
       </View>
     </LinearGradient>
   );
