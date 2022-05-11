@@ -6,23 +6,28 @@ The backend overview and installation will not be covered here, but you can read
 
 # Prerequisites
 
-To follow this guide, developers should be familiar with basic terminal commands for installing, configuring and running packages in your machine. The app is compatible only with Android OS, though you won't need a physical device to run it.
+To follow this guide, readers should be familiar with:
+
+- basic terminal commands (installing, configuring and running packages)
+- cloning or downloading a repository on GitHub
+
+The app is compatible only with Android OS, however you won't need a physical device to run it.
 
 # Quick Overview
 
 ![Diagram of ambient](/docs/ambient_architeture.jpg?raw=true)
 
-1. User Interface (UI) with [React Native](https://reactnative.dev/) for Android
+1. User Interface (UI) with [React](https://reactjs.org/) and [React Native](https://reactnative.dev/) for Android
 2. Authentication and Playback Sync with [Spotify Web API](https://developer.spotify.com/documentation/web-api/)
 3. Requests with a [RESTful API](https://restfulapi.net/)
 4. Instant Messaging (IM) and [WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API) with [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 
 # Requirements
 
-- [Node](https://nodejs.org) `14.0` or newer
 - [Android Studio](https://developer.android.com/studio/index.html)
 - [OpenJDK](https://openjdk.java.net/) `11.0` or newer
-- [Watchman](https://facebook.github.io/watchman/) for macOS only
+- [Node](https://nodejs.org) `14.0` or newer
+- [Watchman](https://facebook.github.io/watchman/) for macOS/Linux only
 - Windows, MacOs or Linux
 - [Android Virtual Device (AVD)](https://source.android.com/setup/create/avd) or a physical device with Android
 
@@ -39,10 +44,78 @@ See [Getting Started](#) to install requirement tools.
 
 # Getting Started
 
-The app runs on Android, therefore you will need either a physical Android device or, more commonly, an Android Virtual Device (AVD).
+## Setting up the development environment
 
-### Setting up the development environment
+Follow the instructions for [Installing dependencies](https://reactnative.dev/docs/environment-setup) to the development environment for React Native.
 
-### Cloning the repository
+Make sure to select:
 
-###
+- **React Native CLI Quickstart**
+- **Development OS**: Your OS
+- **Target OS**: Android
+
+By the end of this step, you should have installed:
+
+- [x] Node
+- [x] Java SE Development Kit (JDK)
+- [x] Android Studio
+- [x] Android SDK
+- [] Watchman (MacOS/Linux only)
+
+Also, follow the instructions to set and verify that the environment variables for the Android SDK are set correctly.
+
+## Preparing the Android device
+
+- Physical Device:
+  1. Plug it in to your computer using a USB cable
+  1. Folow the instructions [here](https://reactnative.dev/docs/running-on-device)
+- Virtual Device:
+  1. Open "AVD Manager" from within Android Studio
+  1. If you have an existing AVD, you can skip to step 4
+  1. Create a new AVD:
+     1. Select "Create Virtual Device"
+     1. Pick any phone from the list and click "Next"
+     1. Select R API Level 30 image and click "Next"
+     1. Click "Finish"
+  1. Launch the AVD by clicking the green triangle button
+
+## Cloning this repository
+
+In a Terminal, navigate to the folder where you want to install the app and run:
+
+```bash
+git clone https://github.com/Costa-Alexandre/ambient-FE.git
+cd ambient-FE
+```
+
+## Installing dependencies
+
+ambient uses [Yarn](https://classic.yarnpkg.com/) for dependency management. You can verify if you have it installed by running:
+
+```bash
+yarn --version
+```
+
+If you don't have Yarn, follow [these instructions](https://classic.yarnpkg.com/en/docs/install) for installing.
+
+Once installed, make sure you are in `/ambient-FE` path and run:
+
+```bash
+yarn install
+```
+
+## Running the app
+
+1. Start Metro
+
+To start Metro, run:
+
+```bash
+yarn start
+```
+
+2. Start the application
+
+```bash
+yarn android
+```
