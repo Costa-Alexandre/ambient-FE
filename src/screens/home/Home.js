@@ -1,11 +1,19 @@
-import React, { useContext, useState, useEffect } from "react";
-import { View, StyleSheet, FlatList, Text, ToastAndroid, RefreshControl, BackHandler } from "react-native";
-import { Portal } from "react-native-portalize";
-import { MenuHome, LiveShow, CreateShowModalize, HomeSong } from "./components";
-import { MainContext } from "store/MainProvider";
-import { getShows } from "api/shows";
-import { fontStyles, colorStyles } from "styles";
-import LinearGradient from "react-native-linear-gradient";
+import React, { useContext, useState, useEffect } from 'react';
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Text,
+  ToastAndroid,
+  RefreshControl,
+  BackHandler,
+} from 'react-native';
+import { Portal } from 'react-native-portalize';
+import { MenuHome, LiveShow, CreateShowModalize, HomeSong } from './components';
+import { MainContext } from 'store/MainProvider';
+import { getShows } from 'api/shows';
+import { fontStyles, colorStyles } from 'styles';
+import LinearGradient from 'react-native-linear-gradient';
 import Logomark from 'assets/icons/Logomark';
 
 export default function Home({ navigation }) {
@@ -16,63 +24,71 @@ export default function Home({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', function() {return true})
-  }, [])
+    BackHandler.addEventListener('hardwareBackPress', function () {
+      return true;
+    });
+  }, []);
 
   useEffect(() => {
     if (refreshing) {
       getShows()
         .then((res) => {
-          setliveShows(res)
-          setRefreshing(false)
+          setliveShows(res);
+          setRefreshing(false);
         })
         .catch((err) => {
-          console.log(err)
-          setRefreshing(false)
+          console.log(err);
+          setRefreshing(false);
         });
     }
-  }, [refreshing])
+  }, [refreshing]);
 
   const updateShows = async () => {
-    setRefreshing(true)
-  }
-
+    setRefreshing(true);
+  };
 
   const onRefresh = () => {
-    updateShows()
+    updateShows();
   };
 
   useEffect(() => {
-    updateShows()
+    updateShows();
   }, [activeShow]);
 
-
   const openModal = () => {
-    setModal((<CreateShowModalize openModal={true} onClose={closeModal} callback={(newShow) => navigation.navigate('Show', newShow)} />));
-  }
+    setModal(
+      <CreateShowModalize
+        openModal={true}
+        onClose={closeModal}
+        callback={(newShow) => navigation.navigate('Show', newShow)}
+      />,
+    );
+  };
 
   const startShow = () => {
-    if (["dashpig", "zymmac"].includes(user.username)) {
-      openModal()
-    } else {
-      ToastAndroid.show("This option is disabled for this demo", ToastAndroid.SHORT);
-    }
-  }
+    openModal();
+  };
 
   const closeModal = () => {
     setModal(null);
-  }
+  };
 
   const emptyShowList = () => {
     return (
       <View style={styles.noShowsContainer}>
-        <View style={{ width:150, height:150, marginBottom: 20, opacity: 0.5 }}>
+        <View
+          style={{ width: 150, height: 150, marginBottom: 20, opacity: 0.5 }}
+        >
           <Logomark />
         </View>
-        <Text style={[fontStyles.subtitle, { color: colorStyles.textSecondary }]}>No active shows right now</Text>
+        <Text
+          style={[fontStyles.subtitle, { color: colorStyles.textSecondary }]}
+        >
+          No active shows right now
+        </Text>
       </View>
-    )
-  }
+    );
+  };
 
   useEffect(() => {
     checkPermissions();
@@ -81,50 +97,51 @@ export default function Home({ navigation }) {
   return (
     <>
       <View style={styles.container}>
-        
         <View style={styles.liveShow}>
           <FlatList
             data={liveShows}
             refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
             keyExtractor={(item) => item._id}
             ListEmptyComponent={emptyShowList()}
             renderItem={({ item, index }) => (
-              <View style={index == 0 ? [styles.liveShowItem, {marginTop: 72}] : styles.liveShowItem}>
+              <View
+                style={
+                  index == 0
+                    ? [styles.liveShowItem, { marginTop: 72 }]
+                    : styles.liveShowItem
+                }
+              >
                 <LiveShow
                   showId={item._id}
                   showName={item.name}
                   showDescription={item.description}
                   amountSpeakers={0}
                   amountListeners={0}
-                  imageUri={""}
-                  listenCallback={() => navigation.navigate("Show", item)}
+                  imageUri={''}
+                  listenCallback={() => navigation.navigate('Show', item)}
                 />
               </View>
             )}
           />
         </View>
 
-        <MenuHome 
-          user={user} 
-          callback={startShow}
-        />
+        <MenuHome user={user} callback={startShow} />
 
-        <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']} style={styles.linearGradientBottom}></LinearGradient>
-        
-        {activeShow._id !== "" ? <HomeSong
-          callback={() => navigation.navigate("Show", activeShow)}
-        /> : <View style={{ height: 50 }} />}
+        <LinearGradient
+          colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
+          style={styles.linearGradientBottom}
+        ></LinearGradient>
 
+        {activeShow._id !== '' ? (
+          <HomeSong callback={() => navigation.navigate('Show', activeShow)} />
+        ) : (
+          <View style={{ height: 50 }} />
+        )}
       </View>
 
-      <Portal>
-        {modal}
-      </Portal>
+      <Portal>{modal}</Portal>
     </>
   );
 }
@@ -132,7 +149,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000",
+    backgroundColor: '#000',
   },
   stories: {
     marginVertical: 16,
@@ -149,12 +166,12 @@ const styles = StyleSheet.create({
     marginTop: 100,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   linearGradientBottom: {
     position: 'absolute',
     bottom: -48,
     height: 172,
     width: '100%',
-  }
+  },
 });

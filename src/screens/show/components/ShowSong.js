@@ -1,19 +1,16 @@
-import React, {useContext, useEffect, useState} from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ImageBackground,
-} from "react-native";
-import { CustomButton, PlayingSong } from "ui";
-import { colorStyles, fontStyles } from "styles";
-import { MainContext, DEMO_HOSTS } from "store/MainProvider";
+import React, { useContext, useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
+import { CustomButton, PlayingSong } from 'ui';
+import { colorStyles, fontStyles } from 'styles';
+import { MainContext } from 'store/MainProvider';
 
-export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
-
+export default function ShowSong({
+  callback = null,
+  onPause = null,
+  onPlay = null,
+}) {
   const { trackPaused, activeTrack, user } = useContext(MainContext);
-  
+
   const noMusic = () => {
     return (
       <View style={styles.noMusicContainer}>
@@ -23,16 +20,15 @@ export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
         >
           Tap to sync music
         </Text>
-        <CustomButton icon="spotify" size={40} callback={()=>{}} />
+        <CustomButton icon="spotify" size={40} callback={() => {}} />
       </View>
-    )
+    );
   };
-  
 
   const playMusic = () => {
     return (
       <ImageBackground
-        style={[styles.image, { backgroundColor: "rgba(0, 0, 0, 0.5)" }]}
+        style={[styles.image, { backgroundColor: 'rgba(0, 0, 0, 0.5)' }]}
         source={activeTrack.imageUri}
         imageStyle={{ opacity: 0.2 }}
       >
@@ -52,26 +48,38 @@ export default function ShowSong({ callback=null, onPause=null, onPlay=null }) {
               {activeTrack.artists}
             </Text>
           </View>
-          {DEMO_HOSTS.includes(user.username) && <View style={{marginLeft: 20}}>
-            {!trackPaused && <CustomButton icon="pause" size={40} callback={() => {
-              onPause();
-            }} />}
-            {trackPaused && <CustomButton icon="play" size={40} callback={() => {
-              onPlay();
-            }} />}
-          </View>}
-            {DEMO_HOSTS.includes(user.username) && <View style={{marginLeft: 20}}>
-              <CustomButton icon="spotify" size={40} callback={()=>{}} />
-            </View>}
+          <View style={{ marginLeft: 20 }}>
+            {!trackPaused && (
+              <CustomButton
+                icon="pause"
+                size={40}
+                callback={() => {
+                  onPause();
+                }}
+              />
+            )}
+            {trackPaused && (
+              <CustomButton
+                icon="play"
+                size={40}
+                callback={() => {
+                  onPlay();
+                }}
+              />
+            )}
+          </View>
+          <View style={{ marginLeft: 20 }}>
+            <CustomButton icon="spotify" size={40} callback={() => {}} />
+          </View>
         </View>
       </ImageBackground>
     );
   };
 
   return (
-    <PlayingSong callback={callback} >
-      {activeTrack.uri !== "" && playMusic()}
-      {activeTrack.uri == "" && noMusic()}
+    <PlayingSong callback={callback}>
+      {activeTrack.uri !== '' && playMusic()}
+      {activeTrack.uri == '' && noMusic()}
     </PlayingSong>
   );
 }
@@ -94,9 +102,9 @@ const styles = StyleSheet.create({
     color: colorStyles.textSecondary,
   },
   noMusicContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     padding: 20,
   },
   noMusicText: {
@@ -104,20 +112,18 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    alignItems: "center",
-    flexDirection: "row",
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   iconContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   playContainer: {
     flex: 1,
     padding: 8,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
-
-
