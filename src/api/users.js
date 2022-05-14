@@ -1,9 +1,19 @@
 import { serverBaseUrl } from './config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const userIsSignedUp = async (username) => {
   console.log(`Checking if ${username} exists in our database`);
+
   try {
-    const response = await fetch(`${serverBaseUrl}/api/users/${username}`);
+    const tk = await AsyncStorage.getItem('internalToken');
+    token = await JSON.parse(tk);
+    const response = await fetch(`${serverBaseUrl}/api/users/${username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
     if (response.status !== 200) throw new Error('User not found');
     const userData = await response.json();
     console.log('User Found!');
@@ -31,9 +41,12 @@ export const signUpUser = async (spotifyData) => {
   };
 
   try {
+    const tk = await AsyncStorage.getItem('internalToken');
+    const token = await JSON.parse(tk);
     const response = await fetch(`${serverBaseUrl}/api/users`, {
       method: 'POST',
       headers: {
+        Authorization: `Bearer ${token}`,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
@@ -49,7 +62,15 @@ export const signUpUser = async (spotifyData) => {
 export const signInUser = async (username) => {
   console.log(`Signing in: ${username}`);
   try {
-    const response = await fetch(`${serverBaseUrl}/api/users/${username}`);
+    const tk = await AsyncStorage.getItem('internalToken');
+    const token = await JSON.parse(tk);
+    const response = await fetch(`${serverBaseUrl}/api/users/${username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
     if (response.status !== 200) throw new Error('User not found');
     const userData = await response.json();
     if (!userData.avatar) userData.avatar = null;
