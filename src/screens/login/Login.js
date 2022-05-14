@@ -11,6 +11,7 @@ import { CustomButton } from 'ui';
 import { spotifyGetMe } from 'api/spotify';
 import { signInUser, signUpUser, userIsSignedUp } from 'api/users';
 import { spotifyConfig } from 'api/config';
+import { getInternalToken } from 'api/auth';
 import { MainContext } from 'store/MainProvider';
 import LoadingFullScreen from './components/LoadingFullScreen';
 import BubbleBackground from './components/BubbleBackground';
@@ -65,9 +66,18 @@ export default function Login({ navigation }) {
       await SpotifyRemote.connect(session.accessToken);
       console.log('Connected!');
       console.log('Getting user data from Spotify...');
-      const spotifyData = await spotifyGetMe();
-      console.log(`Got it! id: ${spotifyData.id}`);
+      const spotifyData = await spotifyGetMe(session.accessToken);
+      console.log(
+        `Got it! id: ${spotifyData.id}, token: ${session.accessToken}`,
+      );
       setSpotifyData(spotifyData);
+      const internalToken = await getInternalToken(session.accessToken);
+      console.log(`Got it! Internal token: ${internalToken}`);
+      await AsyncStorage.setItem(
+        'internalToken',
+        JSON.stringify(internalToken),
+      );
+      console.log('Saving internal token to AsyncStorage...');
       const username = spotifyData.id;
 
       const isSignedUp = await userIsSignedUp(username);
