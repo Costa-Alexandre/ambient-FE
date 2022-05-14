@@ -14,8 +14,6 @@ import {
 } from 'server';
 import Peer from 'react-native-peerjs';
 
-export const DEMO_HOSTS = ['zymmac'];
-
 export const socket = socketio.connect(SOCKET_SERVER, {
   reconnection: true,
   autoConnect: true,
@@ -264,7 +262,7 @@ const MainContextProvider = ({ children }) => {
     });
 
     // give the user the current playback state if you're in control of the music
-    if (DEMO_HOSTS.includes(user.username)) {
+    if (true) {
       SpotifyRemote.getPlayerState()
         .then((playerState) => {
           socket.emit('playback-initial-sync', {
@@ -360,7 +358,7 @@ const MainContextProvider = ({ children }) => {
   };
 
   const updatePlayback = async (playerState = null) => {
-    if (DEMO_HOSTS.includes(user.username) && activeShow._id) {
+    if (true && activeShow._id) {
       try {
         // get current player state if not given from update
         if (playerState === null) {
