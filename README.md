@@ -15,12 +15,12 @@ The app is compatible only with Android OS, however you won't need a physical de
 
 # Quick Overview
 
-![Diagram of ambient](/docs/ambient_architeture.jpg?raw=true)
-
 1. User Interface (UI) with [React](https://reactjs.org/) and [React Native](https://reactnative.dev/) for Android
 2. Authentication and Playback Sync with [Spotify Web API](https://developer.spotify.com/documentation/web-api/)
 3. Requests with a [RESTful API](https://restfulapi.net/)
 4. Instant Messaging (IM) and [WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API) with [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+
+![Diagram of ambient](/docs/ambient_architeture.jpg?raw=true)
 
 # Requirements
 
@@ -31,7 +31,7 @@ The app is compatible only with Android OS, however you won't need a physical de
 - Windows, MacOs or Linux
 - [Android Virtual Device (AVD)](https://source.android.com/setup/create/avd) or a physical device with Android
 
-See [Getting Started](#) to install requirement tools.
+See [Getting Started](#getting-started) to install requirement tools.
 
 # Stack
 
@@ -46,7 +46,7 @@ See [Getting Started](#) to install requirement tools.
 
 ## Setting up the development environment
 
-Follow the instructions for [Installing dependencies](https://reactnative.dev/docs/environment-setup) to the development environment for React Native.
+Follow the instructions for [installing dependencies](https://reactnative.dev/docs/environment-setup) to the development environment for React Native.
 
 Make sure to select:
 
@@ -60,23 +60,31 @@ By the end of this step, you should have installed:
 - [x] Java SE Development Kit (JDK)
 - [x] Android Studio
 - [x] Android SDK
-- [] Watchman (MacOS/Linux only)
+- [ ] Watchman (MacOS/Linux only)
 
-Also, follow the instructions to set and verify that the environment variables for the Android SDK are set correctly.
+Also, follow the instructions in the link above to verify that the environment variables for the Android SDK are set correctly.
 
 ## Preparing the Android device
+
+To run the app, you will either need to have a physical device with Android OS and a compatible USB cable, or you will have to create a virtual device:
 
 - Physical Device:
   1. Plug it in to your computer using a USB cable
   1. Folow the instructions [here](https://reactnative.dev/docs/running-on-device)
 - Virtual Device:
+
   1. Open "AVD Manager" from within Android Studio
   1. If you have an existing AVD, you can skip to step 4
   1. Create a new AVD:
-     1. Select "Create Virtual Device"
-     1. Pick any phone from the list and click "Next"
-     1. Select R API Level 30 image and click "Next"
-     1. Click "Finish"
+
+     i. Select "Create Virtual Device"
+
+     ii. Pick any phone from the list and click "Next"
+
+     iii. Select R API Level 30 image and click "Next"
+
+     iv. Click "Finish"
+
   1. Launch the AVD by clicking the green triangle button
 
 ## Cloning this repository
@@ -116,6 +124,17 @@ yarn start
 
 2. Start the application
 
+Let Metro Bundler run in its own terminal. Open a new terminal inside ambient project folder.
+
+Run:
+
 ```bash
 yarn android
 ```
+
+3. Get a coffee ☕ (or take a short break)
+
+The previous command might take several minutes.
+If everything is set up correctly, you should see ambient initial screen running in your Android emulator after the build is finished:
+
+<img src="./docs/initial_screen.png?raw=true" width="300">
