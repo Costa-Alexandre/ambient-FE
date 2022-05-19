@@ -20,7 +20,9 @@ The app is compatible only with Android OS, however you won't need a physical de
 3. Requests with a [RESTful API](https://restfulapi.net/)
 4. Instant Messaging (IM) and [WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API) with [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 
-![Diagram of ambient](/docs/ambient_architeture.jpg?raw=true)
+<p align="center">
+  <img src="./docs/ambient_architeture.jpg?raw=true" width="90%">
+</p>
 
 # Requirements
 
@@ -74,16 +76,13 @@ To run the app, you will either need to have a physical device with Android OS a
 - Virtual Device:
 
   1. Open "AVD Manager" from within Android Studio
-  1. If you have an existing AVD, you can skip to step 4
+  1. If you have an existing AVD, you can skip to step iv
   1. Create a new AVD:
 
-     i. Select "Create Virtual Device"
-
-     ii. Pick any phone from the list and click "Next"
-
-     iii. Select R API Level 30 image and click "Next"
-
-     iv. Click "Finish"
+     1. Select "Create Virtual Device"
+     1. Pick any phone from the list and click "Next"
+     1. Select R API Level 30 image and click "Next"
+     1. Click "Finish"
 
   1. Launch the AVD by clicking the green triangle button
 
@@ -114,9 +113,9 @@ yarn install
 
 ## Running the app
 
-1. Start Metro
+1. Start Metro Bundler
 
-To start Metro, run:
+Run:
 
 ```bash
 yarn start
@@ -137,4 +136,6 @@ yarn android
 The previous command might take several minutes.
 If everything is set up correctly, you should see ambient initial screen running in your Android emulator after the build is finished:
 
-<img src="./docs/initial_screen.png?raw=true" width="300">
+<p align="center">
+  <img src="./docs/initial_screen.png?raw=true" width="300">
+</p>
