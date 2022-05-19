@@ -137,5 +137,5 @@ The previous command might take several minutes.
 If everything is set up correctly, you should see ambient initial screen running in your Android emulator after the build is finished:
 
 <p align="center">
-  <img src="./docs/initial_screen.png?raw=true" width="300">
+  <img src="./docs/animated_initial_screen.gif?raw=true" width="300">
 </p>
