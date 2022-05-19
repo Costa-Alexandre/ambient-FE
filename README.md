@@ -1,15 +1,17 @@
 # ambient frontend
 
-**ambient** is a social listening experience app, where artists and other content creators can reach and interact with the audience. This documentation is written for developers to understand the ambient frontend app. It will also give a step-by-step guide to install and run it locally.
+**ambient** is a social listening experience app, where artists and other content creators can reach and interact with the audience. This documentation is written for developers who want to understand how the ambient frontend app work. It will also give a step-by-step guide to install and run it locally.
 
-The backend overview will not be covered here, but you can read about it at [ambient-BE](#).
+The backend overview and installation will not be covered here, but you can read about it at [ambient-BE](#).
 
 # Prerequisites
 
 To follow this guide, readers should be familiar with:
 
-- basic terminal commands
-- cloning a repository on GitHub
+- basic terminal commands (installing, configuring and running packages)
+- cloning or downloading a repository on GitHub
+
+The app is compatible only with Android OS, however you won't need a physical device to run it.
 
 # Quick Overview
 
@@ -18,7 +20,9 @@ To follow this guide, readers should be familiar with:
 3. Requests with a [RESTful API](https://restfulapi.net/)
 4. Instant Messaging (IM) and [WebRTC](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API) with [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 
-<img src="./docs/ambient_architeture.jpg?raw=true" width="90%">
+<p align="center">
+  <img src="./docs/ambient_architeture.jpg?raw=true" width="90%">
+</p>
 
 # Requirements
 
@@ -29,9 +33,20 @@ To follow this guide, readers should be familiar with:
 - Windows, MacOs or Linux
 - [Android Virtual Device (AVD)](https://source.android.com/setup/create/avd) or a physical device with Android
 
+See [Getting Started](#getting-started) to install requirement tools.
+
+# Stack
+
+- [React JS](https://reactjs.org/) `16.13.1` JavaScript library for UI
+- [React Native](http://reactnative.dev/) `0.63.4` for building native apps using React
+- [Expo](https://docs.expo.dev/versions/latest/) `42.0.1` provides tools to use in "vanilla" React Native app ("bare workflow")
+- [Babel](https://babeljs.io/) `7.9.0` for ES6+ support
+- [Socket.io](https://socket.io/) `4.3.2` bidirectional and low-latency communication
+- [PeerJs](https://peerjs.com/) `1.1.0` library that simplifies WebRTC peer-to-peer data and audio calls
+
 # Getting Started
 
-## Setting up
+## Setting up the development environment
 
 Follow the instructions for [installing dependencies](https://reactnative.dev/docs/environment-setup) to the development environment for React Native.
 
@@ -43,38 +58,33 @@ Make sure to select:
 
 By the end of this step, you should have installed:
 
-- Node
-- Java SE Development Kit (JDK)
-- Android Studio
-- Android SDK
-- Watchman (MacOS/Linux only)
+- [x] Node
+- [x] Java SE Development Kit (JDK)
+- [x] Android Studio
+- [x] Android SDK
+- [ ] Watchman (MacOS/Linux only)
 
-Also, verify that the environment variables for the Android SDK are set correctly.
+Also, follow the instructions in the link above to verify that the environment variables for the Android SDK are set correctly.
 
 ## Preparing the Android device
 
-To run the app, you will either need:
+To run the app, you will either need to have a physical device with Android OS and a compatible USB cable, or you will have to create a virtual device:
 
-- a physical device with Android and a compatible USB cable, or;
-- an Android virtual device (AVD):
+- Physical Device:
+  1. Plug it in to your computer using a USB cable
+  1. Folow the instructions [here](https://reactnative.dev/docs/running-on-device)
+- Virtual Device:
 
-### Physical Device:
+  1. Open "AVD Manager" from within Android Studio
+  1. If you have an existing AVD, you can skip to step iv
+  1. Create a new AVD:
 
-1. Plug it in to your computer using a USB cable
-1. Folow the instructions [here](https://reactnative.dev/docs/running-on-device)
+     1. Select "Create Virtual Device"
+     1. Pick any phone from the list and click "Next"
+     1. Select R API Level 30 image and click "Next"
+     1. Click "Finish"
 
-### AVD:
-
-1. Open "AVD Manager" from within Android Studio
-1. If you have an existing AVD, you can skip to step iv
-1. Create a new AVD:
-
-   1. Select "Create Virtual Device"
-   1. Pick any phone from the list and click "Next"
-   1. Select R API Level 30 image and click "Next"
-   1. Click "Finish"
-
-1. Launch the AVD by clicking the green triangle button
+  1. Launch the AVD by clicking the green triangle button
 
 ## Cloning this repository
 
@@ -87,7 +97,7 @@ cd ambient-FE
 
 ## Installing dependencies
 
-ambient uses [Yarn](https://classic.yarnpkg.com/) for dependency management. Verify it is installed by running:
+ambient uses [Yarn](https://classic.yarnpkg.com/) for dependency management. You can verify if you have it installed by running:
 
 ```bash
 yarn --version
@@ -121,9 +131,11 @@ Run:
 yarn android
 ```
 
-3. Get a coffee
+3. Get a coffee ☕ (or take a short break)
 
 The previous command might take several minutes.
 If everything is set up correctly, you should see ambient initial screen running in your Android emulator after the build is finished:
 
-<img src="./docs/initial_screen.png?raw=true" width="300">
+<p align="center">
+  <img src="./docs/initial_screen.png?raw=true" width="300">
+</p>
