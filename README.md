@@ -2,7 +2,7 @@
 
 **ambient** is a social listening experience app, where artists and other content creators can reach and interact with the audience. This documentation is written for developers who want to understand how the ambient frontend app work. It will also give a step-by-step guide to install and run it locally.
 
-The backend overview and installation will not be covered here, but you can read about it at [ambient-BE](#).
+The backend overview and installation will not be covered here, but you can read about it at [ambient-BE](https://github.com/athifongoqa/ambient-BE).
 
 # Prerequisites
 
